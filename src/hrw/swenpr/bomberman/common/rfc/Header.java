@@ -5,7 +5,7 @@ package hrw.swenpr.bomberman.common.rfc;
  * 
  * @author Marco Egger
  */
-public class Header {
+public abstract class Header {
 	protected int type;
 
 	/**
