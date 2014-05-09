@@ -11,7 +11,6 @@ import java.net.Socket;
  */
 public class ServerConnection {
 	private ServerSocket server = null;
-	private Socket socket = null;
 	
 	
 	/**
@@ -37,7 +36,7 @@ public class ServerConnection {
 	 */
 	public Socket listenSocket() {
 		// reset socket
-		socket = null;
+		Socket socket = null;
 		
 		// server.accept() blocks until a connection is established  
 		try {
