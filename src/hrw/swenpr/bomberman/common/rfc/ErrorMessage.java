@@ -1,29 +1,44 @@
 package hrw.swenpr.bomberman.common.rfc;
 
+import java.io.Serializable;
+
 /**
  * {@code ErrorMessage} is sent from the server to one or more clients, when an error occurred.
  * 
  * @author Marco Egger
  */
-public class ErrorMessage extends Header {
+public class ErrorMessage extends Header implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	/**
-	 * The subtype defines, whether this error ist just a warning that has to be displayed or the complete software has to be shut down.
+	 * The subtype defines, whether this error is just a warning that has to be displayed or the complete software has to be shut down.
 	 */
-	private int subtype;
+	private ErrorType subtype;
 	private String message;
 	
 	public enum ErrorType { WARNING, ERROR };
 	
+	
+	
+	/**
+	 * @param subtype
+	 * @param message error message
+	 */
+	public ErrorMessage(ErrorType subtype, String message) {
+		setType(MessageType.ERROR_MESSAGE);
+		this.subtype = subtype;
+		this.message = message;
+	}
 	/**
 	 * @return the subtype
 	 */
-	public int getSubtype() {
+	public ErrorType getSubtype() {
 		return subtype;
 	}
 	/**
 	 * @param subtype the subtype to set
 	 */
-	public void setSubtype(int subtype) {
+	public void setSubtype(ErrorType subtype) {
 		this.subtype = subtype;
 	}
 	/**

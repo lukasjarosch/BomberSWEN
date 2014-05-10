@@ -1,15 +1,29 @@
 package hrw.swenpr.bomberman.common.rfc;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * {@code ObjectDestroyed} is sent from the server to all clients, when an object on the pitch is destroyed by a bomb.
  * 
  * @author Marco Egger
  */
-public class ObjectDestroyed extends Header {
+public class ObjectDestroyed extends Header implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Point position;
-	private int specialItem;
+	private SpecialItem specialItem;
+	
+	public enum SpecialItem { SUPER_BOMB, MEGA_BOMB };
+	
+	/**
+	 * @param position
+	 * @param specialItem
+	 */
+	public ObjectDestroyed(Point position, SpecialItem specialItem) {
+		setType(MessageType.OBJECT_DESTROYED);
+		this.position = position;
+		this.specialItem = specialItem;
+	}
 	
 	/**
 	 * @return the position
@@ -26,13 +40,13 @@ public class ObjectDestroyed extends Header {
 	/**
 	 * @return the specialItem
 	 */
-	public int getSpecialItem() {
+	public SpecialItem getSpecialItem() {
 		return specialItem;
 	}
 	/**
 	 * @param specialItem the specialItem to set
 	 */
-	public void setSpecialItem(int specialItem) {
+	public void setSpecialItem(SpecialItem specialItem) {
 		this.specialItem = specialItem;
 	}
 }

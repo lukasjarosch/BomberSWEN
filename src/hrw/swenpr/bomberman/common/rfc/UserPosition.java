@@ -1,6 +1,7 @@
 package hrw.swenpr.bomberman.common.rfc;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * {@code UserPosition} is sent from the client to the server, when a user moves his player. 
@@ -8,9 +9,21 @@ import java.awt.Point;
  * 
  * @author Marco Egger
  */
-public class UserPosition extends Header {
+public class UserPosition extends Header implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private int userID;
 	private Point position;
+	
+	/**
+	 * @param userID
+	 * @param position
+	 */
+	public UserPosition(int userID, Point position) {
+		setType(MessageType.USER_POSITION);
+		this.userID = userID;
+		this.position = position;
+	}
 	
 	/**
 	 * @return the userID

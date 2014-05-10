@@ -1,15 +1,34 @@
 package hrw.swenpr.bomberman.common.rfc;
 
+import java.io.Serializable;
+
 
 /**
  * {@code User} is sent from the server to every client, when a new User is logged in or a round or game ended.
  * 
  * @author Marco Egger
  */
-public class User extends Header {
+public class User extends Header implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private int userID;
 	private String username;
 	private int score;
+	
+	/**
+	 * @param userID
+	 * @param username
+	 * @param score
+	 * @param color
+	 */
+	public User(int userID, String username, int score, int color) {
+		setType(MessageType.USER);
+		this.userID = userID;
+		this.username = username;
+		this.score = score;
+		this.color = color;
+	}
+	
 	/**
 	 * The color is specified in {@link Login} class.
 	 */

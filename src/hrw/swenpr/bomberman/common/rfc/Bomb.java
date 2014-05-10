@@ -1,6 +1,7 @@
 package hrw.swenpr.bomberman.common.rfc;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * {@code Bomb} is sent from the client to the server, when the user places a bomb.
@@ -8,12 +9,28 @@ import java.awt.Point;
  * 
  * @author Marco Egger
  */
-public class Bomb extends Header {
+public class Bomb extends Header implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private int userID;
 	private int bombID;
 	private Point position;
 	private float time;
 	
+	/**
+	 * @param userID of the user who placed the bomb
+	 * @param bombID unique to identify the bomb
+	 * @param position of the bomb
+	 * @param time until bomb explode
+	 */
+	public Bomb(int userID, int bombID, Point position, float time) {
+		setType(MessageType.BOMB);
+		this.userID = userID;
+		this.bombID = bombID;
+		this.position = position;
+		this.time = time;
+	}
+
 	/**
 	 * @return the userID
 	 */

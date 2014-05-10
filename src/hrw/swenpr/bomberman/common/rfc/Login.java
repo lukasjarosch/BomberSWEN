@@ -1,27 +1,27 @@
 package hrw.swenpr.bomberman.common.rfc;
 
+import java.io.Serializable;
+
 /**
  * {@code Login} is sent from a client to the server, when he tries to login.
  * 
  * @author Marco Egger
  */
-public class Login extends Header {
+public class Login extends Header implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	private String username;
+	private UserColor color;
+	
 	/**
-	 * <p>The color of the character.</p>
-	 * 
-	 * <p>
-	 * Red: 0<br>
-	 * Green: 1<br>
-	 * Blue: 2<br>
-	 * Yellow: 3<br>
-	 * </p>
-	 * 
+	 * @param username
+	 * @param color
 	 */
-	private int color;
-	
-	public enum Colors {RED, GREEN, BLUE, YELLOW};
-	
+	public Login(String username, UserColor color) {
+		setType(MessageType.LOGIN);
+		this.username = username;
+		this.color = color;
+	}
 	
 	/**
 	 * @return the username
@@ -38,13 +38,13 @@ public class Login extends Header {
 	/**
 	 * @return the color
 	 */
-	public int getColor() {
+	public UserColor getColor() {
 		return color;
 	}
 	/**
 	 * @param color the color to set
 	 */
-	public void setColor(int color) {
+	public void setColor(UserColor color) {
 		this.color = color;
 	}
 
