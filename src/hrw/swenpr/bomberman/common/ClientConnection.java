@@ -15,7 +15,7 @@ public class ClientConnection {
 
 	/**
 	 * {@code Static} function to create a socket to communicate with the {@code host} on specific {@code port}.<br>
-	 * To read and write the socket provides two functions, {@code getOutputStream()} and {@code getInputStream()},
+	 * To read and write the {@link Socket} provides two functions, {@code getOutputStream()} and {@code getInputStream()},
 	 * which should be casted to an {@link ObjectOutputStream} or {@link ObjectInputStream}.
 	 * 
 	 * @param host IP address or machine name
