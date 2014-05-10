@@ -25,4 +25,15 @@ public abstract class Header implements Serializable{
 	public void setType(MessageType type) {
 		this.type = type;
 	}
+	
+	/**
+	 * {@code Static} function for determining the type of the message.
+	 * 
+	 * @param msg message object received
+	 * @return {@link MessageType}
+	 */
+	public static MessageType getMessageType(Object msg) {
+		Header header = (Header) msg;
+		return header.getType();
+	}
 }

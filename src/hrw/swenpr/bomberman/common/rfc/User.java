@@ -14,6 +14,7 @@ public class User extends Header implements Serializable{
 	private int userID;
 	private String username;
 	private int score;
+	private UserColor color;
 	
 	/**
 	 * @param userID
@@ -21,18 +22,13 @@ public class User extends Header implements Serializable{
 	 * @param score
 	 * @param color
 	 */
-	public User(int userID, String username, int score, int color) {
+	public User(int userID, String username, int score, UserColor color) {
 		setType(MessageType.USER);
 		this.userID = userID;
 		this.username = username;
 		this.score = score;
 		this.color = color;
 	}
-	
-	/**
-	 * The color is specified in {@link Login} class.
-	 */
-	private int color;
 	
 	/**
 	 * @return the userID
@@ -73,13 +69,13 @@ public class User extends Header implements Serializable{
 	/**
 	 * @return the color
 	 */
-	public int getColor() {
+	public UserColor getColor() {
 		return color;
 	}
 	/**
 	 * @param color the color to set
 	 */
-	public void setColor(int color) {
+	public void setColor(UserColor color) {
 		this.color = color;
 	}
 }

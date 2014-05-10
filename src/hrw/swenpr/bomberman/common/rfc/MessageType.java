@@ -1,5 +1,10 @@
 package hrw.swenpr.bomberman.common.rfc;
 
+/**
+ * Defines all types of the RFC.
+ * 
+ * @author Marco Egger
+ */
 public enum MessageType {
 	LOGIN,
 	LOGIN_OK,
