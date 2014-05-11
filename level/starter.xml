@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<level 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="level.xsd">
+	<size>
+		<x>7</x>
+		<y>7</y>
+	</size>
+	
+	<undestroyable count="3">
+		<position>
+			<x>3</x>
+			<y>3</y>
+		</position>
+		<position>
+			<x>5</x>
+			<y>6</y>
+		</position>
+		<position>
+			<x>6</x>
+			<y>6</y>
+		</position>
+	</undestroyable>
+	
+	<destroyable count="3">
+		<position>
+			<x>3</x>
+			<y>1</y>
+		</position>
+		<position>
+			<x>3</x>
+			<y>4</y>
+		</position>
+		<position>
+			<x>4</x>
+			<y>7</y>
+		</position>
+	</destroyable>
+</level>
