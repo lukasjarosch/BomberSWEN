@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.5" icons="false" automaticImage="JPEG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="hrw.swenpr.bomberman.common.rfc.Login" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/Login.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1026" y="-22"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="hrw.swenpr.bomberman.common.rfc.UserPosition" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/UserPosition.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2354" y="326"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="hrw.swenpr.bomberman.common.rfc.RoundStart" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/RoundStart.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2368" y="476"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="hrw.swenpr.bomberman.common.rfc.GameStart" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/GameStart.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2095" y="-53"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="hrw.swenpr.bomberman.common.ClientConnection" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/ClientConnection.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1243" y="-239"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="hrw.swenpr.bomberman.common.rfc.Header" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/Header.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1430" y="132"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="hrw.swenpr.bomberman.common.rfc.LevelAvailable" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LevelAvailable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="916" y="755"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="8" language="java" name="hrw.swenpr.bomberman.common.rfc.UserColor" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/UserColor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="739" y="-150"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="9" language="java" name="hrw.swenpr.bomberman.common.rfc.ObjectDestroyed" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/ObjectDestroyed.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2385" y="134"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="hrw.swenpr.bomberman.common.rfc.UserReady" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/UserReady.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="811" y="576"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="hrw.swenpr.bomberman.common.rfc.LevelSelection" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LevelSelection.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1340" y="742"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="hrw.swenpr.bomberman.common.rfc.GameOver" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/GameOver.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2104" y="36"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="hrw.swenpr.bomberman.common.rfc.ErrorMessage" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/ErrorMessage.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2041" y="614"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="hrw.swenpr.bomberman.common.rfc.RoundFinished" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/RoundFinished.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2301" y="572"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="hrw.swenpr.bomberman.common.rfc.User" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/User.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="810" y="148"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="16" language="java" name="hrw.swenpr.bomberman.common.rfc.ObjectDestroyed.SpecialItem" 
+    project="BomberSWEN" file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/ObjectDestroyed.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2386" y="-102"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="17" language="java" name="hrw.swenpr.bomberman.common.rfc.UserDead" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/UserDead.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1844" y="-86"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="hrw.swenpr.bomberman.common.ServerConnection" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/ServerConnection.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1595" y="-226"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="hrw.swenpr.bomberman.common.rfc.Bomb" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/Bomb.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1813" y="667"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="hrw.swenpr.bomberman.common.rfc.LoginOk" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LoginOk.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="795" y="401"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="21" language="java" name="hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType" 
+    project="BomberSWEN" file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/ErrorMessage.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2270" y="736"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="22" language="java" name="hrw.swenpr.bomberman.common.rfc.TimeSelection" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/TimeSelection.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1579" y="740"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="hrw.swenpr.bomberman.common.rfc.LevelFile" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LevelFile.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1114" y="748"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="24" language="java" name="hrw.swenpr.bomberman.common.rfc.MessageType" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/MessageType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1427" y="-119"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </enumeration>  
+  <nesting id="25">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="16"/>  
+  </nesting>  
+  <association id="26">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="27" name="specialItem"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="29">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="30">    
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="31">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="32">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="33">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <nesting id="34">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="21"/>  
+  </nesting>  
+  <generalization id="35">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="36">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="37" name="color"/>      
+      <multiplicity id="38" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="39">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="40">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="41">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="42">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="43" name="color"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="45">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="46">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="47">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="48">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="49">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="50" name="subtype"/>      
+      <multiplicity id="51" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="52">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="53" name="type"/>      
+      <multiplicity id="54" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="55">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="56">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="57">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="58">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

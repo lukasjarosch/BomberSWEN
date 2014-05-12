@@ -3,7 +3,8 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
- * {@code LevelSelection} is sent from the client of the gamemaster to the server, when he selected a level. The server forwards this message to the other clients.
+ * {@code LevelSelection} is sent from the client of the gamemaster to the server, when he selected a level.
+ * The server forwards this message to the other clients, so the other players can see the current selected level.
  * 
  * @author Marco Egger
  */
@@ -15,7 +16,7 @@ public class LevelSelection extends Header implements Serializable{
 	/**
 	 * @param filename of the level
 	 */
-	public LevelSelection(int levelID, String filename) {
+	public LevelSelection(String filename) {
 		setType(MessageType.LEVEL_SELECTION);
 		this.filename = filename;
 	}
