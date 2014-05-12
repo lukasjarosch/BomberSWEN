@@ -1,6 +1,5 @@
 package hrw.swenpr.bomberman.common.rfc;
 
-import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -12,42 +11,28 @@ import java.util.ArrayList;
  */
 public class LevelAvailable extends Header implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
-	private ArrayList<String> filename;
-	private ArrayList<Point> size;
+
+	private ArrayList<Level> level;
 	
 	/**
-	 * @param filename the plain filename, not the complete path
-	 * @param size the size of the level on same position in the {@code ArrayList filename}
+	 * @param level
 	 */
-	public LevelAvailable(ArrayList<String> filename, ArrayList<Point> size) {
+	public LevelAvailable(ArrayList<Level> level) {
 		setType(MessageType.LEVEL_AVAILABLE);
-		this.filename = filename;
-		this.size = size;
+		this.level = level;
 	}
-	
+
 	/**
-	 * @return the filename
+	 * @return the level
 	 */
-	public ArrayList<String> getFilename() {
-		return filename;
+	public ArrayList<Level> getLevel() {
+		return level;
 	}
+
 	/**
-	 * @param filename the filename to set
+	 * @param level the level to set
 	 */
-	public void setFilename(ArrayList<String> filename) {
-		this.filename = filename;
-	}
-	/**
-	 * @return the size
-	 */
-	public ArrayList<Point> getSize() {
-		return size;
-	}
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(ArrayList<Point> size) {
-		this.size = size;
+	public void setLevel(ArrayList<Level> level) {
+		this.level = level;
 	}
 }
