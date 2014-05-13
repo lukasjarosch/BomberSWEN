@@ -179,7 +179,7 @@ public abstract class BombermanBaseModel {
 				// clear old field
 				setField(user.getPosition(), FieldType.PLAIN_FIELD);
 				// set new field
-				setField(uPos.getPosition(), uPos.getUserID());
+				setField(uPos.getPosition(), convertToFieldType(uPos.getUserID()));
 				// set new position in user array
 				user.setPosition(uPos.getPosition());
 				// trigger listener
@@ -189,6 +189,27 @@ public abstract class BombermanBaseModel {
 		
 		return true;
 	}
+
+	
+	/**
+	 * Adds a bomb to the model, that will trigger a {@link BombEvent} when exploding.
+	 * 
+	 * @param bomb
+	 */
+	public synchronized void setBomb(final Bomb bomb) {
+		bombs.add(bomb);
+		
+		// create timer task
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				onBombEvent(bomb.getUserID(), bomb.getBombType(), bomb.getPosition(), getExplosion(bomb));
+			}
+		}, bomb.getTime());
+	}
+	
 	
 	/**
 	 * Checks whether on the given position a player can be positioned.
@@ -212,14 +233,15 @@ public abstract class BombermanBaseModel {
 		}
 	}
 	
-	
 
-
-	
+	/**
+	 * @return the size of the current level
+	 */
 	public synchronized Point getSize() {
 		return size;
 	}
 
+	
 	/**
 	 * Determine the field type.
 	 * 
@@ -230,6 +252,7 @@ public abstract class BombermanBaseModel {
 	public synchronized FieldType getFieldType(Point pos) throws Exception {
 		return field[pos.x][pos.y];
 	}
+
 	
 	/**
 	 * Determine the field type.
@@ -243,6 +266,7 @@ public abstract class BombermanBaseModel {
 		return field[x][y];
 	}
 	
+	
 	/**
 	 * Sets the type of one field.
 	 * 
@@ -253,29 +277,47 @@ public abstract class BombermanBaseModel {
 		field[pos.x][pos.y] = type;
 	}
 	
+	
 	/**
-	 * Sets the type of one field according to userID.
-	 * 
-	 * @param pos the position
-	 * @param userID the userID
+	 * Converts a userID to a {@link FieldType}.
+	 * @param userID
+	 * @return the field type
 	 */
-	protected synchronized void setField(Point pos, int userID) {
-		// userID "converted" to FieldType with switch and then just calling setField(Point, FieldType)
+	protected synchronized FieldType convertToFieldType(int userID) {
 		switch (userID) {
 		case 0:
-			setField(pos, FieldType.USER1);
-			break;
+			return FieldType.USER1;
 		case 1:
-			setField(pos, FieldType.USER2);
-			break;
+			return FieldType.USER2;
 		case 2:
-			setField(pos, FieldType.USER3);
-			break;
+			return FieldType.USER3;
 		case 3:
-			setField(pos, FieldType.USER4);
-			break;
+			return FieldType.USER4;
 		default:
-			break;
+			// this is just for satisfy the compiler. it is important that the userID is valid!
+			return DEFAULT_FIELD;
+		}
+	}
+	
+	
+	/**
+	 * Converts a {@link FieldType} to an userID.
+	 * 
+	 * @param type the FieldType
+	 * @return the userID or -1 if invalid FieldType
+	 */
+	protected synchronized int convertToUserID(FieldType type) {
+		switch (type) {
+		case USER1:
+			return 0;
+		case USER2:
+			return 0;
+		case USER3:
+			return 0;
+		case USER4:
+			return 0;
+		default:
+			return -1;
 		}
 	}
 
@@ -301,8 +343,7 @@ public abstract class BombermanBaseModel {
 	
 	
 	/**
-	 * Calculates all affected fields of the explosion. It does NOT trigger any event or destroy objects. 
-	 * Also it adds fields that are not reached in "reality" because they are behind undestroyable objects.
+	 * Calculates all affected fields of the explosion.
 	 * 
 	 * @param bomb the bomb with explosion
 	 * @return {@code ArrayList<Point>} all fields that are affected by the explosion
@@ -385,25 +426,6 @@ public abstract class BombermanBaseModel {
 		return result;
 	}
 
-	
-	/**
-	 * Adds a bomb to the model.
-	 * 
-	 * @param bomb
-	 */
-	public synchronized void setBomb(final Bomb bomb) {
-		bombs.add(bomb);
-		
-		// create timer task
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-			
-			@Override
-			public void run() {
-				onBombEvent(bomb.getUserID(), bomb.getBombType(), bomb.getPosition(), getExplosion(bomb));
-			}
-		}, bomb.getTime());
-	}
 	
 	
 	/**

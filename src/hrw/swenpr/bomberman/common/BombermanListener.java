@@ -22,11 +22,4 @@ public interface BombermanListener extends EventListener {
 	 * @param event the event
 	 */
 	public void modelChanged(BombermanEvent event);
-	
-	/**
-	 * Triggered when a user dies by a bomb.
-	 * 
-	 * @param event the event
-	 */
-	public void userDead(UserDeadEvent event);
 }

@@ -6,6 +6,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.EventObject;
 
+/**
+ * Event for a bomb explosion. This event is triggered when a bomb explodes. It contains the userID, type of the bomb, 
+ * position and all fields that are affected by the explosion. It does NOT trigger any event or destroy objects. 
+ * Also it adds fields that are not reached in "reality" because they are behind undestroyable objects.
+ * 
+ * @author Marco Egger
+ */
 public class BombEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	
@@ -52,7 +59,7 @@ public class BombEvent extends EventObject {
 	}
 
 	/**
-	 * @return the explosion
+	 * @return all fields that could be reached by the bomb (does NOT pay attention to objects in the way of the explosion)
 	 */
 	public ArrayList<Point> getExplosion() {
 		return explosion;

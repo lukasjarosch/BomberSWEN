@@ -5,6 +5,11 @@ import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 
 import java.awt.Point;
 
+/**
+ * User class for the model. Provides constructor to easily create this class out of a {@link User} class with a {@link Point}.
+ * 
+ * @author Marco Egger
+ */
 public class UserModel {
 
 	protected int userID;
