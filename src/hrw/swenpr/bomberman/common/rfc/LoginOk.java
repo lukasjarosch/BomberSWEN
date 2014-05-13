@@ -3,6 +3,7 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
+ * <p> C <= S</p>
  * {@code LoginOk} is sent from the server to a client, when the login was successful.
  * 
  * @author Marco Egger

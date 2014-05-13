@@ -3,7 +3,10 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
- * {@code RoundFinished} is sent from the server to every client, when a round ended. It contains no further content.
+ * <p> C <= S</p>
+ * {@code RoundFinished} is sent from the server to every client, when a round ended. 
+ * The clients have to stop the game time themselves (on client side the time is only as information for the user). 
+ * It contains no further content.
  * 
  * @author Marco Egger
  */

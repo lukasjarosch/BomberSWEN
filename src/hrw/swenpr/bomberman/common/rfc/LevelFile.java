@@ -9,7 +9,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * {@code LevelFile} is sent from the server to the clients, when the gamemaster has selected a level.
+ * <p> C <= S</p>
+ * {@code LevelFile} is sent from the server to the clients, when the game starts with {@link GameStart} message, so every client can display the level.
  * 
  * @author Marco Egger
  */

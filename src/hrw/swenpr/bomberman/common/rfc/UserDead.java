@@ -3,6 +3,7 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
+ * <p> C <= S</p>
  * {@code UserDead} is sent from the server to all clients, when one user dies from a bomb.
  * 
  * @author Marco Egger

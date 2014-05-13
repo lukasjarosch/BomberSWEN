@@ -3,7 +3,9 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
- * {@code Login} is sent from a client to the server, when he tries to login.
+ * <p> C => S</p>
+ * {@code Login} is sent from a client to the server, when he tries to login. 
+ * The message contains the desired username and the selected color.
  * 
  * @author Marco Egger
  */

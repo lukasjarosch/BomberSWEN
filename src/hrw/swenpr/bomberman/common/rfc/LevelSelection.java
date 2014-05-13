@@ -3,6 +3,7 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
+ * <p> C <=> S</p>
  * {@code LevelSelection} is sent from the client of the gamemaster to the server, when he selected a level.
  * The server forwards this message to the other clients, so the other players can see the current selected level.
  * 

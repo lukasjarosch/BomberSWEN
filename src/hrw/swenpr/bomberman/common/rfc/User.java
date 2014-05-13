@@ -4,7 +4,9 @@ import java.io.Serializable;
 
 
 /**
- * {@code User} is sent from the server to every client, when a new User is logged in or a round or game ended.
+ * <p> C <= S</p>
+ * {@code User} is sent from the server to every client, when a new User is logged in or a round or game ended to update the score.
+ * It contains the userID, the username, his color and the reached score (at the beginning zero).
  * 
  * @author Marco Egger
  */
