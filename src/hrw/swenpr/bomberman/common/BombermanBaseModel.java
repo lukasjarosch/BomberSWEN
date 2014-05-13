@@ -198,11 +198,22 @@ public abstract class BombermanBaseModel {
 	 */
 	protected synchronized boolean isWalkable(Point pos) {
 		// if the field is not a plain field you can not walk on it
-		if(getField(pos) == FieldType.PLAIN_FIELD)
-			return true;
-		else
+		try {
+			
+			if(getFieldType(pos) == FieldType.PLAIN_FIELD)
+				return true;
+			else
+				return false;
+			
+		} catch (Exception e) {
+			// when exception occurs the value is out of the range of the pitch -> not walkable
+			e.printStackTrace();
 			return false;
+		}
 	}
+	
+	
+
 
 	
 	public synchronized Point getSize() {
@@ -212,12 +223,24 @@ public abstract class BombermanBaseModel {
 	/**
 	 * Determine the field type.
 	 * 
-	 * @param pos the position
+	 * @param pos {@code Point} the position
 	 * @return {@link FieldType} the fieldtype
-	 * @throws IndexOutOfBoundsException when trying to determine field type out of field size
+	 * @throws Exception when trying to determine field type out of field size
 	 */
-	public synchronized FieldType getField(Point pos) throws IndexOutOfBoundsException {
+	public synchronized FieldType getFieldType(Point pos) throws Exception {
 		return field[pos.x][pos.y];
+	}
+	
+	/**
+	 * Determine the field type.
+	 * 
+	 * @param x int
+	 * @param y int
+	 * @return {@link FieldType} the fieldtype
+	 * @throws Exception when trying to determine field type out of field size
+	 */
+	public synchronized FieldType getFieldType(int x, int y) throws Exception {
+		return field[x][y];
 	}
 	
 	/**
@@ -278,29 +301,88 @@ public abstract class BombermanBaseModel {
 	
 	
 	/**
-	 * Calculates all affected fields of the explosion. It may triggers {@link UserDeadEvent} and/or {@link BombermanEvent}.
+	 * Calculates all affected fields of the explosion. It does NOT trigger any event or destroy objects. 
+	 * Also it adds fields that are not reached in "reality" because they are behind undestroyable objects.
 	 * 
 	 * @param bomb the bomb with explosion
 	 * @return {@code ArrayList<Point>} all fields that are affected by the explosion
 	 */
 	protected synchronized ArrayList<Point> getExplosion(Bomb bomb) {
 		ArrayList<Point> affected = new ArrayList<Point>();
+		Point pos = bomb.getPosition();
 		
 		switch (bomb.getBombType()) {
 		case NORMAL_BOMB: // size of 3 field explosion
-			
+			affected.addAll(getFieldsFromPoint(pos, 3));
 			break;
 		case SUPER_BOMB: // size of 5 field explosion
-			
+			affected.addAll(getFieldsFromPoint(pos, 5));
 			break;
 		case MEGA_BOMB: // size of 7 field explosion
-			
+			affected.addAll(getFieldsFromPoint(pos, 7));
 			break;
 		default:
 			break;
 		}
 		
 		return affected;
+	}
+	
+	
+	/**
+	 * Returns all fields around (left, up, right and down) the given field with a specific length.
+	 * 
+	 * @param pos {@code Point} the position of center field
+	 * @param length the fields to go in every direction
+	 * @return {@code ArrayList<Point>} the fields
+	 */
+	protected synchronized ArrayList<Point> getFieldsFromPoint(Point pos, int length) {
+		ArrayList<Point> result = new ArrayList<Point>();
+		Point p;
+		
+		for(int i = 1; i <= length; i++) {
+			// left
+			try {
+				p = new Point(pos.x - i, pos.y);
+				getFieldType(p);
+				result.add(p);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// when exception occurs the field is out of the pitch -> not included in explosion
+			}
+			
+			// up
+			try {
+				p = new Point(pos.x, pos.y - i);
+				getFieldType(p);
+				result.add(p);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// when exception occurs the field is out of the pitch -> not included in explosion
+			}
+			
+			// right
+			try {
+				p = new Point(pos.x + i, pos.y);
+				getFieldType(p);
+				result.add(p);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// when exception occurs the field is out of the pitch -> not included in explosion
+			}
+			
+			// down
+			try {
+				p = new Point(pos.x, pos.y + i);
+				getFieldType(p);
+				result.add(p);
+			} catch (Exception e) {
+				e.printStackTrace();
+				// when exception occurs the field is out of the pitch -> not included in explosion
+			}
+		}
+		
+		return result;
 	}
 
 	
