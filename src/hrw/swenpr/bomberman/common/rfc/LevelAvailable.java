@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
+ * <p> C <= S</p>
  * {@code LevelAvailable} is sent from the server to all clients, when they are logged in (after {@link LoginOk} message).
- * It contains all available levels from which the gamemaster can choose.
+ * It contains all available {@link Level}s from which the gamemaster can choose.
  * 
  * @author Marco Egger
  */

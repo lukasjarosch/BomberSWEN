@@ -3,6 +3,7 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
+ * <p> C => S</p>
  * {@code UserReady} is sent from the client to the server, when the player pressed the ready button.
  * 
  * @author Marco Egger

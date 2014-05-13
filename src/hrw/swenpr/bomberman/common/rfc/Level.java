@@ -3,7 +3,12 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.awt.Point;
 import java.io.Serializable;
 
-public class Level implements Serializable{
+/**
+ * Represents a level with its name and size, but no further information of the level.
+ * 
+ * @author Marco Egger
+ */
+public class Level implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String filename;

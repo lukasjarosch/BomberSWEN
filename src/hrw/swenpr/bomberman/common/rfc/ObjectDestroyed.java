@@ -4,7 +4,10 @@ import java.awt.Point;
 import java.io.Serializable;
 
 /**
- * {@code ObjectDestroyed} is sent from the server to all clients, when an object on the pitch is destroyed by a bomb.
+ * <p> C <= S</p>
+ * {@code ObjectDestroyed} is sent from the server to all clients, when an object on the pitch is destroyed by a {@link Bomb}.
+ * One {@code Bomb} can trigger more than one {@code ObjectDestroyed} messages (for each field/object one message).
+ * It also defines, whether a {@link SpecialItem} is dropped.
  * 
  * @author Marco Egger
  */

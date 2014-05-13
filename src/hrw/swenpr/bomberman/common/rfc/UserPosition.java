@@ -4,8 +4,9 @@ import java.awt.Point;
 import java.io.Serializable;
 
 /**
+ * <p> C <=> S</p>
  * {@code UserPosition} is sent from the client to the server, when a user moves his player. 
- * The server forwards this message to the other clients.
+ * The server forwards this message to the other clients, so they can display the new position.
  * 
  * @author Marco Egger
  */

@@ -3,7 +3,9 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
- * {@code GameStart} is sent from the server to all clients, when every player send a {@link UserReady} message and the game is starting. It has no further content.
+ * <p> C <= S</p>
+ * {@code GameStart} is sent from the server to all clients, when every player send a {@link UserReady} 
+ * message and the game is starting. It has no further content.
  * 
  * @author Marco Egger
  */

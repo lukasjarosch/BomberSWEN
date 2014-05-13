@@ -3,16 +3,15 @@ package hrw.swenpr.bomberman.common.rfc;
 import java.io.Serializable;
 
 /**
+ * <p> C <= S</p>
  * {@code ErrorMessage} is sent from the server to one or more clients, when an error occurred.
+ * The subtype defines, whether it is just a warning or the game have to be stopped.
  * 
  * @author Marco Egger
  */
 public class ErrorMessage extends Header implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * The subtype defines, whether this error is just a warning that has to be displayed or the complete software has to be shut down.
-	 */
 	private ErrorType subtype;
 	private String message;
 	
