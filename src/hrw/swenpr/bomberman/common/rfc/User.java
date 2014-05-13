@@ -19,6 +19,13 @@ public class User extends Header implements Serializable{
 	private UserColor color;
 	
 	/**
+	 * Defines the colors of the users.
+	 */
+	public enum UserColor {
+		RED, GREEN, BLUE, YELLOW;
+	}
+	
+	/**
 	 * @param userID
 	 * @param username
 	 * @param score

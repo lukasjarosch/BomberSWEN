@@ -21,6 +21,15 @@ public class Bomb extends Header implements Serializable {
 	private float time;
 	
 	/**
+	 * Defines the bomb types.
+	 */
+	public enum BombType {
+		NORMAL_BOMB,
+		SUPER_BOMB,
+		MEGA_BOMB
+	}
+	
+	/**
 	 * @param userID of the user who placed the bomb
 	 * @param bombID unique to identify the bomb
 	 * @param position of the bomb

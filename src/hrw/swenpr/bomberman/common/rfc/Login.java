@@ -13,13 +13,13 @@ public class Login extends Header implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String username;
-	private UserColor color;
+	private User.UserColor color;
 	
 	/**
 	 * @param username
 	 * @param color
 	 */
-	public Login(String username, UserColor color) {
+	public Login(String username, User.UserColor color) {
 		setType(MessageType.LOGIN);
 		this.username = username;
 		this.color = color;
@@ -40,13 +40,13 @@ public class Login extends Header implements Serializable {
 	/**
 	 * @return the color
 	 */
-	public UserColor getColor() {
+	public User.UserColor getColor() {
 		return color;
 	}
 	/**
 	 * @param color the color to set
 	 */
-	public void setColor(UserColor color) {
+	public void setColor(User.UserColor color) {
 		this.color = color;
 	}
 
