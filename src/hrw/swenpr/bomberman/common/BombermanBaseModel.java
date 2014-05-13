@@ -15,13 +15,26 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+/**
+ * The base model for client and server. It provides function that both sides need.
+ * 
+ * @author Marco Egger
+ */
 public abstract class BombermanBaseModel {
-	protected final FieldType DEFAULT_FIELD = FieldType.PLAIN_FIELD; 
+	// the default field to inizialize
+	protected final FieldType DEFAULT_FIELD = FieldType.PLAIN_FIELD;
+	
+	// the logical pitch
 	protected FieldType[][] field = null;
+	// user arraylist with ID, color and position for each user
 	protected ArrayList<UserModel> users = new ArrayList<UserModel>();
+	// bomb arraylist
 	protected ArrayList<Bomb> bombs = new ArrayList<Bomb>();
+	// undestroyable objects arraylist
 	protected ArrayList<Point> undestroy = new ArrayList<Point>();
+	// destroyable objects arraylist
 	protected ArrayList<Point> destroy = new ArrayList<Point>();
+	// builder for level file
 	protected SAXBuilder builder = new SAXBuilder();
 	
 	/**
@@ -40,12 +53,12 @@ public abstract class BombermanBaseModel {
 		USER4;
 	}
 	
+	
 	/**
-	 * Create a model that holds all data of the game.
+	 * Create a model that holds all data of the game and provides the logic.
 	 * 
-	 * @param field
-	 * @param users
-	 * @param bombs
+	 * @param users ArrayList of user participating in the game
+	 * @param level the file of the level to load/play
 	 */
 	public BombermanBaseModel(ArrayList<User> users, File level) {
 		int x = 0;
@@ -75,6 +88,7 @@ public abstract class BombermanBaseModel {
 			}
 			
 		} catch (JDOMException | IOException e) {
+			// when error on level file occurred quit software
 			e.printStackTrace();
 			System.exit(0);
 		}
@@ -204,6 +218,7 @@ public abstract class BombermanBaseModel {
 	 * @param userID the userID
 	 */
 	protected synchronized void setField(Point pos, int userID) {
+		// userID "converted" to FieldType with switch and then just calling setField(Point, FieldType)
 		switch (userID) {
 		case 0:
 			setField(pos, FieldType.USER1);
@@ -231,10 +246,14 @@ public abstract class BombermanBaseModel {
 	 */
 	public synchronized Point getUserPosition(int userID) {
 		for (UserModel user: users) {
+			// find relevant user with userID
 			if(user.getUserID() == userID) {
+				// return the position of this user
 				return user.getPosition();
 			}
 		}
+		
+		// this is only reached when no matching userID's where found
 		return null;
 	}
 
