@@ -1,6 +1,9 @@
 package hrw.swenpr.bomberman.client;
 
-import javax.swing.JDialog;
+
+import hrw.swenpr.bomberman.common.rfc.Login;
+import hrw.swenpr.bomberman.common.rfc.User.UserColor;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -16,6 +19,8 @@ import javax.swing.JTextField;
 public class MainClient extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private Communication com = new Communication();
 
 	/**
 	 * Starting function.
@@ -48,12 +53,18 @@ public class MainClient extends JFrame {
 	
 	private void showLogin()
 	{
-		//Dialog erzeugen und anzeigen					
+		//create textfield and color array				
 		JTextField name = new JTextField(20);
-		String[] colors = {"Red", "Yellow", "Green", "Blue"};
-		Object[] message = {"Login:", name, "\nColor:"};
-		String ret = (String)JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
+		UserColor[] colors = {UserColor.RED, UserColor.YELLOW, UserColor.GREEN, UserColor.BLUE};
 		
+		//building message with text and the textfield
+		Object[] message = {"Login:", name, "\nColor:"};
+		
+		//show dialog
+		UserColor ret = (UserColor)JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
+		
+		//Send login message to server with entered username and color
+		com.sendMessage(new Login(name.getText(), ret));
 	}
 
 }
