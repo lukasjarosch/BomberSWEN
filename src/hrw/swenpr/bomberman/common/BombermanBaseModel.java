@@ -3,12 +3,16 @@ package hrw.swenpr.bomberman.common;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
+import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -23,9 +27,13 @@ import org.jdom2.input.SAXBuilder;
 public abstract class BombermanBaseModel {
 	// the default field to inizialize
 	protected final FieldType DEFAULT_FIELD = FieldType.PLAIN_FIELD;
+	// the default time of an explosion in milliseconds
+	public static final long EXPLOSION_TIME = 700;
 	
 	// the logical pitch
 	protected FieldType[][] field = null;
+	// the size of the current level
+	protected Point size;
 	// user arraylist with ID, color and position for each user
 	protected ArrayList<UserModel> users = new ArrayList<UserModel>();
 	// bomb arraylist
@@ -36,6 +44,8 @@ public abstract class BombermanBaseModel {
 	protected ArrayList<Point> destroy = new ArrayList<Point>();
 	// builder for level file
 	protected SAXBuilder builder = new SAXBuilder();
+	// listener
+	protected Vector<BombermanListener> subscribers = new Vector<BombermanListener>();
 	
 	/**
 	 * Specifies the field types.
@@ -62,7 +72,7 @@ public abstract class BombermanBaseModel {
 	 */
 	public BombermanBaseModel(ArrayList<User> users, File level) {
 		int x = 0;
-		int y = 0;
+		int y = 0; 
 		
 		// read in level
 		try {
@@ -72,6 +82,9 @@ public abstract class BombermanBaseModel {
 			// determine size
 			x = Integer.parseInt(root.getChild("size").getChildText("x"));
 			y = Integer.parseInt(root.getChild("size").getChildText("y"));
+			
+			// store on model
+			size = new Point(x, y);
 			
 			// read and store all undestroyable fields
 			List<Element> undestroy = root.getChild("undestroyable").getChildren();
@@ -169,6 +182,8 @@ public abstract class BombermanBaseModel {
 				setField(uPos.getPosition(), uPos.getUserID());
 				// set new position in user array
 				user.setPosition(uPos.getPosition());
+				// trigger listener
+				onBombermanEvent();
 			}
 		}
 		
@@ -189,6 +204,10 @@ public abstract class BombermanBaseModel {
 			return false;
 	}
 
+	
+	public synchronized Point getSize() {
+		return size;
+	}
 
 	/**
 	 * Determine the field type.
@@ -197,7 +216,7 @@ public abstract class BombermanBaseModel {
 	 * @return {@link FieldType} the fieldtype
 	 * @throws IndexOutOfBoundsException when trying to determine field type out of field size
 	 */
-	protected synchronized FieldType getField(Point pos) throws IndexOutOfBoundsException {
+	public synchronized FieldType getField(Point pos) throws IndexOutOfBoundsException {
 		return field[pos.x][pos.y];
 	}
 	
@@ -256,14 +275,75 @@ public abstract class BombermanBaseModel {
 		// this is only reached when no matching userID's where found
 		return null;
 	}
+	
+	
+	/**
+	 * Calculates all affected fields of the explosion. It may triggers {@link UserDeadEvent} and/or {@link BombermanEvent}.
+	 * 
+	 * @param bomb the bomb with explosion
+	 * @return {@code ArrayList<Point>} all fields that are affected by the explosion
+	 */
+	protected synchronized ArrayList<Point> getExplosion(Bomb bomb) {
+		ArrayList<Point> affected = new ArrayList<Point>();
+		
+		switch (bomb.getBombType()) {
+		case NORMAL_BOMB: // size of 3 field explosion
+			
+			break;
+		case SUPER_BOMB: // size of 5 field explosion
+			
+			break;
+		case MEGA_BOMB: // size of 7 field explosion
+			
+			break;
+		default:
+			break;
+		}
+		
+		return affected;
+	}
 
 	
 	/**
-	 * Adds the bomb to the model.
+	 * Adds a bomb to the model.
 	 * 
 	 * @param bomb
 	 */
-	public synchronized void setBomb(Bomb bomb) {
+	public synchronized void setBomb(final Bomb bomb) {
 		bombs.add(bomb);
+		
+		// create timer task
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				onBombEvent(bomb.getUserID(), bomb.getBombType(), bomb.getPosition(), getExplosion(bomb));
+			}
+		}, bomb.getTime());
+	}
+	
+	
+	/**
+	 * Calling triggers all added listeners, when the model is changed. E.g. a player moved or objects were destroyed.
+	 */
+	protected synchronized void onBombermanEvent() {
+		for (BombermanListener listener: subscribers) {
+			listener.modelChanged(new BombermanEvent(this));
+		}
+	}
+	
+	/**
+	 * Calling triggers all added listeners, when a bomb exploded.
+	 * 
+	 * @param userID of the user who placed the bomb
+	 * @param type {@link BombType} the type of the bomb
+	 * @param position {@link Point} the position 
+	 * @param explosion {@code ArrayList<Point>} all fields, the explosion reached
+	 */
+	protected synchronized void onBombEvent(int userID, BombType type, Point position, ArrayList<Point> explosion) {
+		for (BombermanListener listener: subscribers) {
+			listener.bombExplode(new BombEvent(this, userID, type, position, explosion));
+		}
 	}
 }

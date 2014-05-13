@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.common.rfc;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * <p> C <=> S</p>
@@ -18,7 +19,7 @@ public class Bomb extends Header implements Serializable {
 	private int userID;
 	private BombType bombType;
 	private Point position;
-	private float time;
+	private long time;
 	
 	/**
 	 * Defines the bomb types.
@@ -30,17 +31,20 @@ public class Bomb extends Header implements Serializable {
 	}
 	
 	/**
+	 * Creates a bomb instance with given parameters. The random time is calculated automatically.
+	 * 
 	 * @param userID of the user who placed the bomb
 	 * @param bombID unique to identify the bomb
 	 * @param position of the bomb
 	 * @param time until bomb explode, random between 2-3 seconds
 	 */
-	public Bomb(int userID, BombType bombType, Point position, float time) {
+	public Bomb(int userID, BombType bombType, Point position) {
 		setType(MessageType.BOMB);
 		this.userID = userID;
 		this.bombType = bombType;
 		this.position = position;
-		this.time = time;
+		Random rand = new Random();
+		this.time = 2000 + rand.nextInt(1000);
 	}
 
 	/**
@@ -82,13 +86,13 @@ public class Bomb extends Header implements Serializable {
 	/**
 	 * @return the time in milliseconds
 	 */
-	public float getTime() {
+	public long getTime() {
 		return time;
 	}
 	/**
 	 * @param time the time to set in milliseconds
 	 */
-	public void setTime(float time) {
+	public void setTime(long time) {
 		this.time = time;
 	}
 }
