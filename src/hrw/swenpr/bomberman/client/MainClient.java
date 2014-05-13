@@ -1,6 +1,9 @@
 package hrw.swenpr.bomberman.client;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  * <p>Main class containing {@code main()} function for starting client.</p>
@@ -19,7 +22,8 @@ public class MainClient extends JFrame {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		new MainClient();
 	}
 	
@@ -38,6 +42,18 @@ public class MainClient extends JFrame {
 		// position and show window
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		this.showLogin();
+	}
+	
+	private void showLogin()
+	{
+		//Dialog erzeugen und anzeigen					
+		JTextField name = new JTextField(20);
+		String[] colors = {"Red", "Yellow", "Green", "Blue"};
+		Object[] message = {"Login:", name, "\nColor:"};
+		String ret = (String)JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
+		
 	}
 
 }
