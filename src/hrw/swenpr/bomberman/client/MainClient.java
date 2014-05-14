@@ -6,6 +6,7 @@ import java.awt.Container;
 
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.rfc.Login;
+import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 
 import javax.swing.JButton;
@@ -131,4 +132,24 @@ public class MainClient extends JFrame {
 	{
 		return this.field;
 	}
+	
+	/**
+	 * called when a round ends
+	 * @param usr array with data of each user
+	 */
+	public void roundEnd(User usr[])
+	{
+		new Result(null, null, null, 0);
+	
+	}
+	
+	/**
+	 * called when game is finished
+	 * @param usr array with data of each user
+	 */
+	public void gameEnd(User usr[])
+	{
+		
+	}
+		
 }
