@@ -1,9 +1,13 @@
 package hrw.swenpr.bomberman.client;
 
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+
 import hrw.swenpr.bomberman.common.rfc.Login;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,7 +24,8 @@ public class MainClient extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Communication com = new Communication();
+	private Communication com;
+	private Sidebar sidebar;
 
 	/**
 	 * Starting function.
@@ -46,8 +51,18 @@ public class MainClient extends JFrame {
 
 		// position and show window
 		setLocationRelativeTo(null);
-		setVisible(true);
 		
+		
+		com = new Communication();
+		sidebar = new Sidebar();
+		
+		
+		Container cp = getContentPane();
+		cp.setLayout(new BorderLayout());
+		cp.add(sidebar, BorderLayout.EAST);
+		
+		setVisible(true);
+		//show login dialog
 		this.showLogin();
 	}
 	
@@ -66,5 +81,4 @@ public class MainClient extends JFrame {
 		//Send login message to server with entered username and color
 		com.sendMessage(new Login(name.getText(), ret));
 	}
-
 }

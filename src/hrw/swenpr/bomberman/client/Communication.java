@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -43,9 +44,10 @@ public class Communication
 		try {
 			out = new ObjectOutputStream(socket.getOutputStream());
 			out.writeObject(message);
-		} catch (IOException e) {
+		} catch (IOException | NullPointerException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Could not send the packet");
 		}
 	}
 	
