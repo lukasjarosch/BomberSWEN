@@ -51,4 +51,13 @@ public class Communication
 		}
 	}
 	
+	
+	/**
+	 * Reveives messages and calls the appropriate methods
+	 */
+	public void receive()
+	{
+		
+	}
+	
 }

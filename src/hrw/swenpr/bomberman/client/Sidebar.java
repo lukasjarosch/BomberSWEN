@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.client;
 
 import java.awt.Color;
 
+import hrw.swenpr.bomberman.client.listener.ButtonListener;
 import hrw.swenpr.bomberman.common.rfc.User;
 
 import javax.swing.JButton;
@@ -17,13 +18,17 @@ public class Sidebar extends JToolBar
 	private JButton chsLevel;
 	private JButton chsTime;
 	private JButton ready;
+	private JButton logout;
 	private JTable tbl_usr;  
+	private ButtonListener buttonListener;
+	private MainClient mainClient;
 	
 	
-	public Sidebar()
+	public Sidebar(MainClient mainClient)
 	{
 		super();
 		this.makeToolbar();
+		this.mainClient = mainClient;
 	}
 	
 	/**
@@ -33,6 +38,7 @@ public class Sidebar extends JToolBar
 	{
 		this.setFloatable(false);		
 		String[][] tmp = {{"1","2","3"}, {"1","2","3"}};
+		buttonListener = new ButtonListener(mainClient);
 		chsLevel = new JButton("Choose Level");
 		chsTime = new JButton("Choose time");		
 		ready = new JButton("ready");
@@ -65,5 +71,13 @@ public class Sidebar extends JToolBar
 		
 		tbl_usr = new JTable(data, COLHEADS);
 	}
-
+	
+	
+	/**
+	 * displays or deletes buttons for admin
+	 */
+	public void toogleMaster()
+	{
+		
+	}
 }

@@ -4,6 +4,7 @@ package hrw.swenpr.bomberman.client;
 import java.awt.BorderLayout;
 import java.awt.Container;
 
+import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.rfc.Login;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 
@@ -26,6 +27,7 @@ public class MainClient extends JFrame {
 	
 	private Communication com;
 	private Sidebar sidebar;
+	private Field field;
 
 	/**
 	 * Starting function.
@@ -52,9 +54,11 @@ public class MainClient extends JFrame {
 		// position and show window
 		setLocationRelativeTo(null);
 		
+		this.addKeyListener(new GameKeyListener(this));
 		
 		com = new Communication();
-		sidebar = new Sidebar();
+		sidebar = new Sidebar(this);
+		field = new Field();
 		
 		
 		Container cp = getContentPane();
@@ -66,6 +70,9 @@ public class MainClient extends JFrame {
 		this.showLogin();
 	}
 	
+	/**
+	 * shows LoginWindow and sends login-request with entered data to server
+	 */
 	private void showLogin()
 	{
 		//create textfield and color array				
@@ -80,5 +87,48 @@ public class MainClient extends JFrame {
 		
 		//Send login message to server with entered username and color
 		com.sendMessage(new Login(name.getText(), ret));
+	}
+	
+	/**
+	 * sets a flag which indicates if player is admin or not
+	 */
+	public void isAdmin()
+	{
+		
+	}
+	
+	/**
+	 * logs player out
+	 */
+	public void logout()
+	{
+		
+	}
+	
+	/**
+	 * shows player a dialog where he can choose a level
+	 * only shown if player is admin
+	 */
+	public void showLevelialog()
+	{
+	
+	}
+	
+	/**
+	 * shows player a dialog where he can choose the duration of the game
+	 * only shwon if player is admin
+	 */
+	public void showTimeDialog()
+	{
+		
+	}
+	
+	/**
+	 * getter for fiel
+	 * @return returns instance of the field
+	 */
+	public Field getField()
+	{
+		return this.field;
 	}
 }
