@@ -24,14 +24,7 @@ public class Communication
 	
 	public Communication()
 	{
-		try 
-		{
-			this.socket = ClientConnection.getSocket(InetAddress.getLocalHost().getHostName(), 6969);
-		} catch (UnknownHostException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.socket = ClientConnection.getSocket("localhost", 6969);
 	}
 	
 	/**
