@@ -17,6 +17,10 @@ public class MainWindow extends JFrame {
 	private static int FRAME_HEIGHT = 500;
 	
 	/**
+	 * The window title
+	 */
+	private static String FRAME_TITLE = "Bomerman Server";
+	/**
 	 * Required for serialization
 	 */
 	private static final long serialVersionUID = 1L;
@@ -29,6 +33,7 @@ public class MainWindow extends JFrame {
 	public MainWindow() {
 		setAttributes();
 		pack();
+		setLocationRelativeTo(null);
 		setVisible(true);
 		requestFocus();
 	}
@@ -41,7 +46,7 @@ public class MainWindow extends JFrame {
 	private void setAttributes() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-		setTitle("Bomberman Server");
+		setTitle(FRAME_TITLE);
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 	}
 }
