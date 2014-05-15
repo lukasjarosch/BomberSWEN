@@ -3,10 +3,13 @@ package hrw.swenpr.bomberman.client;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Point;
 
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
+import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.Login;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 
 import javax.swing.JButton;
@@ -31,6 +34,7 @@ public class MainClient extends JFrame {
 	private Field field;
 	
 	private boolean isAdmin;
+	private int id;
 
 	/**
 	 * Starting function.
@@ -59,7 +63,7 @@ public class MainClient extends JFrame {
 		
 		this.addKeyListener(new GameKeyListener(this));
 		
-		com = new Communication();
+		com = Communication.getInstance();
 		sidebar = new Sidebar(this);
 		field = new Field();
 		
@@ -156,9 +160,9 @@ public class MainClient extends JFrame {
 	 * called when a round ends
 	 * @param usr array with data of each user
 	 */
-	public void roundEnd(User usr[])
+	public void roundEnd()
 	{
-		new Result(null, null, null, 0, this);
+		
 	
 	}
 	
@@ -168,7 +172,36 @@ public class MainClient extends JFrame {
 	 */
 	public void gameEnd(User usr[])
 	{
+		new Result(null, null, null, 0, this);
+	}
+	
+	public void showUser(User usr[])
+	{
 		
 	}
+	
+	public void movePlayer(UserPosition usrPos)
+	{
 		
+	}
+	
+	public void setBomb(Bomb bomb)
+	{
+		
+	}
+	
+	public int getID()
+	{
+		return id;
+	}
+	
+	public void pickUpSpecialItem()
+	{
+		
+	}
+	
+	public void playerDead(int id)
+	{
+		
+	}
 }

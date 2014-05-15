@@ -21,10 +21,20 @@ public class Communication
 {
 	//Socket for communication with Server
 	private Socket socket;
+	private static Communication com;
 	
-	public Communication()
+	
+	private Communication()
 	{
 		this.socket = ClientConnection.getSocket("localhost", 6969);
+	}
+	
+	public static Communication getInstance()
+	{
+		if(Communication.com == null)
+			Communication.com = new Communication();
+		
+		return com;
 	}
 	
 	/**
