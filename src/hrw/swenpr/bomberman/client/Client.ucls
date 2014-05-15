@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.5" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
-  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+<class-diagram version="1.1.5" icons="false" automaticImage="PNG" always-add-relationships="false" 
+  generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="hrw.swenpr.bomberman.client.Communication" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Communication.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="135" width="133" x="122" y="89"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -13,7 +13,7 @@
   <class id="2" language="java" name="hrw.swenpr.bomberman.client.Field" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Field.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="496" y="176"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -22,7 +22,7 @@
   <class id="3" language="java" name="hrw.swenpr.bomberman.client.Sidebar" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Sidebar.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="920" y="205"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -31,7 +31,7 @@
   <class id="4" language="java" name="hrw.swenpr.bomberman.client.listener.ButtonListener" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/listener/ButtonListener.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1064" y="675"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -41,7 +41,7 @@
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/listener/GameKeyListener.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="87" y="475"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -50,7 +50,7 @@
   <class id="6" language="java" name="hrw.swenpr.bomberman.client.MainClient" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/MainClient.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="509" y="542"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -59,7 +59,7 @@
   <class id="7" language="java" name="hrw.swenpr.bomberman.client.Result" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Result.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="147" y="728"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
@@ -132,7 +132,7 @@
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+  <classifier-display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
     <operations public="true" package="true" protected="true" private="true" static="true"/>  
