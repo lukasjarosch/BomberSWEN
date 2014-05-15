@@ -75,8 +75,9 @@ public class Sidebar extends JToolBar
 	
 	/**
 	 * displays or deletes buttons for admin
+	 * @param isAdmin idicats if player is admin or not
 	 */
-	public void toogleMaster()
+	public void toogleAdmin(boolean isAdmin)
 	{
 		
 	}

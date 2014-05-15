@@ -29,6 +29,8 @@ public class MainClient extends JFrame {
 	private Communication com;
 	private Sidebar sidebar;
 	private Field field;
+	
+	private boolean isAdmin;
 
 	/**
 	 * Starting function.
@@ -93,9 +95,26 @@ public class MainClient extends JFrame {
 	/**
 	 * sets a flag which indicates if player is admin or not
 	 */
-	public void isAdmin()
+	public void setAdmin()
 	{
-		
+		isAdmin = true;
+	}
+	
+	/**
+	 * Getter for isAdmin
+	 * @return admin flag
+	 */
+	public boolean isAdmin()
+	{
+		return isAdmin;
+	}
+	
+	/**
+	 * resets the isAdmin Flag
+	 */
+	public void resetAdmin()
+	{
+		isAdmin = false;
 	}
 	
 	/**
