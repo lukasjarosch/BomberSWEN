@@ -14,6 +14,7 @@ public class Result extends JDialog
 	private final String COLHEADS[] = {"Position", "Name", "Points"};
 	private JTable table;
 	private JLabel lbl;
+	private MainClient mainClient;
 	
 	/**
 	 * creates the dialog with a table and a message
@@ -27,6 +28,11 @@ public class Result extends JDialog
 
 	}
 	
+	public Result(Object object, Object object2, Object object3, int i,	MainClient mainClient)
+	{
+		this.mainClient = mainClient;
+	}
+
 	/**
 	 * creates the result table
 	 * @param usr user data

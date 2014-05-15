@@ -158,7 +158,7 @@ public class MainClient extends JFrame {
 	 */
 	public void roundEnd(User usr[])
 	{
-		new Result(null, null, null, 0);
+		new Result(null, null, null, 0, this);
 	
 	}
 	
