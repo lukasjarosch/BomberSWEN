@@ -1,6 +1,10 @@
 package hrw.swenpr.bomberman.server;
 
+import hrw.swenpr.bomberman.server.view.MainPanel;
+
 import java.util.Date;
+
+import sun.util.logging.resources.logging;
 
 public class LogMessage {
 	
@@ -16,7 +20,7 @@ public class LogMessage {
 	/**
 	 * The string representations of the {@link LEVEL}
 	 */
-	private static final String levelStrings[] = {"INFO", "WARN", "ERR"};
+	private static final String levelStrings[] = {"INFO", "WARNING", "ERROR"};
 	
 	/**
 	 * The timestamp of the log
@@ -34,6 +38,11 @@ public class LogMessage {
 	private String severity;
 	
 	/**
+	 * The final string which should be placed in the {@link MainPanel}
+	 */
+	private String logString;
+	
+	/**
 	 * Private constructor because {@link LogMessage} is implemented
 	 * as singleton
 	 * 
@@ -42,11 +51,25 @@ public class LogMessage {
 	 * @param The log severity
 	 * @param The log message
 	 */
-	private LogMessage(int level, String logMessage) {
-		timestamp = new Date();
-		message = logMessage.trim();
-		severity = levelStrings[level];
+	@SuppressWarnings("deprecation")
+	public LogMessage(LogMessage.LEVEL level, String logMessage) {
+		String timestampString;
 		
-		System.out.println("[" + severity + "] " + timestamp.toString() + " " + message);
+		// Gather data and build string
+		timestamp = new Date();
+		timestampString = timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
+		message = logMessage.trim();
+		severity = levelStrings[level.ordinal()];
+		
+		logString = timestampString + " - " + message + " (" + severity + ")\n";
+	}
+	
+	/**
+	 * Returns the final log string
+	 * 
+	 * @return Log string
+	 */
+	public String getLogString() {
+		return logString;
 	}
 }
