@@ -1,8 +1,10 @@
 package hrw.swenpr.bomberman.server.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.SwingConstants;
 
 public class MainWindow extends JFrame {
 
@@ -20,18 +22,37 @@ public class MainWindow extends JFrame {
 	 * The window title
 	 */
 	private static String FRAME_TITLE = "Bomerman Server";
+	
 	/**
 	 * Required for serialization
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * The {@link MainPanel} which holds the logging area and the server controls
+	 */
+	private MainPanel mainPanel = new MainPanel();
+	
+	/**
+	 * The {@link SidebarPanel} which holds information about the current game
+	 */
+	private SidebarPanel sidebarPanel = new SidebarPanel();
+	
+	/**
 	 * Constructor for the main window
 	 * 
 	 * @author Lukas Jarosch
 	 */
 	public MainWindow() {
+		
+		// Set basic frame attributes
 		setAttributes();
+
+		// Add panels
+		add(mainPanel, BorderLayout.CENTER);
+		add(sidebarPanel, BorderLayout.EAST);
+			
+		// Set missing attributes
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
