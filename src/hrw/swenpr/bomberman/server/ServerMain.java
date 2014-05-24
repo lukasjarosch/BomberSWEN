@@ -37,9 +37,11 @@ public class ServerMain extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
-		// instantiate the server model
+		// Instantiate the server model
 		
 		// Start the login thread
+		
+		// Register the ServerListener
 	}
 
 	/**
