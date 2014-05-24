@@ -1,9 +1,12 @@
 package hrw.swenpr.bomberman.server.view;
 
+import hrw.swenpr.bomberman.server.LogMessage;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 public class MainWindow extends JFrame {
@@ -49,7 +52,7 @@ public class MainWindow extends JFrame {
 		setAttributes();
 
 		// Add panels
-		add(mainPanel, BorderLayout.CENTER);
+		add(mainPanel, BorderLayout.WEST);
 		add(sidebarPanel, BorderLayout.EAST);
 			
 		// Set missing attributes
@@ -69,5 +72,14 @@ public class MainWindow extends JFrame {
 		setResizable(false);
 		setTitle(FRAME_TITLE);
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+	}
+	
+	/**
+	 * Proxy method to add a log message to the {@link JTextArea}
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public void log(LogMessage message) {
+		mainPanel.getLogArea().append(message.getLogString());
 	}
 }

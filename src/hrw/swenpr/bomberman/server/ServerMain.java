@@ -32,7 +32,6 @@ public class ServerMain extends JFrame {
 		
 		// Create MainWindow
 		mainWindow = new MainWindow();	
-		
 	}
 
 }
