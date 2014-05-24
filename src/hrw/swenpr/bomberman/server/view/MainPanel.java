@@ -36,9 +36,16 @@ public class MainPanel extends JPanel {
 	 * @author Lukas Jarosch Lukas Jarosch
 	 */
 	private void createLogArea() {
-		logArea.setText("TEST");
+		logArea.setEditable(false);
 		logScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(logScrollPane);
+	}
+
+	/**
+	 * @return The log area object
+	 */
+	public JTextArea getLogArea() {
+		return logArea;
 	}
 
 }
