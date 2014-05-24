@@ -15,6 +15,13 @@ public class ServerModel extends BombermanBaseModel {
 	private int readyCount = 0;
 	
 	/**
+	 * If the server is running all the threads are also
+	 * allowed to run. Setting this variable to false after
+	 * the server is started will stop every thread
+	 */
+	private boolean running = false;
+	
+	/**
 	 * The {@link ServerModel} constructor
 	 * 
 	 * @param The players participating in the game
@@ -47,5 +54,23 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public int getReadyCount() {
 		return readyCount;
+	}
+	
+	/**
+	 * Get server state
+	 * 
+	 * @return The server state
+	 */
+	public boolean isRunning() {
+		return running;
+	}
+
+	/**
+	 * Set the server running state
+	 * 
+	 * @param running
+	 */
+	public void setRunning(boolean running) {
+		this.running = running;
 	}
 }
