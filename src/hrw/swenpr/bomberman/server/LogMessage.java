@@ -43,8 +43,8 @@ public class LogMessage {
 	private String logString;
 	
 	/**
-	 * Private constructor because {@link LogMessage} is implemented
-	 * as singleton
+	 * Create a new log message and prepare the logString
+	 * The logstring can then be passed to any output you wish
 	 * 
 	 * @author Lukas Jarosch
 	 * 
