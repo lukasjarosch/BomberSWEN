@@ -24,4 +24,28 @@ public class ServerModel extends BombermanBaseModel {
 		super(users, level);
 	}
 
+	/**
+	 * We do not allow direct modification of the readyCount.
+	 * A player can only click on 'Ready' but not 'unclick' it.
+	 * 
+	 * This will simply increase the current readyCount
+	 * 
+	 * It will not perform any validation!
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public void increaseReadyCount() {
+		readyCount++;
+	}
+	
+	/**
+	 * Returns the current readyCount
+	 * 
+	 * @return The amount of players ready to play
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public int getReadyCount() {
+		return readyCount;
+	}
 }
