@@ -1,17 +1,33 @@
 package hrw.swenpr.bomberman.server;
 
-import hrw.swenpr.bomberman.server.ClientThread;
-
 import javax.swing.JFrame;
 
 public class ServerMain extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Stores the server model
+	 */
+	private static ServerModel model;
 
+	/**
+	 * Application main method
+	 * 
+	 * @param args
+	 * 
+	 * @author Lukas Jarosch
+	 */
 	public static void main(String[] args) {
 		new ServerMain();
 	}
 	
+	/**
+	 * The {@link ServerMain} constructor which will bootstrap the
+	 * server application
+	 * 
+	 * @author Lukas Jarosch
+	 */
 	public ServerMain() {
 		
 		// Initiate main frame
@@ -21,45 +37,19 @@ public class ServerMain extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
-		// Wait for logins until the game is started or 4 players are logged in
-		while(acceptLogin()) {
-			addPlayer();
-		}
-	}
-	
-	/**
-	 * Waits for a login message
-	 * The message is then processed and a 
-	 * {@link ClientThread} is created
-	 * 
-	 * @author Lukas Jarosch
-	 * 
-	 * @return Whether to accept further logins or not
-	 */
-	private boolean acceptLogin() {
+		// instantiate the server model
 		
-		// Test if the game is already running => FALSE
-		// If game is running: Log: "Game already running. Login rejected"
-		
-		// Test how many players are logged in => FALSE
-		// If 4 players are already logged in: Log: "Too many players. Login rejected"
-		
-		// Player is ok to join 
-		// => TRUE
-	}
-	
-	/**
-	 * Handles the creation of a new player
-	 * 
-	 * @author Lukas Jarosch
-	 */
-	private void addPlayer() {
-		
-		// Log: "PLAYERNAME has requested a login. Processing..."
-		
-		// Add player to the model
-		
-		// Create ClientThread
+		// Start the login thread
 	}
 
+	/**
+	 * Fetch the server model
+	 * 
+	 * @return The server model
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public static ServerModel getModel() {
+		return model;
+	}
 }
