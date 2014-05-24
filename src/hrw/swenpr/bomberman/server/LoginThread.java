@@ -12,7 +12,8 @@ public class LoginThread implements Runnable {
 	@Override
 	public void run() {
 		
-		while(ServerMain.isRunning()) {
+		// Loop until the server is about to shut down
+		while(ServerMain.getModel().isRunning()) {
 			
 			// Check for login request
 			
@@ -55,7 +56,7 @@ public class LoginThread implements Runnable {
 		
 		// Log: "PLAYERNAME has requested a login. Processing..."
 		
-		// Add player to the model
+		// Add player model to the server model container
 		
 		// Create ClientThread
 	}
