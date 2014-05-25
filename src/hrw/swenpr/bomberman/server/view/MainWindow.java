@@ -24,7 +24,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * The window title
 	 */
-	private static String FRAME_TITLE = "Bomerman Server";
+	private static String FRAME_TITLE = "Bomberman Server";
 	
 	/**
 	 * Required for serialization
