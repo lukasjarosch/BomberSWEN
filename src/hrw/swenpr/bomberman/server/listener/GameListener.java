@@ -1,4 +1,4 @@
-package hrw.swenpr.bomberman.server;
+package hrw.swenpr.bomberman.server.listener;
 
 import hrw.swenpr.bomberman.common.BombEvent;
 import hrw.swenpr.bomberman.common.BombermanEvent;
@@ -6,16 +6,20 @@ import hrw.swenpr.bomberman.common.BombermanListener;
 
 public class GameListener implements BombermanListener {
 
+	/**
+	 * 
+	 * @author Lukas Jarosch
+	 */
 	@Override
-	public void bombExplode(BombEvent event) {
-		// TODO Auto-generated method stub
-		
+	public void bombExplode(BombEvent event) {		
 	}
 
+	/**
+	 * 
+	 * @author Lukas Jarosch
+	 */
 	@Override
-	public void modelChanged(BombermanEvent event) {
-		// TODO Auto-generated method stub
-		
+	public void modelChanged(BombermanEvent event) {		
 	}
 
 }
