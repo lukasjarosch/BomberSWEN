@@ -20,7 +20,12 @@ public class ServerModel extends BombermanBaseModel {
 	 * allowed to run. Setting this variable to false after
 	 * the server is started will stop every thread
 	 */
-	private boolean running = false;
+	private boolean serverRunning = false;
+	
+	/**
+	 * Whether the game is running or not
+	 */
+	private boolean gameRunning = false;
 	
 	/**
 	 * The timer which will schedule the end of the game
@@ -68,8 +73,8 @@ public class ServerModel extends BombermanBaseModel {
 	 * 
 	 * @return The server state
 	 */
-	public boolean isRunning() {
-		return running;
+	public boolean isServerRunning() {
+		return serverRunning;
 	}
 
 	/**
@@ -77,8 +82,8 @@ public class ServerModel extends BombermanBaseModel {
 	 * 
 	 * @param running
 	 */
-	public void setRunning(boolean running) {
-		this.running = running;
+	public void setServerRunning(boolean running) {
+		this.serverRunning = running;
 	}
 
 	/**
@@ -97,5 +102,23 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void setGameTimer(Timer gameTimer) {
 		this.gameTimer = gameTimer;
+	}
+
+	/**
+	 * Return the game status
+	 * 
+	 * @return Game status
+	 */
+	public boolean isGameRunning() {
+		return gameRunning;
+	}
+
+	/**
+	 * Set the game running status
+	 * 
+	 * @param gameRunning
+	 */
+	public void setGameRunning(boolean gameRunning) {
+		this.gameRunning = gameRunning;
 	}
 }
