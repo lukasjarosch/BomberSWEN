@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.server;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.rfc.User;
@@ -20,6 +21,12 @@ public class ServerModel extends BombermanBaseModel {
 	 * the server is started will stop every thread
 	 */
 	private boolean running = false;
+	
+	/**
+	 * The timer which will schedule the end of the game
+	 * based on the decision of the game admin
+	 */
+	private Timer gameTimer;
 	
 	/**
 	 * The {@link ServerModel} constructor
@@ -72,5 +79,23 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+
+	/**
+	 * Return the {@link Timer}
+	 *  
+	 * @return The game timer
+	 */
+	public Timer getGameTimer() {
+		return gameTimer;
+	}
+
+	/**
+	 * Set the {@link Timer} of the game
+	 * 
+	 * @param gameTimer
+	 */
+	public void setGameTimer(Timer gameTimer) {
+		this.gameTimer = gameTimer;
 	}
 }
