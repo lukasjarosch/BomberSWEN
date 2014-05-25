@@ -104,4 +104,21 @@ public class ClientThread implements Runnable {
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
+
+	/**
+	 * Get the client socket 
+	 * 
+	 * @return Socket
+	 */
+	public Socket getSocket() {
+		return socket;
+	}
+
+	/**
+	 * Set the client socket 
+	 * @param socket Socket
+	 */
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
 }
