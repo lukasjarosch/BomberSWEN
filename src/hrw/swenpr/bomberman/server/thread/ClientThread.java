@@ -1,5 +1,7 @@
 package hrw.swenpr.bomberman.server.thread;
 
+import java.net.Socket;
+
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
@@ -20,6 +22,20 @@ public class ClientThread implements Runnable {
 	 * Once the player dies...he's dead
 	 */
 	private boolean alive = true;
+	
+	/**
+	 * The client socket
+	 */
+	private Socket socket = null;
+	
+	/**
+	 * Creates the socket for communicating with the client
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public ClientThread() {
+		// Create socket and set it locally
+	}
 	
 	/**
 	 * @author Lukas Jarosch
