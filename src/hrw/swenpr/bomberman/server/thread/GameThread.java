@@ -1,6 +1,7 @@
 package hrw.swenpr.bomberman.server.thread;
 
 import hrw.swenpr.bomberman.common.rfc.Bomb;
+import hrw.swenpr.bomberman.common.rfc.GameOver;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.server.ServerMain;
 import hrw.swenpr.bomberman.server.ServerModel;
@@ -55,6 +56,7 @@ public class GameThread implements Runnable {
 	/**
 	 * Sets up a {@link Timer} which will end the game
 	 * after the selected time.
+	 * It will send a {@link GameOver} message to all clients
 	 * 
 	 * The timer is stored in the {@link ServerModel}
 	 * 
@@ -69,6 +71,8 @@ public class GameThread implements Runnable {
 				
 				// Game end!
 				model.setGameRunning(false);
+				
+				// Send GameOver Message to all clients
 				
 				// Free resources...whatever...
 			}
