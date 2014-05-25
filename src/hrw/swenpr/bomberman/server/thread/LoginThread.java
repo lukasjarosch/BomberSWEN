@@ -55,6 +55,8 @@ public class LoginThread implements Runnable {
 		// Test how many players are logged in => FALSE
 		// If 4 players are already logged in: Log: "Too many players. Login rejected"
 		
+		// Check if name is already registered
+		
 		// Player is ok to join 
 		// => TRUE
 		return true;
