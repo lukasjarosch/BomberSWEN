@@ -1,5 +1,8 @@
 package hrw.swenpr.bomberman.server;
 
+import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
+import hrw.swenpr.bomberman.server.view.MainWindow;
+
 import javax.swing.JFrame;
 
 public class ServerMain extends JFrame {
@@ -10,6 +13,11 @@ public class ServerMain extends JFrame {
 	 * Stores the server model
 	 */
 	private static ServerModel model;
+	
+	/**
+	 * Instance of the main window
+	 */
+	private MainWindow mainWindow;
 
 	/**
 	 * Application main method
@@ -30,12 +38,9 @@ public class ServerMain extends JFrame {
 	 */
 	public ServerMain() {
 		
-		// Initiate main frame
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setTitle("Bomberman");
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setLocationRelativeTo(null);
-		setVisible(true);
+		// Create views
+		mainWindow = new MainWindow();
+			
 		
 		// Instantiate the server model
 		
@@ -53,5 +58,16 @@ public class ServerMain extends JFrame {
 	 */
 	public static ServerModel getModel() {
 		return model;
+	}
+
+	/**
+	 * Fetch the mainWindow instance to be able to access the log method
+	 * 
+	 * @return {@link MainWindow}
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public MainWindow getMainWindow() {
+		return mainWindow;
 	}
 }
