@@ -2,6 +2,8 @@ package hrw.swenpr.bomberman.server;
 
 import hrw.swenpr.bomberman.server.view.MainPanel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import sun.util.logging.resources.logging;
@@ -53,14 +55,12 @@ public class LogMessage {
 	 */
 	@SuppressWarnings("deprecation")
 	public LogMessage(LogMessage.LEVEL level, String logMessage) {
-		String timestampString;
+		String timestampString;		
 		
-		// Gather data and build string
-		timestamp = new Date();
-		timestampString = timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
+		// Gather data and build string		
 		message = logMessage.trim();
 		severity = levelStrings[level.ordinal()];
-		
+		timestampString = new SimpleDateFormat("HH:mm:ss").format(new Date());
 		logString = timestampString + " - " + message + " (" + severity + ")\n";
 	}
 	
