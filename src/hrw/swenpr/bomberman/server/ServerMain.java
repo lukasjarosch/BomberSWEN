@@ -39,7 +39,10 @@ public class ServerMain extends JFrame {
 	public ServerMain() {
 		
 		// Create views
-		mainWindow = new MainWindow();			
+		mainWindow = new MainWindow();		
+		
+		// Start logging console
+		mainWindow.log(new LogMessage(LEVEL.NONE, "----- Server started -----"));
 		
 		// Instantiate the server model
 		
