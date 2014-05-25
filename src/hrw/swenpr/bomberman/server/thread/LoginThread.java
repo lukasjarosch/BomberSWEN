@@ -1,4 +1,6 @@
-package hrw.swenpr.bomberman.server;
+package hrw.swenpr.bomberman.server.thread;
+
+import hrw.swenpr.bomberman.server.ServerMain;
 
 public class LoginThread implements Runnable {
 
