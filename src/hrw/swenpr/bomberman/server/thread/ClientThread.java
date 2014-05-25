@@ -17,6 +17,11 @@ public class ClientThread implements Runnable {
 	private boolean gameAdmin = false;
 	
 	/**
+	 * Once the player dies...he's dead
+	 */
+	private boolean alive = true;
+	
+	/**
 	 * @author Lukas Jarosch
 	 */
 	@Override
@@ -64,5 +69,23 @@ public class ClientThread implements Runnable {
 		// Test if readyCount == playerCount
 		
 			// Start the game
+	}
+
+	/**
+	 * Is the player still alive?
+	 * 
+	 * @return boolean
+	 */
+	public boolean isAlive() {
+		return alive;
+	}
+
+	/**
+	 * Set the player to dead or alive (Schrödinger....)
+	 * 
+	 * @param alive
+	 */
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 }
