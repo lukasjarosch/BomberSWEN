@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.server.view.MainWindow;
 
 public class ServerModel extends BombermanBaseModel {
 
@@ -20,6 +21,11 @@ public class ServerModel extends BombermanBaseModel {
 	 * the server is started will stop every thread
 	 */
 	private boolean running = false;
+	
+	/**
+	 * Instance of the main window
+	 */
+	private MainWindow mainWindow;
 	
 	/**
 	 * The {@link ServerModel} constructor
@@ -72,5 +78,26 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void setRunning(boolean running) {
 		this.running = running;
+	}
+	
+
+	/**
+	 * Fetch the mainWindow instance to be able to access the log method
+	 * 
+	 * @return {@link MainWindow}
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public MainWindow getMainWindow() {
+		return mainWindow;
+	}
+	
+	/**
+	 * Set the mainWindow instance to be able to access the log method
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public void setMainWindow(MainWindow mw) {
+		mainWindow = mw;
 	}
 }
