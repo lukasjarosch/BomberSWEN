@@ -1,4 +1,4 @@
-package hrw.swenpr.bomberman.server;
+package hrw.swenpr.bomberman.server.thread;
 
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
