@@ -19,7 +19,7 @@ public class LoginThread implements Runnable {
 	public void run() {
 		
 		// Loop until the server is about to shut down
-		while(ServerMain.getModel().isRunning()) {
+		while(ServerMain.getModel().isServerRunning()) {
 			
 			// Check for login request
 			
