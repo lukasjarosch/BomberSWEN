@@ -13,6 +13,11 @@ public class ServerMain extends JFrame {
 	 * Stores the server model
 	 */
 	private static ServerModel model;
+	
+	/**
+	 * Instance of the main window
+	 */
+	private static MainWindow mainWindow;
 
 	/**
 	 * Application main method
@@ -52,5 +57,16 @@ public class ServerMain extends JFrame {
 	 */
 	public static ServerModel getModel() {
 		return model;
+	}
+
+	/**
+	 * Fetch the mainWindow instance to be able to access the log method
+	 * 
+	 * @return {@link MainWindow}
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public static MainWindow getMainWindow() {
+		return mainWindow;
 	}
 }
