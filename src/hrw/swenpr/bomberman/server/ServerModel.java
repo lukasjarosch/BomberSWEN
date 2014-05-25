@@ -6,6 +6,7 @@ import java.util.Timer;
 
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.server.thread.ClientThread;
 
 public class ServerModel extends BombermanBaseModel {
 
@@ -32,6 +33,11 @@ public class ServerModel extends BombermanBaseModel {
 	 * based on the decision of the game admin
 	 */
 	private Timer gameTimer;
+	
+	/**
+	 * Store all client threads
+	 */
+	private ArrayList<ClientThread> clientThreads = null;
 	
 	/**
 	 * The {@link ServerModel} constructor
@@ -120,5 +126,37 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void setGameRunning(boolean gameRunning) {
 		this.gameRunning = gameRunning;
+	}
+
+	/**
+	 * Returns all clientthreads
+	 * 
+	 * @return {@link ClientThread}
+	 */
+	public ArrayList<ClientThread> getClientThreads() {
+		return clientThreads;
+	}
+
+	/**
+	 * Fetches the {@link ClientThread} for a specific user
+	 * 
+	 * @param userId The user id
+	 * @return The {@link ClientThread}
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public ClientThread getClientThread(int userId) {
+		return this.clientThreads.get(userId);
+	}
+	
+	/**
+	 * Add a new client thread to the array list
+	 * The index is specified by the User ID
+	 * 
+	 * @param userId User ID of the player
+	 * @param thread The {@link ClientThread} instance
+	 */
+	public void setClientThread(int userId, ClientThread thread) {
+		this.clientThreads.add(userId, thread);
 	}
 }
