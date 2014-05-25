@@ -30,6 +30,10 @@ public class ClientThread implements Runnable {
 	 * @author Lukas Jarosch
 	 */
 	public void handleLevelSelection() {
+	
+		// Test if admin
+		
+		// Set level
 		
 	}
 	
@@ -40,7 +44,10 @@ public class ClientThread implements Runnable {
 	 * @author Lukas Jarosch
 	 */
 	public void handleTimeSelection() {
+	
+		// Test if admin
 		
+		// Set time in model
 	}
 	
 	/**
