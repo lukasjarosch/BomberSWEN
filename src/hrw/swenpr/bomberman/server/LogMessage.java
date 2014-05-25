@@ -14,6 +14,7 @@ public class LogMessage {
 	 * The logging severity levels
 	 */
 	public enum LEVEL {
+		NONE,
 		INFORMATION,
 		WARNING,
 		ERROR,
@@ -22,7 +23,7 @@ public class LogMessage {
 	/**
 	 * The string representations of the {@link LEVEL}
 	 */
-	private static final String levelStrings[] = {"INFO", "WARNING", "ERROR"};
+	private static final String levelStrings[] = {"", "Information", "Warning", "Error"};
 	
 	/**
 	 * The timestamp of the log
@@ -57,11 +58,17 @@ public class LogMessage {
 	public LogMessage(LogMessage.LEVEL level, String logMessage) {
 		String timestampString;		
 		
+		// Severity string
+		if(level == LEVEL.NONE) {
+			severity = "";
+		} else {
+			severity = " (" + levelStrings[level.ordinal()] + ")";
+		}
+		
 		// Gather data and build string		
 		message = logMessage.trim();
-		severity = levelStrings[level.ordinal()];
 		timestampString = new SimpleDateFormat("HH:mm:ss").format(new Date());
-		logString = timestampString + " - " + message + " (" + severity + ")\n";
+		logString = timestampString + " # " +  message + severity + "\n";
 	}
 	
 	/**
