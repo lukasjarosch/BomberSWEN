@@ -1,5 +1,7 @@
 package hrw.swenpr.bomberman.server.view;
 
+import hrw.swenpr.bomberman.server.listener.ButtonListener;
+
 import java.awt.BorderLayout;
 
 import javax.swing.JButton;
@@ -64,6 +66,7 @@ public class MainPanel extends JPanel {
 	 */
 	private void createControlPanel() {		
 		btnStartStop.setText("Start server"); // Server is stopped by default
+		btnStartStop.addActionListener(new ButtonListener());
 		controlPanel.add(btnStartStop);
 		
 		add(controlPanel, BorderLayout.SOUTH);
