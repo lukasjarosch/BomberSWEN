@@ -5,6 +5,7 @@ import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.server.LogMessage;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.ServerMain;
+import hrw.swenpr.bomberman.server.view.MainWindow;
 
 public class LoginThread implements Runnable {
 
@@ -25,11 +26,11 @@ public class LoginThread implements Runnable {
 			
 			if(requestLogin()) {
 				// Send LoginOK
-				ServerMain.getMainWindow().log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} logged in"));
+				MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} logged in"));
 				// addPlayer( ... );
 			} else {
 				// Send ErrorMessage
-				ServerMain.getMainWindow().log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} was rejected"));
+				MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} was rejected"));
 			}
 			
 			// Depending on the retVal of acceptLogin => addPlayer / sendError
