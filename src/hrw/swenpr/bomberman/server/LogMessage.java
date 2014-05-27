@@ -49,7 +49,6 @@ public class LogMessage {
 	 * @param The log severity
 	 * @param The log message
 	 */
-	@SuppressWarnings("deprecation")
 	public LogMessage(LogMessage.LEVEL level, String logMessage) {
 		String timestampString;		
 		
