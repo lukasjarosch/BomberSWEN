@@ -1,9 +1,5 @@
 package hrw.swenpr.bomberman.server.listener;
 
-import hrw.swenpr.bomberman.server.LogMessage;
-import hrw.swenpr.bomberman.server.ServerMain;
-import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,10 +7,24 @@ public class ButtonListener implements ActionListener {
 
 	/**
 	 * The {@link ActionListener} for the Start/Stop button
+	 * 
+	 * @author Lukas Jarosch
 	 */
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		ServerMain.getMainWindow().log(new LogMessage(LEVEL.INFORMATION, "Button clicked"));
+		
+		/*
+		 * The following does not yet work because we do not have an instance of
+		 * the ServerModel yet
+		 * 
+		if(ServerMain.getModel().isServerRunning()) {
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "----- Server terminated -----"));
+			ServerMain.getModel().setServerRunning(false);
+		} else {
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "----- Server running -----"));
+			ServerMain.getModel().setServerRunning(true);
+		}
+		*/
 	}
 
 }
