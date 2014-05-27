@@ -14,12 +14,12 @@ public class MainWindow extends JFrame {
 	/**
 	 * Width of the server window
 	 */
-	private static int FRAME_WIDTH = 800;
+	public static int FRAME_WIDTH = 800;
 	
 	/**
 	 * Height of the server window
 	 */
-	private static int FRAME_HEIGHT = 500;
+	public static int FRAME_HEIGHT = 500;
 	
 	/**
 	 * The window title
@@ -52,7 +52,7 @@ public class MainWindow extends JFrame {
 		setAttributes();
 
 		// Add panels
-		add(mainPanel, BorderLayout.WEST);
+		add(mainPanel, BorderLayout.CENTER);
 		add(sidebarPanel, BorderLayout.EAST);
 			
 		// Set missing attributes
@@ -71,6 +71,7 @@ public class MainWindow extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle(FRAME_TITLE);
+		setTitlePrefix("OFFLINE");
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 	}
 	
@@ -81,5 +82,16 @@ public class MainWindow extends JFrame {
 	 */
 	public void log(LogMessage message) {
 		mainPanel.getLogArea().append(message.getLogString());
+	}
+	
+	/**
+	 * The prefix which is shown after the actual Window title
+	 * 
+	 * @param prefix
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public void setTitlePrefix(String prefix) {
+		setTitle(FRAME_TITLE + " - " + prefix);
 	}
 }
