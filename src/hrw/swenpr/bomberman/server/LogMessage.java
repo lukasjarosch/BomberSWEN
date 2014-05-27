@@ -26,11 +26,6 @@ public class LogMessage {
 	private static final String levelStrings[] = {"", "Information", "Warning", "Error"};
 	
 	/**
-	 * The timestamp of the log
-	 */
-	private Date timestamp;
-	
-	/**
 	 * The actual message to log
 	 */
 	private String message;
