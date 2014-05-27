@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * The {@link MainPanel} which holds the logging area and the server controls
 	 */
-	private MainPanel mainPanel = new MainPanel();
+	private static MainPanel mainPanel = new MainPanel();
 	
 	/**
 	 * The {@link SidebarPanel} which holds information about the current game
@@ -80,7 +80,7 @@ public class MainWindow extends JFrame {
 	 * 
 	 * @author Lukas Jarosch
 	 */
-	public void log(LogMessage message) {
+	public static void log(LogMessage message) {
 		mainPanel.getLogArea().append(message.getLogString());
 	}
 	
