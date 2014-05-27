@@ -42,7 +42,7 @@ public class ServerMain extends JFrame {
 		mainWindow = new MainWindow();		
 		
 		// Start logging console
-		mainWindow.log(new LogMessage(LEVEL.NONE, "----- Server started -----"));
+		MainWindow.log(new LogMessage(LEVEL.NONE, "----- Server application started -----"));
 		
 		// Instantiate the server model
 		
