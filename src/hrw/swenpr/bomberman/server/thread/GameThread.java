@@ -3,7 +3,7 @@ package hrw.swenpr.bomberman.server.thread;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.GameOver;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
-import hrw.swenpr.bomberman.server.ServerMain;
+import hrw.swenpr.bomberman.server.Server;
 import hrw.swenpr.bomberman.server.ServerModel;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class GameThread implements Runnable {
 	 * 
 	 */
 	public GameThread() {
-		model = ServerMain.getModel();
+		model = Server.getModel();
 	}
 	
 	/**

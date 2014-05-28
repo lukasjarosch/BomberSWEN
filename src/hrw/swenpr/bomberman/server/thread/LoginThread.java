@@ -4,7 +4,7 @@ import hrw.swenpr.bomberman.common.rfc.Login;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.server.LogMessage;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
-import hrw.swenpr.bomberman.server.ServerMain;
+import hrw.swenpr.bomberman.server.Server;
 import hrw.swenpr.bomberman.server.view.MainWindow;
 
 public class LoginThread implements Runnable {
@@ -20,7 +20,7 @@ public class LoginThread implements Runnable {
 	public void run() {
 		
 		// Loop until the server is about to shut down
-		while(ServerMain.getModel().isServerRunning()) {
+		while(Server.getModel().isServerRunning()) {
 			
 			// Check for login request
 			
