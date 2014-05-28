@@ -48,7 +48,7 @@ public class ServerModel extends BombermanBaseModel {
 	public ServerModel(ArrayList<User> users, File level) {
 		super(users, level);
 	}
-
+	
 	/**
 	 * We do not allow direct modification of the readyCount.
 	 * A player can only click on 'Ready' but not 'unclick' it.

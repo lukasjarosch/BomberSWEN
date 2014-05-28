@@ -1,6 +1,12 @@
 package hrw.swenpr.bomberman.server.thread;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
+
+import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.Login;
+import hrw.swenpr.bomberman.common.rfc.MessageType;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.server.LogMessage;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
@@ -22,18 +28,46 @@ public class LoginThread implements Runnable {
 		// Loop until the server is about to shut down
 		while(Server.getModel().isServerRunning()) {
 			
-			// Check for login request
+			// Wait for client connection
+			Socket clientSocket = Server.getConnection().listenSocket();
 			
-			if(requestLogin()) {
-				// Send LoginOK
-				MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} logged in"));
-				// addPlayer( ... );
-			} else {
-				// Send ErrorMessage
-				MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} was rejected"));
+			// A new client has connected
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Client {NAME} is requesting a login"));
+			
+			// Create dummy object for message
+			Object message = null;
+			
+			// Fetch ObjectInputStream and read Object
+			try {
+				ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
+				message = input.readObject();
+			} catch (IOException | ClassNotFoundException e) {
+				MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from Socket in LoginThread::run()"));
 			}
 			
-			// Depending on the retVal of acceptLogin => addPlayer / sendError
+			// We need to have a LOGIN message
+			MessageType type = Header.getMessageType(message);
+			
+			if(type == MessageType.LOGIN) {
+				
+				// Try to login
+				if(requestLogin()) {
+					
+					// TODO: Send LoginOK
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} logged in"));
+					// addPlayer( ... );
+					
+				} else {
+					// Send ErrorMessage
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} was rejected"));
+				}
+				
+			} else {
+				MainWindow.log(new LogMessage(LEVEL.WARNING, "Client did not send a LOGIN request"));
+				
+				// TODO: Send ErrorMessage
+			}
+			
 		}
 		
 		// Kill tha bitch
