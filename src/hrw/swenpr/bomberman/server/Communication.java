@@ -6,15 +6,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class Communication {
-
-	/**
-	 * Constructor for the {@link Communication} class
-	 * 
-	 * @author Lukas Jarosch
-	 */
-	public Communication() {
-		
-	}
 	
 	/**
 	 * Send a message to a specified socket
