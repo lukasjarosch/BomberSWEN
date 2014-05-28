@@ -1,18 +1,17 @@
 package hrw.swenpr.bomberman.client;
 
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Point;
-
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
+import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.Login;
 import hrw.swenpr.bomberman.common.rfc.User;
-import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
+import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
-import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.net.Socket;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -28,13 +27,19 @@ import javax.swing.JTextField;
 public class MainClient extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	private static final int DEFAULT_PORT = 6969;
+	
+	private static MainClient instance;
 	
 	private Communication com;
 	private Sidebar sidebar;
 	private Field field;
 	
-	private boolean isAdmin;
-	private int id;
+	private boolean isAdmin = false;
+	private int userID;
+
+	private Socket socket;
 
 	/**
 	 * Starting function.
@@ -43,14 +48,22 @@ public class MainClient extends JFrame {
 	 */
 	public static void main(String[] args) 
 	{
-		new MainClient();
+		MainClient.getInstance();
+	}
+	
+	
+	public static MainClient getInstance() {
+		if(instance == null)
+			instance = new MainClient();
+		
+		return instance;
 	}
 	
 	
 	/**
 	 * Default constructor for main window.
 	 */
-	public MainClient() {
+	private MainClient() {
 		// setting up JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Bomberman");
@@ -63,18 +76,16 @@ public class MainClient extends JFrame {
 		
 		this.addKeyListener(new GameKeyListener(this));
 		
-		com = Communication.getInstance();
-		sidebar = new Sidebar(this);
+		sidebar = new Sidebar();
 		field = new Field();
 		
+		add(sidebar, BorderLayout.EAST);
+		add(field);
 		
-		Container cp = getContentPane();
-		cp.setLayout(new BorderLayout());
-		cp.add(sidebar, BorderLayout.EAST);
+		// show login dialog
+		this.showLogin();
 		
 		setVisible(true);
-		//show login dialog
-		this.showLogin();
 	}
 	
 	/**
@@ -82,26 +93,41 @@ public class MainClient extends JFrame {
 	 */
 	private void showLogin()
 	{
-		//create textfield and color array				
+		// create textfield and color array
+		JTextField ipAddress = new JTextField("localhost");
 		JTextField name = new JTextField(20);
 		UserColor[] colors = {UserColor.RED, UserColor.YELLOW, UserColor.GREEN, UserColor.BLUE};
 		
-		//building message with text and the textfield
-		Object[] message = {"Login:", name, "\nColor:"};
+		// building message with text and the textfield
+		Object[] message = {"Server", ipAddress, "\nLogin:", name, "\nColor:"};
 		
-		//show dialog
-		UserColor ret = (UserColor)JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
+		// show dialog
+		UserColor ret = (UserColor) JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
 		
-		//Send login message to server with entered username and color
-		com.sendMessage(new Login(name.getText(), ret));
+		socket = ClientConnection.getSocket(ipAddress.getText(), DEFAULT_PORT);
+		
+		if(socket != null) {
+			// create and start communication thread
+			com = new Communication(socket);
+			com.start();
+		
+			// send login message to server with entered username and color
+			com.sendMessage(new Login(name.getText(), ret));
+		}
+		else {
+			// socket creation failed -> exit software
+			JOptionPane.showMessageDialog(this, "Fehler beim Herstellen der Verbindung.");
+			System.exit(0);
+		}
 	}
 	
 	/**
 	 * sets a flag which indicates if player is admin or not
 	 */
-	public void setAdmin()
+	public void setAdmin(boolean admin)
 	{
-		isAdmin = true;
+		isAdmin = admin;
+		sidebar.toogleAdmin(admin);
 	}
 	
 	/**
@@ -114,11 +140,18 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * resets the isAdmin Flag
+	 * @return the communication
 	 */
-	public void resetAdmin()
-	{
-		isAdmin = false;
+	public Communication getCommunication() {
+		return com;
+	}
+
+
+	/**
+	 * @return the sidebar
+	 */
+	public Sidebar getSidebar() {
+		return sidebar;
 	}
 	
 	/**
@@ -190,9 +223,16 @@ public class MainClient extends JFrame {
 		
 	}
 	
-	public int getID()
+	/**
+	 * @return the userID
+	 */
+	public int getUserID()
 	{
-		return id;
+		return userID;
+	}
+	
+	public void setUserID(int id) {
+		this.userID = id;
 	}
 	
 	public void pickUpSpecialItem()

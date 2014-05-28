@@ -66,15 +66,15 @@
     </display>  
   </class>  
   <association id="8">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="9" name="mainClient"/>      
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="9" name="field"/>      
       <multiplicity id="10" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="11">    
-    <end type="SOURCE" refId="7" navigable="false">      
+    <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="12" name="mainClient"/>      
       <multiplicity id="13" minimum="0" maximum="1"/>    
     </end>    
@@ -90,42 +90,42 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="17">    
-    <bendpoint x="660" y="206"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="18" name="mainClient"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="20">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="21" name="field"/>      
-      <multiplicity id="22" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="23">    
     <bendpoint x="921" y="541"/>    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="24" name="sidebar"/>      
-      <multiplicity id="25" minimum="0" maximum="1"/>    
+      <attribute id="18" name="sidebar"/>      
+      <multiplicity id="19" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="26">    
+  <association id="20">    
     <bendpoint x="1056" y="205"/>    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="27" name="buttonListener"/>      
-      <multiplicity id="28" minimum="0" maximum="1"/>    
+      <attribute id="21" name="buttonListener"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="23">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="24" name="mainClient"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="27" name="mainClient"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="29">    
-    <end type="SOURCE" refId="4" navigable="false">      
+    <bendpoint x="660" y="206"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="30" name="mainClient"/>      
       <multiplicity id="31" minimum="0" maximum="1"/>    
     </end>    

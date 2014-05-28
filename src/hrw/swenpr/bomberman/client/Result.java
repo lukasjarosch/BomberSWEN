@@ -11,6 +11,8 @@ import javax.swing.JTable;
 
 public class Result extends JDialog
 {
+	private static final long serialVersionUID = 1L;
+	
 	private final String COLHEADS[] = {"Position", "Name", "Points"};
 	private JTable table;
 	private JLabel lbl;

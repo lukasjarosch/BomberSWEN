@@ -18,6 +18,8 @@ import javax.swing.JPanel;
  */
 public class Field extends JPanel 
 {
+	private static final long serialVersionUID = 1L;
+	
 	private Image player[];
 	private Image field;
 	private Image Stone;
