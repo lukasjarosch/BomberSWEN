@@ -3,11 +3,15 @@ package hrw.swenpr.bomberman.server.thread;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Random;
 
+import hrw.swenpr.bomberman.common.rfc.ErrorMessage;
 import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.Login;
+import hrw.swenpr.bomberman.common.rfc.LoginOk;
 import hrw.swenpr.bomberman.common.rfc.MessageType;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType;
 import hrw.swenpr.bomberman.server.LogMessage;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.Server;
@@ -47,26 +51,33 @@ public class LoginThread implements Runnable {
 			
 			// We need to have a LOGIN message
 			MessageType type = Header.getMessageType(message);
-			
 			if(type == MessageType.LOGIN) {
 				
-				// Try to login
+				// We received a Login object => cast
+				Login login = (Login)message;
+				
 				if(requestLogin()) {
 					
-					// TODO: Send LoginOK
-					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} logged in"));
-					// addPlayer( ... );
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + login.getUsername() + " logged in"));
 					
-				} else {
-					// Send ErrorMessage
-					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player {PLAYERNAME} was rejected"));
-				}
+					// TODO: This can not be random!!!!
+					Server.getCommunication().sendToClient(clientSocket, 
+							new LoginOk(new Random().nextInt(4)));			
+					
+					// Add player to model
+					addPlayer(login);
+					
+					// Inform all clients
+					sendUserData(login);
+				} 
 				
+			// No LOGIN object received => ErrorMessage
 			} else {
 				MainWindow.log(new LogMessage(LEVEL.WARNING, "Client did not send a LOGIN request"));
 				
-				// TODO: Send ErrorMessage
-			}
+				Server.getCommunication().sendToClient(clientSocket, 
+						new ErrorMessage(ErrorType.ERROR, "First packet has to be a Login object"));			
+				}
 			
 		}
 		
@@ -86,14 +97,16 @@ public class LoginThread implements Runnable {
 		
 		// Test if the game is already running => FALSE
 		// If game is running: Log: "Game already running. Login rejected"
+		// TODO: Send ErrorMessage
 		
 		// Test how many players are logged in => FALSE
 		// If 4 players are already logged in: Log: "Too many players. Login rejected"
+		// TODO: Send ErrorMessage
 		
 		// Check if name is already registered
+		// TODO: Send ErrorMessage
 		
 		// Player is ok to join 
-		// => TRUE
 		return true;
 	}
 	
@@ -116,9 +129,11 @@ public class LoginThread implements Runnable {
 	/**
 	 * Sends a {@link User} object to all clients
 	 * 
+	 * @param Login message
+	 * 
 	 * @author Lukas Jarosch
 	 */
-	private void sendUserData() {
+	private void sendUserData(Login login) {
 		
 		// Create User object
 		
