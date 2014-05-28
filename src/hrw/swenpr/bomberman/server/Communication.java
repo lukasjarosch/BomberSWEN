@@ -32,7 +32,7 @@ public class Communication {
 	 * @param message The message to send
 	 */
 	public <T> void sendToAllClients(T message){
-		ArrayList<ClientThread> threads = ServerMain.getModel().getClientThreads();
+		ArrayList<ClientThread> threads = Server.getModel().getClientThreads();
 		
 		while(threads.iterator().hasNext()) {
 			
