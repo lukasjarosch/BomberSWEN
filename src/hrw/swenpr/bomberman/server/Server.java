@@ -1,5 +1,6 @@
 package hrw.swenpr.bomberman.server;
 
+import hrw.swenpr.bomberman.common.ServerConnection;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.view.MainWindow;
 
@@ -23,7 +24,14 @@ public class Server extends JFrame {
 	 * The {@link Communication} instance
 	 */
 	private static Communication communication;
+	
+	/**
+	 * The {@link ServerConnection} instance
+	 */
+	private static ServerConnection connection;
 
+	public static final int DEFAULT_PORT = 6969;
+	
 	/**
 	 * Application main method
 	 * 
@@ -52,6 +60,9 @@ public class Server extends JFrame {
 		// Create communication
 		Server.communication = new Communication();
 		
+		// Create ServerConnection
+		Server.connection = new ServerConnection(DEFAULT_PORT);
+		
 		// Instantiate the server model
 		
 		// Start the login thread
@@ -79,5 +90,19 @@ public class Server extends JFrame {
 	 */
 	public static MainWindow getMainWindow() {
 		return mainWindow;
+	}
+
+	/**
+	 * @return the communication
+	 */
+	public static Communication getCommunication() {
+		return communication;
+	}
+
+	/**
+	 * @return the connection
+	 */
+	public static ServerConnection getConnection() {
+		return connection;
 	}
 }
