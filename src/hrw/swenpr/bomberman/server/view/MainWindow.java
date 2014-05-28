@@ -7,7 +7,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainWindow extends JFrame {
 
@@ -73,6 +74,13 @@ public class MainWindow extends JFrame {
 		setTitle(FRAME_TITLE);
 		setTitlePrefix("OFFLINE");
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		
+		// Set Look and Feel
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException |InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	/**
