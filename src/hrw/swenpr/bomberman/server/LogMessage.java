@@ -2,11 +2,8 @@ package hrw.swenpr.bomberman.server;
 
 import hrw.swenpr.bomberman.server.view.MainPanel;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import sun.util.logging.resources.logging;
 
 public class LogMessage {
 	
