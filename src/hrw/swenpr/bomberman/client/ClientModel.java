@@ -7,6 +7,10 @@ import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
 
+/**
+ * Stores all the information about the game the client needs
+ * @author Daniel Hofer
+ */
 public class ClientModel extends BombermanBaseModel 
 {
 	
