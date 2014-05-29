@@ -102,4 +102,8 @@ public class MainWindow extends JFrame {
 	public void setTitlePrefix(String prefix) {
 		setTitle(FRAME_TITLE + " - " + prefix);
 	}
+	
+	public static MainPanel getMainPanel() {
+		return mainPanel;
+	}
 }

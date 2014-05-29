@@ -11,7 +11,7 @@ import hrw.swenpr.bomberman.common.rfc.UserReady;
  * @author Lukas
  *
  */
-public class ClientThread implements Runnable {
+public class ClientThread extends Thread {
 	
 	/**
 	 * If the player is the game admin
@@ -42,6 +42,11 @@ public class ClientThread implements Runnable {
 	 */
 	@Override
 	public void run() {		
+		System.out.println("ClientThread running");
+		
+		if(isGameAdmin()) {
+			System.out.println("I AM ADMIN");
+		}
 	}
 
 	/**
@@ -92,7 +97,7 @@ public class ClientThread implements Runnable {
 	 * 
 	 * @return boolean
 	 */
-	public boolean isAlive() {
+	public boolean isPlayerAlive() {
 		return alive;
 	}
 
@@ -120,5 +125,13 @@ public class ClientThread implements Runnable {
 	 */
 	public void setSocket(Socket socket) {
 		this.socket = socket;
+	}
+
+	public boolean isGameAdmin() {
+		return gameAdmin;
+	}
+
+	public void setGameAdmin(boolean gameAdmin) {
+		this.gameAdmin = gameAdmin;
 	}
 }

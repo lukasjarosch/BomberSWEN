@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
+import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.server.thread.ClientThread;
 
@@ -35,9 +36,14 @@ public class ServerModel extends BombermanBaseModel {
 	private Timer gameTimer;
 	
 	/**
+	 * Holds the number of clients logged in
+	 */
+	private int clientCount = 0;
+	
+	/**
 	 * Store all client threads
 	 */
-	private ArrayList<ClientThread> clientThreads = null;
+	private ArrayList<ClientThread> clientThreads;
 	
 	/**
 	 * The {@link ServerModel} constructor
@@ -50,16 +56,21 @@ public class ServerModel extends BombermanBaseModel {
 	}
 	
 	/**
+	 * Empty default constructor
+	 */
+	public ServerModel() {}
+	
+	/**
 	 * We do not allow direct modification of the readyCount.
 	 * A player can only click on 'Ready' but not 'unclick' it.
 	 * 
-	 * This will simply increase the current readyCount
+	 * This will simply increments the current readyCount
 	 * 
 	 * It will not perform any validation!
 	 * 
 	 * @author Lukas Jarosch
 	 */
-	public void increaseReadyCount() {
+	public void incrementReadyCount() {
 		readyCount++;
 	}
 	
@@ -156,7 +167,40 @@ public class ServerModel extends BombermanBaseModel {
 	 * @param userId User ID of the player
 	 * @param thread The {@link ClientThread} instance
 	 */
-	public void setClientThread(int userId, ClientThread thread) {
+	public void addClientThread(int userId, ClientThread thread) {
 		this.clientThreads.add(userId, thread);
+	}
+
+	/**
+	 * Returns the amount of players currently logged in 
+	 * 
+	 * @return Number of players logged in
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public int getClientCount() {
+		return clientCount;
+	}
+
+	/**
+	 * Increments the client count
+	 * 
+	 * @param clientCount
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public void incrementClientCount() {
+		clientCount = getClientCount() + 1;
+	}
+	
+	/**
+	 * Returns all users logged in
+	 * 
+	 * @return All {@link UserModel}s
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public ArrayList<UserModel> getUsers() {
+		return this.users;
 	}
 }

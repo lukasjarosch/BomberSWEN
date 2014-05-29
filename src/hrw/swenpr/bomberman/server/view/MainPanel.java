@@ -3,6 +3,7 @@ package hrw.swenpr.bomberman.server.view;
 import hrw.swenpr.bomberman.server.listener.ButtonListener;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -55,6 +56,8 @@ public class MainPanel extends JPanel {
 	 */
 	private void createLogArea() {
 		logArea.setEditable(false);
+		logArea.setBackground(Color.BLACK);
+		logArea.setForeground(Color.GREEN);
 		logScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(logScrollPane, BorderLayout.NORTH);
 	}
@@ -76,6 +79,14 @@ public class MainPanel extends JPanel {
 	 */
 	public JTextArea getLogArea() {
 		return logArea;
+	}
+
+	public JButton getBtnStartStop() {
+		return btnStartStop;
+	}
+
+	public void setBtnStartStop(JButton btnStartStop) {
+		this.btnStartStop = btnStartStop;
 	}
 
 }
