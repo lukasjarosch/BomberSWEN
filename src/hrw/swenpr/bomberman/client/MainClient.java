@@ -45,6 +45,8 @@ public class MainClient extends JFrame {
 	
 	private boolean isAdmin = false;
 	private int userID;
+	private String username;
+	private UserColor color;
 
 	private Socket socket;
 
@@ -121,6 +123,8 @@ public class MainClient extends JFrame {
 		
 			// send login message to server with entered username and color
 			com.sendMessage(new Login(name.getText(), ret));
+			username = name.getText();
+			color = ret;
 		}
 		else {
 			// socket creation failed -> exit software
@@ -167,6 +171,7 @@ public class MainClient extends JFrame {
 	 */
 	public void showLevelDialog()
 	{
+		//Testdata
 		ArrayList<Level> tmp = new ArrayList<Level>();
 		tmp.add(new Level("test 1", new Point(1, 2)));
 		tmp.add(new Level("test 2", new Point(1, 2)));
@@ -195,7 +200,7 @@ public class MainClient extends JFrame {
 	
 	/**
 	 * shows player a dialog where he can choose the duration of the game
-	 * only shwon if player is admin
+	 * only shown if player is admin
 	 */
 	public void showTimeDialog()
 	{
@@ -308,6 +313,7 @@ public class MainClient extends JFrame {
 	 */
 	public void setUserID(int id) {
 		this.userID = id;
+		sidebar.updateTable(new User(userID, username, 0, color));
 	}
 	
 	/**
