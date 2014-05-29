@@ -9,7 +9,7 @@ public class MainClient extends JFrame {
 	public static void main(String[] args) {
 		new MainClient();
 	}
-	
+
 	public MainClient() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Bomberman");
@@ -21,3 +21,4 @@ public class MainClient extends JFrame {
 	}
 
 }
+
