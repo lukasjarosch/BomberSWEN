@@ -3,10 +3,12 @@ package hrw.swenpr.bomberman.client;
 import hrw.swenpr.bomberman.client.listener.ButtonListener;
 import hrw.swenpr.bomberman.common.rfc.User;
 
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -40,6 +42,8 @@ public class Sidebar extends JPanel {
 	private JButton logout;
 	private ArrayList<User> users;
 	private JTable userTable;
+	private JLabel level;
+	private Font txtStyle;
 	private ButtonListener buttonListener;
 
 	public Sidebar(MainClient client) {
@@ -57,6 +61,9 @@ public class Sidebar extends JPanel {
 	private void createView() {
 		// create listener for buttons
 		buttonListener = new ButtonListener(client);
+		
+		//create font
+		txtStyle = new Font("Arial", Font.PLAIN, 15);
 		
 		// level
 		chsLevel = new JButton("Level auswählen");
@@ -81,11 +88,16 @@ public class Sidebar extends JPanel {
 		// user table
 		String[][] tmp = { {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""} };
 		userTable = new JTable(tmp, COLUMN_HEADS);
-		
+		userTable.setFont(txtStyle);
 		userTable.setShowGrid(false);
+		
+		//Label displaying the chosen level
+		level = new JLabel("Kein Level ausgewählt...");
+		level.setFont(txtStyle);
 
 		// add views
 		add(new JScrollPane(userTable));
+		add(level);
 		add(chsLevel);
 		add(chsTime);
 		add(ready);
@@ -158,5 +170,14 @@ public class Sidebar extends JPanel {
 			chsLevel.setVisible(false);
 			chsTime.setVisible(false);
 		}
+	}
+	
+	/**
+	 * Updates the name of the displayed level
+	 * @param name New level name
+	 */
+	public void updateLevel(String name)
+	{
+		level.setText("Levelname: " + name);
 	}
 }

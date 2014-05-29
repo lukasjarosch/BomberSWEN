@@ -13,6 +13,7 @@ import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -166,6 +167,12 @@ public class MainClient extends JFrame {
 	 */
 	public void showLevelDialog()
 	{
+		ArrayList<Level> tmp = new ArrayList<Level>();
+		tmp.add(new Level("test 1", new Point(1, 2)));
+		tmp.add(new Level("test 2", new Point(1, 2)));
+		tmp.add(new Level("test 3", new Point(1, 2)));
+		this.setAvailableLevel(tmp);
+		
 		// create array with level names
 		Object[] levels = new Object[model.getAvailableLevel().size()];
 		
@@ -182,6 +189,8 @@ public class MainClient extends JFrame {
 		
 		//Send message to server
 		com.sendMessage(new LevelSelection(ret));
+		
+		this.setLevel(ret);
 	}
 	
 	/**
@@ -351,10 +360,11 @@ public class MainClient extends JFrame {
 	public void setLevel(String filename)
 	{
 		model.setLevelName(filename);
+		sidebar.updateLevel(filename);
 	}
 	
 	/**
-	 * Returns the level name <br>
+	 * Returns the level name
 	 * @return Level name
 	 */
 	public String getLevelName()
