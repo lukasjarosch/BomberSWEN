@@ -201,7 +201,10 @@ public abstract class BombermanBaseModel {
 	}
 	
 	
-	protected synchronized ArrayList<UserModel> getUsers() {
+	/**
+	 * @return the users
+	 */
+	public synchronized ArrayList<UserModel> getUsers() {
 		return users;
 	}
 	
@@ -388,11 +391,11 @@ public abstract class BombermanBaseModel {
 		case USER1:
 			return 0;
 		case USER2:
-			return 0;
+			return 1;
 		case USER3:
-			return 0;
+			return 2;
 		case USER4:
-			return 0;
+			return 3;
 		default:
 			return -1;
 		}
