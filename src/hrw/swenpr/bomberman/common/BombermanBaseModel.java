@@ -33,19 +33,21 @@ public abstract class BombermanBaseModel {
 	// the logical pitch
 	protected FieldType[][] field = null;
 	// the size of the current level
-	protected Point size;
+	protected Point size = null;
 	// user arraylist with ID, color and position for each user
 	protected ArrayList<UserModel> users = new ArrayList<UserModel>();
 	// bomb arraylist
 	protected ArrayList<Bomb> bombs = new ArrayList<Bomb>();
 	// undestroyable objects arraylist
-	protected ArrayList<Point> undestroy = new ArrayList<Point>();
+	protected ArrayList<Point> indestructible = new ArrayList<Point>();
 	// destroyable objects arraylist
-	protected ArrayList<Point> destroy = new ArrayList<Point>();
+	protected ArrayList<Point> destructible = new ArrayList<Point>();
 	// builder for level file
 	protected SAXBuilder builder = new SAXBuilder();
 	// listener
 	protected Vector<BombermanListener> subscribers = new Vector<BombermanListener>();
+	// flag if level is loaded
+	protected boolean levelLoaded = false;
 	
 	/**
 	 * Specifies the field types.
@@ -63,6 +65,11 @@ public abstract class BombermanBaseModel {
 		USER4;
 	}
 	
+	/**
+	 * Creates an empty base model.
+	 */
+	public BombermanBaseModel() {}
+	
 	
 	/**
 	 * Create a model that holds all data of the game and provides the logic.
@@ -71,42 +78,60 @@ public abstract class BombermanBaseModel {
 	 * @param level the file of the level to load/play
 	 */
 	public BombermanBaseModel(ArrayList<User> users, File level) {
+		// load level
+		loadLevel(level);
+		
+		// add all players
+		for (User user: users) {
+			addPlayer(user);
+		}
+	}
+	
+	
+	/**
+	 * Loads the level from file.
+	 * 
+	 * @param level the level
+	 */
+	public synchronized void loadLevel(File level) {
 		int x = 0;
-		int y = 0; 
+		int y = 0;
 		
 		// read in level
 		try {
 			Document doc = (Document) builder.build(level);
 			Element root = doc.getRootElement();
-			
+
 			// determine size
 			x = Integer.parseInt(root.getChild("size").getChildText("x"));
 			y = Integer.parseInt(root.getChild("size").getChildText("y"));
-			
+
 			// store on model
 			size = new Point(x, y);
-			
+
 			// read and store all undestroyable fields
-			List<Element> undestroy = root.getChild("undestroyable").getChildren();
+			List<Element> undestroy = root.getChild("undestroyable")
+					.getChildren();
 			for (Element elem : undestroy) {
-				Point p = new Point(Integer.parseInt(elem.getChildText("x")), Integer.parseInt(elem.getChildText("y")));
-				this.undestroy.add(p);
+				Point p = new Point(Integer.parseInt(elem.getChildText("x")),
+						Integer.parseInt(elem.getChildText("y")));
+				this.indestructible.add(p);
 			}
-			
+
 			// read and store all destroyable fields
 			List<Element> destroy = root.getChild("destroyable").getChildren();
 			for (Element elem : destroy) {
-				Point p = new Point(Integer.parseInt(elem.getChildText("x")), Integer.parseInt(elem.getChildText("y")));
-				this.destroy.add(p);
+				Point p = new Point(Integer.parseInt(elem.getChildText("x")),
+						Integer.parseInt(elem.getChildText("y")));
+				this.destructible.add(p);
 			}
-			
+
 		} catch (JDOMException | IOException e) {
 			// when error on level file occurred quit software
 			e.printStackTrace();
 			System.exit(0);
 		}
-		
-		
+
 		// initialize array with given range
 		field = new FieldType[x][y];
 		for (int i = 0; i < x; i++) {
@@ -115,51 +140,98 @@ public abstract class BombermanBaseModel {
 				field[i][j] = DEFAULT_FIELD;
 			}
 		}
-		
-		// set the undestroyable fields
-		for (Point p : this.undestroy) {
+
+		// set the indestructible fields
+		for (Point p : this.indestructible) {
 			field[p.x][p.y] = FieldType.UNDESTROYABLE_FIELD;
 		}
-		// set the destroyable fields
-		for (Point p : this.destroy) {
+		// set the destructible fields
+		for (Point p : this.destructible) {
 			field[p.x][p.y] = FieldType.DESTROYABLE_FIELD;
 		}
 		
-		// set users into corners
-		for (int i = 0; i < users.size(); i++) {
-			User u = users.get(i);
-			UserModel user = null;
-			
-			// each user has his predefined position
-			switch (u.getUserID()) {
+		levelLoaded = true;
+		
+		// set all current participating users to their position
+		placeUsersInCorners();
+	}
+	
+	
+	/**
+	 * Adds an user to the model. Player gets automatically placed in the predefined corner.
+	 * 
+	 * @param user the user
+	 */
+	public synchronized void addPlayer(User user) {
+		UserModel um = null;
+		int x = size.x;
+		int y = size.y;
+
+		if (levelLoaded) {
+			switch (user.getUserID()) {
 			case 0:
 				// convert User to UserModel with position
-				user = new UserModel(u, new Point(0, 0));
+				um = new UserModel(user, new Point(0, 0));
 				field[0][0] = FieldType.USER1;
 				break;
 			case 1:
 				// convert User to UserModel with position
-				user = new UserModel(u, new Point(x, 0));
+				um = new UserModel(user, new Point(x, 0));
 				field[x][0] = FieldType.USER2;
 				break;
 			case 2:
 				// convert User to UserModel with position
-				user = new UserModel(u, new Point(x, y));
+				um = new UserModel(user, new Point(x, y));
 				field[x][y] = FieldType.USER3;
 				break;
 			case 3:
 				// convert User to UserModel with position
-				user = new UserModel(u, new Point(0, y));
+				um = new UserModel(user, new Point(0, y));
 				field[0][y] = FieldType.USER4;
 				break;
 			default:
 				break;
 			}
-			
-			// finally add the new user to array
-			this.users.add(user);
+		} else {
+			um = new UserModel(user, null);
+		}
+		
+		// add user to model
+		users.add(um);
+	}
+	
+	
+	/**
+	 * Should be called when a level is loaded to place all user into their predefined corners.
+	 */
+	protected synchronized void placeUsersInCorners() {
+		int x = size.x;
+		int y = size.y;
+		
+		for(UserModel user: users) {
+			switch (user.getUserID()) {
+			case 0:
+				user.setPosition(new Point(0, 0));
+				field[0][0] = FieldType.USER1;
+				break;
+			case 1:
+				user.setPosition(new Point(x, 0));
+				field[x][0] = FieldType.USER2;
+				break;
+			case 2:
+				user.setPosition(new Point(x, y));
+				field[x][y] = FieldType.USER3;
+				break;
+			case 3:
+				user.setPosition(new Point(0, y));
+				field[0][y] = FieldType.USER4;
+				break;
+			default:
+				break;
+			}
 		}
 	}
+	
 	
 	/**
 	 * Tries to move a player to given position.
@@ -449,5 +521,20 @@ public abstract class BombermanBaseModel {
 		for (BombermanListener listener: subscribers) {
 			listener.bombExplode(new BombEvent(this, userID, type, position, explosion));
 		}
+	}
+	
+	/**
+	 * @return true when level is loaded
+	 */
+	public synchronized boolean isLevelLoaded() {
+		return levelLoaded;
+	}
+	
+	
+	/**
+	 * @param loaded the new levelLoaded state
+	 */
+	protected synchronized void setLevelLoaded(boolean loaded) {
+		levelLoaded = loaded;
 	}
 }
