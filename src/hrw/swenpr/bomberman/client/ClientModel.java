@@ -20,6 +20,11 @@ public class ClientModel extends BombermanBaseModel
 	private ArrayList<Level> level;
 	
 	/**
+	 * Stores the name of the chosen level
+	 */
+	private String filename;
+	
+	/**
 	 * Sets a list of new level
 	 * @param level List with available levels
 	 */
@@ -49,5 +54,24 @@ public class ClientModel extends BombermanBaseModel
 			if(usr.getUserID() == user.getUserID())
 				users.remove(usr);
 		}
+	}
+	
+	/**
+	 * Sets level name
+	 * @param filename Level name
+	 */
+	public void setLevelName(String filename) 
+	{
+		this.filename = filename;
+		
+	}
+	
+	/**
+	 * Returns the level name
+	 * @return Level name
+	 */
+	public String getLevelName()
+	{
+		return filename;
 	}
 }
