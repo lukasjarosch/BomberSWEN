@@ -90,7 +90,7 @@ public class MainClient extends JFrame {
 		add(field);
 		
 		// show login dialog
-//		this.showLogin();
+		this.showLogin();
 		
 		setVisible(true);
 	}
@@ -307,9 +307,17 @@ public class MainClient extends JFrame {
 	 */
 	public void playerDead(User usr)
 	{
+		
+	}
+	
+	/**
+	 * Removes a player which left the game due to a bad connection
+	 * @param usr Dead player
+	 */
+	public void playerLeft(User usr)
+	{
 		model.removePlayer(usr);
 	}
-
 	/**
 	 * is called when the game starts
 	 */
