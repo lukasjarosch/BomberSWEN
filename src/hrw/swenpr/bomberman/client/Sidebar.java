@@ -62,6 +62,8 @@ public class Sidebar extends JPanel {
 		// create listener for buttons
 		buttonListener = new ButtonListener(client);
 		
+		users = new ArrayList<User>();
+		
 		//create font
 		txtStyle = new Font("Arial", Font.PLAIN, 15);
 		
@@ -123,18 +125,16 @@ public class Sidebar extends JPanel {
 			}
 		}
 
-		String[][] content = new String[users.size()][3];
-
 		for (int i = 0; i < users.size(); i++) {
 			// enlist position
-			content[i][0] = Integer.toString(i + 1);
+			userTable.setValueAt(Integer.toString(i + 1), i, 0);
 			// enlist username in first column
-			content[i][1] = users.get(i).getUsername();
+			userTable.setValueAt(users.get(i).getUsername(), i, 1);
 			// enlist userscore in second column
-			content[i][2] = Integer.toString(users.get(i).getScore());
+			userTable.setValueAt(users.get(i).getScore(), i, 2);
 		}
 
-		userTable = new JTable(content, COLUMN_HEADS);
+		userTable.repaint();
 	}
 	
 	
