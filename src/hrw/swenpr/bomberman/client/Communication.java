@@ -5,10 +5,12 @@ import hrw.swenpr.bomberman.common.rfc.ErrorMessage;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType;
 import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
+import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -79,7 +81,9 @@ public class Communication extends Thread {
 					break;
 							
 				case LEVEL_FILE:
-					
+					File tmp = new File("." + File.separator + "Levels" + File.separator + client.getLevelName());
+					((LevelFile) msg).writeLevelFile(tmp);
+					client.getLevelFile(tmp);
 					break;
 					
 				case GAME_START:

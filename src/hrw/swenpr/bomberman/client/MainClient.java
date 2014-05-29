@@ -13,7 +13,7 @@ import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
+import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -333,5 +333,32 @@ public class MainClient extends JFrame {
 	public void setAvailableLevel(ArrayList<Level> level)
 	{
 		model.setLevels(level);
+	}
+	
+	/**
+	 * Transfers the level into the model
+	 * @param level Level on which the round is played on
+	 */
+	public void getLevelFile(File level)
+	{
+		model.loadLevel(level);
+	}
+	
+	/**
+	 * Sets the name of the level which is chosen by the admin
+	 * @param filename Level name
+	 */
+	public void setLevel(String filename)
+	{
+		model.setLevelName(filename);
+	}
+	
+	/**
+	 * Returns the level name <br>
+	 * @return Level name
+	 */
+	public String getLevelName()
+	{
+		return model.getLevelName();
 	}
 }
