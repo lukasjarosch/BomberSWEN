@@ -75,7 +75,7 @@ public class MainClient extends JFrame {
 		
 		this.addKeyListener(new GameKeyListener(this));
 		
-		sidebar = new Sidebar();
+		sidebar = new Sidebar(this);
 		field = new Field();
 		
 		add(sidebar, BorderLayout.EAST);

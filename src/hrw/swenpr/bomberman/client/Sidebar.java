@@ -32,6 +32,7 @@ public class Sidebar extends JPanel {
 	public static final String CHOOSE_TIME = "chooseTime";
 	public static final String CHOOSE_LEVEL = "chooseLevel";
 	
+	private MainClient client;
 	private JButton chsLevel;
 	private JButton chsTime;
 	private JButton ready;
@@ -40,7 +41,9 @@ public class Sidebar extends JPanel {
 	private JTable userTable;
 	private ButtonListener buttonListener;
 
-	public Sidebar() {
+	public Sidebar(MainClient client) {
+		this.client = client;
+		
 		// create vertical layout
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
@@ -52,7 +55,7 @@ public class Sidebar extends JPanel {
 	 */
 	private void createView() {
 		// create listener for buttons
-		buttonListener = new ButtonListener();
+		buttonListener = new ButtonListener(client);
 		
 		// level
 		chsLevel = new JButton("Level auswählen");

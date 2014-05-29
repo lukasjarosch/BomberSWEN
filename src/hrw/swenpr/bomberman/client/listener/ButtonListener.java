@@ -9,7 +9,11 @@ import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
 
-	private MainClient client = MainClient.getInstance();
+	private MainClient client;
+	
+	public ButtonListener(MainClient client) {
+		this.client = client;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
