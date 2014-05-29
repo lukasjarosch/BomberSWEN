@@ -4,6 +4,7 @@ import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType;
 import hrw.swenpr.bomberman.common.rfc.Header;
+import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
@@ -14,7 +15,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * With this class the communication with the server is done.
+ * In this class the communication with the server is done.
  * 
  * @author Daniel Hofer
  * @author Marco Egger
@@ -74,7 +75,7 @@ public class Communication extends Thread {
 					break;
 					
 				case LEVEL_AVAILABLE:
-					
+					client.setAvailableLevel(((LevelAvailable) msg).getLevel());
 					break;
 							
 				case LEVEL_FILE:
