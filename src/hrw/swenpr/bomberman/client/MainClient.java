@@ -35,6 +35,7 @@ public class MainClient extends JFrame {
 	private Communication com;
 	private Sidebar sidebar;
 	private Field field;
+	private ClientModel model;
 	
 	private boolean isAdmin = false;
 	private int userID;
@@ -63,6 +64,8 @@ public class MainClient extends JFrame {
 	 * Default constructor for main window.
 	 */
 	public MainClient() {
+		model = new ClientModel();
+		
 		// setting up JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Bomberman");
@@ -153,18 +156,10 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * logs player out
-	 */
-	public void logout()
-	{
-		
-	}
-	
-	/**
 	 * shows player a dialog where he can choose a level
 	 * only shown if player is admin
 	 */
-	public void showLevelialog()
+	public void showLevelDialog()
 	{
 	
 	}
@@ -189,12 +184,33 @@ public class MainClient extends JFrame {
 	
 	/**
 	 * called when a round ends
-	 * @param usr array with data of each user
 	 */
-	public void roundEnd()
+	public void roundFinish()
 	{
 		
 	
+	}
+	
+	/**
+	 * called when a round starts
+	 */
+	public void roundStart()
+	{
+		
+	}
+	
+	public void startGame()
+	{
+		
+	}
+	
+	/**
+	 * Sets the time of the hole game
+	 * @param time
+	 */
+	public void setTime(int time)
+	{
+		
 	}
 	
 	/**
@@ -211,17 +227,35 @@ public class MainClient extends JFrame {
 		
 	}
 	
+	/**
+	 * Moves a player on the field
+	 * @param usrPos
+	 */
 	public void movePlayer(UserPosition usrPos)
 	{
-		
-	}
-	
-	public void setBomb(Bomb bomb)
-	{
-		
+		model.movePlayer(usrPos);
 	}
 	
 	/**
+	 * Adds a user to the game
+	 * @param usr User that is added
+	 */
+	public void addPlayer(User usr)
+	{
+		this.model.addPlayer(usr);
+	}
+	
+	/**
+	 * Sets a new bomb in the game model
+	 * @param bomb Bomb that is set in the model
+	 */
+	public void setBomb(Bomb bomb)
+	{
+		this.model.setBomb(bomb);
+	}
+	
+	/**
+	 * Returns the userID
 	 * @return the userID
 	 */
 	public int getUserID()
@@ -229,6 +263,10 @@ public class MainClient extends JFrame {
 		return userID;
 	}
 	
+	/**
+	 * Sets the user id
+	 * @param id
+	 */
 	public void setUserID(int id) {
 		this.userID = id;
 	}
@@ -238,7 +276,19 @@ public class MainClient extends JFrame {
 		
 	}
 	
-	public void playerDead(int id)
+	/**
+	 * Removes a dead player
+	 * @param usr Dead player
+	 */
+	public void playerDead(User usr)
+	{
+		model.removePlayer(usr);
+	}
+
+	/**
+	 * is called when the game starts
+	 */
+	public void gameStart() 
 	{
 		
 	}

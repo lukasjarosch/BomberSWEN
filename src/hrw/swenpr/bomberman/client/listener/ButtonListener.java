@@ -19,12 +19,12 @@ public class ButtonListener implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		// choose level
 		if(event.getActionCommand() == Sidebar.CHOOSE_LEVEL) {
-			// TODO show dialog to choose level
+			client.showLevelDialog();
 		}
 		
 		// choose time
 		if(event.getActionCommand() == Sidebar.CHOOSE_TIME) {
-			// TODO show dialog to choose time
+			client.showTimeDialog();
 		}
 		
 		// ready

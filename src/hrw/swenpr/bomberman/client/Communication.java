@@ -1,10 +1,12 @@
 package hrw.swenpr.bomberman.client;
 
+import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType;
 import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -63,9 +65,55 @@ public class Communication extends Thread {
 					
 				case USER:
 					User user = (User) msg;
+					client.addPlayer(user);
 					client.getSidebar().updateTable(user);
 					break;
-
+					
+				case LEVEL_SELECTION:
+					
+					break;
+					
+				case LEVEL_AVAILABLE:
+					
+					break;
+							
+				case LEVEL_FILE:
+					
+					break;
+					
+				case GAME_START:
+					client.gameStart();
+					break;
+					
+				case ROUND_START:
+					client.roundStart();
+					break;
+					
+				case ROUND_FINISHED:
+					client.roundFinish();
+					break;
+					
+				case GAME_OVER:
+					
+					break;
+	
+				case USER_POSITION:
+					client.movePlayer((UserPosition) msg);
+					break;
+					
+				case USER_DEAD:
+					client.playerDead((User) msg);
+					break;
+					
+				case BOMB:
+					Bomb bomb = (Bomb) msg;
+					client.setBomb(bomb);
+					break;
+					
+				case OBJECT_DESTROYED:
+					
+					break;
+				
 				case ERROR_MESSAGE:
 					ErrorMessage error = (ErrorMessage) msg;
 					
