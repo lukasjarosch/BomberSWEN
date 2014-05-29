@@ -5,6 +5,7 @@ import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.Login;
+import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
@@ -170,7 +171,17 @@ public class MainClient extends JFrame {
 	 */
 	public void showTimeDialog()
 	{
+		// create textfield and color array
+		Object[] time = {5, 10, 15};
 		
+		//Creating the message
+		Object message = "Wählen Sie die Spieldauer in Minuten aus:";
+		
+		// show dialog
+		int ret = (int) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, time, time[0]);
+		
+		//Send message to server
+		com.sendMessage(new TimeSelection(ret));
 	}
 	
 	/**
