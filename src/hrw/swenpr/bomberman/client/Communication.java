@@ -6,6 +6,7 @@ import hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType;
 import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LevelFile;
+import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
@@ -73,7 +74,7 @@ public class Communication extends Thread {
 					break;
 					
 				case LEVEL_SELECTION:
-					
+					client.setLevel(((LevelSelection) msg).getFilename());
 					break;
 					
 				case LEVEL_AVAILABLE:
