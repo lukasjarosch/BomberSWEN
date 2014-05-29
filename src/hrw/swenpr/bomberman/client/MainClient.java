@@ -62,7 +62,7 @@ public class MainClient extends JFrame {
 	/**
 	 * Default constructor for main window.
 	 */
-	private MainClient() {
+	public MainClient() {
 		// setting up JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Bomberman");
@@ -82,7 +82,7 @@ public class MainClient extends JFrame {
 		add(field);
 		
 		// show login dialog
-		this.showLogin();
+//		this.showLogin();
 		
 		setVisible(true);
 	}
@@ -179,7 +179,7 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * getter for fiel
+	 * Returns the field
 	 * @return returns instance of the field
 	 */
 	public Field getField()

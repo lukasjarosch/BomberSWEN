@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 /**
@@ -78,11 +79,13 @@ public class Sidebar extends JPanel {
 		logout.addActionListener(buttonListener);
 		
 		// user table
-		userTable = new JTable(null, COLUMN_HEADS);
+		String[][] tmp = { {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""} };
+		userTable = new JTable(tmp, COLUMN_HEADS);
+		
 		userTable.setShowGrid(false);
 
 		// add views
-		add(userTable);
+		add(new JScrollPane(userTable));
 		add(chsLevel);
 		add(chsTime);
 		add(ready);
@@ -108,7 +111,7 @@ public class Sidebar extends JPanel {
 			}
 		}
 
-		String[][] content = new String[users.size()][];
+		String[][] content = new String[users.size()][3];
 
 		for (int i = 0; i < users.size(); i++) {
 			// enlist position
