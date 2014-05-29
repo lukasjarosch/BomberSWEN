@@ -4,6 +4,8 @@ package hrw.swenpr.bomberman.client;
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
+import hrw.swenpr.bomberman.common.rfc.Level;
+import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.Login;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
@@ -11,7 +13,9 @@ import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -162,7 +166,22 @@ public class MainClient extends JFrame {
 	 */
 	public void showLevelDialog()
 	{
-	
+		// create array with level names
+		Object[] levels = new Object[model.getAvailableLevel().size()];
+		
+		for(int i = 0; i < levels.length; i++)
+		{
+			levels[i] = model.getAvailableLevel().get(i).getFilename();
+		}
+		
+		//create the message
+		Object message = "Wählen Sie das Level aus:";
+		
+		// show dialog
+		String ret = (String) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, levels, levels[0]);
+		
+		//Send message to server
+		com.sendMessage(new LevelSelection(ret));
 	}
 	
 	/**
@@ -171,10 +190,10 @@ public class MainClient extends JFrame {
 	 */
 	public void showTimeDialog()
 	{
-		// create textfield and color array
+		// create array with play times
 		Object[] time = {5, 10, 15};
 		
-		//Creating the message
+		//create the message
 		Object message = "Wählen Sie die Spieldauer in Minuten aus:";
 		
 		// show dialog
@@ -282,11 +301,6 @@ public class MainClient extends JFrame {
 		this.userID = id;
 	}
 	
-	public void pickUpSpecialItem()
-	{
-		
-	}
-	
 	/**
 	 * Removes a dead player
 	 * @param usr Dead player
@@ -302,5 +316,14 @@ public class MainClient extends JFrame {
 	public void gameStart() 
 	{
 		
+	}
+	
+	/**
+	 * Adds a list of levels to the game
+	 * @param level {@link ArrayList} of new levels
+	 */
+	public void setAvailableLevel(ArrayList<Level> level)
+	{
+		model.setLevels(level);
 	}
 }
