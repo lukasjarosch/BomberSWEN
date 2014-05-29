@@ -201,6 +201,11 @@ public abstract class BombermanBaseModel {
 	}
 	
 	
+	protected synchronized ArrayList<UserModel> getUsers() {
+		return users;
+	}
+	
+	
 	/**
 	 * Should be called when a level is loaded to place all user into their predefined corners.
 	 */
