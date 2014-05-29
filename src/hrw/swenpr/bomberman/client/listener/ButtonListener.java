@@ -34,7 +34,7 @@ public class ButtonListener implements ActionListener {
 		}
 		
 		// logout
-		if(event.getActionCommand() == Sidebar.READY) {
+		if(event.getActionCommand() == Sidebar.LOGOUT) {
 			// quit software
 			System.exit(0);
 		}
