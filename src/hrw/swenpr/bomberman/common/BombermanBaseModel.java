@@ -36,12 +36,10 @@ public abstract class BombermanBaseModel {
 	protected Point size = null;
 	// user arraylist with ID, color and position for each user
 	protected ArrayList<UserModel> users = new ArrayList<UserModel>();
-	// bomb arraylist
-	protected ArrayList<Bomb> bombs = new ArrayList<Bomb>();
 	// undestroyable objects arraylist
 	protected ArrayList<Point> indestructible = new ArrayList<Point>();
 	// destroyable objects arraylist
-	protected ArrayList<Point> destructible = new ArrayList<Point>();
+	protected ArrayList<Destructible> destructible = new ArrayList<Destructible>();
 	// builder for level file
 	protected SAXBuilder builder = new SAXBuilder();
 	// listener
@@ -58,7 +56,11 @@ public abstract class BombermanBaseModel {
 		PLAIN_FIELD,
 		DESTROYABLE_FIELD,
 		UNDESTROYABLE_FIELD,
-		BOMB,
+		NORMAL_BOMB,
+		SUPER_BOMB,
+		MEGA_BOMB,
+		ITEM_SUPER_BOMB,
+		ITEM_MEGA_BOMB,
 		USER1,
 		USER2,
 		USER3,
@@ -121,9 +123,10 @@ public abstract class BombermanBaseModel {
 			// read and store all destroyable fields
 			List<Element> destroy = root.getChild("destroyable").getChildren();
 			for (Element elem : destroy) {
-				Point p = new Point(Integer.parseInt(elem.getChildText("x")),
-						Integer.parseInt(elem.getChildText("y")));
-				this.destructible.add(p);
+				Destructible destruct = new Destructible(new Point(Integer.parseInt(elem.getChildText("x")), Integer.parseInt(elem.getChildText("y"))));
+				destruct.setItem(Integer.parseInt(elem.getChildText("item")));
+				
+				this.destructible.add(destruct);
 			}
 
 		} catch (JDOMException | IOException e) {
@@ -146,8 +149,8 @@ public abstract class BombermanBaseModel {
 			field[p.x][p.y] = FieldType.UNDESTROYABLE_FIELD;
 		}
 		// set the destructible fields
-		for (Point p : this.destructible) {
-			field[p.x][p.y] = FieldType.DESTROYABLE_FIELD;
+		for (Destructible dest : this.destructible) {
+			field[dest.getPosition().x][dest.getPosition().y] = FieldType.DESTROYABLE_FIELD;
 		}
 		
 		levelLoaded = true;
@@ -277,7 +280,23 @@ public abstract class BombermanBaseModel {
 	 * @param bomb
 	 */
 	public synchronized void setBomb(final Bomb bomb) {
-		bombs.add(bomb);
+		// set field to bomb
+		switch (bomb.getBombType()) {
+		case NORMAL_BOMB:
+			setField(bomb.getPosition(), FieldType.NORMAL_BOMB);
+			break;
+			
+		case SUPER_BOMB:
+			setField(bomb.getPosition(), FieldType.SUPER_BOMB);
+			break;
+			
+		case MEGA_BOMB:
+			setField(bomb.getPosition(), FieldType.MEGA_BOMB);
+			break;
+
+		default:
+			break;
+		}
 		
 		// create timer task
 		Timer timer = new Timer();
@@ -285,6 +304,7 @@ public abstract class BombermanBaseModel {
 			
 			@Override
 			public void run() {
+				// trigger event when bomb explodes
 				onBombEvent(bomb.getUserID(), bomb.getBombType(), bomb.getPosition(), getExplosion(bomb));
 			}
 		}, bomb.getTime());
@@ -544,5 +564,55 @@ public abstract class BombermanBaseModel {
 	 */
 	protected synchronized void setLevelLoaded(boolean loaded) {
 		levelLoaded = loaded;
+	}
+	
+	
+	/**
+	 * <p>Class for destructible objects. It holds the position and the special item.
+	 * <p>item types:<br>
+	 * • 0: no special item<br>
+	 * • 1: super bomb<br>
+	 * • 2: mega bomb<br>
+	 * 
+	 * @author Marco Egger
+	 */
+	public class Destructible {
+		private Point position;
+		private int item;
+		
+		/**
+		 * Initialize a destructible object. Special item set to zero (no special item).
+		 * 
+		 * @param position the position
+		 */
+		public Destructible(Point position) {
+			this.position = position;
+			this.item = 0;
+		}
+		
+		/**
+		 * @return the position
+		 */
+		public Point getPosition() {
+			return position;
+		}
+		/**
+		 * @param position the position to set
+		 */
+		public void setPosition(Point position) {
+			this.position = position;
+		}
+		/**
+		 * @return the item
+		 */
+		public int getItem() {
+			return item;
+		}
+		/**
+		 * @param item the item to set
+		 */
+		public void setItem(int item) {
+			this.item = item;
+		}
 	}
 }

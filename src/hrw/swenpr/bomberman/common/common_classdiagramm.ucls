@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="hrw.swenpr.bomberman.common.rfc.LevelAvailable" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LevelAvailable.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="982" y="612"/>    
+    <position height="-1" width="-1" x="1165" y="592"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="hrw.swenpr.bomberman.common.rfc.UserReady" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/UserReady.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="933" y="486"/>    
+    <position height="-1" width="-1" x="938" y="484"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="hrw.swenpr.bomberman.common.rfc.LevelSelection" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LevelSelection.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1350" y="632"/>    
+    <position height="-1" width="-1" x="1473" y="593"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -93,7 +93,7 @@
   </class>  
   <class id="11" language="java" name="hrw.swenpr.bomberman.common.rfc.ErrorMessage" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/ErrorMessage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1841" y="568"/>    
+    <position height="-1" width="-1" x="1948" y="575"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -138,7 +138,7 @@
   </class>  
   <class id="16" language="java" name="hrw.swenpr.bomberman.common.rfc.Bomb" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/Bomb.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1657" y="635"/>    
+    <position height="-1" width="-1" x="1761" y="641"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -147,7 +147,7 @@
   </class>  
   <class id="17" language="java" name="hrw.swenpr.bomberman.common.rfc.LoginOk" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LoginOk.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="961" y="351"/>    
+    <position height="-1" width="-1" x="939" y="346"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -157,7 +157,7 @@
   <enumeration id="18" language="java" name="hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType" 
     project="BomberSWEN" file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/ErrorMessage.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1900" y="736"/>    
+    <position height="-1" width="-1" x="1951" y="737"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -166,7 +166,7 @@
   </enumeration>  
   <class id="19" language="java" name="hrw.swenpr.bomberman.common.rfc.TimeSelection" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/TimeSelection.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1503" y="626"/>    
+    <position height="-1" width="-1" x="1608" y="589"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -175,7 +175,7 @@
   </class>  
   <class id="20" language="java" name="hrw.swenpr.bomberman.common.rfc.LevelFile" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/LevelFile.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1176" y="612"/>    
+    <position height="-1" width="-1" x="1330" y="596"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -193,7 +193,7 @@
   </enumeration>  
   <class id="22" language="java" name="hrw.swenpr.bomberman.common.rfc.Level" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/Level.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="940" y="771"/>    
+    <position height="-1" width="-1" x="1169" y="755"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -209,10 +209,15 @@
       <operations public="true" package="true" protected="true" private="false" static="true"/>    
     </display>  
   </enumeration>  
-  <generalization id="24">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
+  <class id="24" language="java" name="hrw.swenpr.bomberman.common.rfc.UserRemove" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/common/rfc/UserRemove.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="958" y="616"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="false" static="true"/>    
+    </display>  
+  </class>  
   <association id="25">    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="26" name="color"/>      
@@ -222,83 +227,79 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization id="28">    
-    <end type="SOURCE" refId="19"/>    
+    <end type="SOURCE" refId="20"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <generalization id="29">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <generalization id="30">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <generalization id="31">    
-    <end type="SOURCE" refId="16"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <generalization id="32">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="33">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="34" name="type"/>      
-      <multiplicity id="35" minimum="0" maximum="1"/>    
+  <association id="29">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="30" name="subtype"/>      
+      <multiplicity id="31" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="21" navigable="true"/>    
+    <end type="TARGET" refId="18" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="36">    
-    <end type="SOURCE" refId="10"/>    
+  <generalization id="32">    
+    <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <nesting id="37">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="18"/>  
-  </nesting>  
-  <generalization id="38">    
-    <end type="SOURCE" refId="11"/>    
+  <generalization id="33">    
+    <end type="SOURCE" refId="17"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <nesting id="39">    
+  <nesting id="34">    
     <end type="SOURCE" refId="13"/>    
     <end type="TARGET" refId="23"/>  
   </nesting>  
-  <association id="40">    
+  <generalization id="35">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="36">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="41" name="level"/>      
-      <multiplicity id="42" minimum="0" maximum="2147483647"/>    
+      <attribute id="37" name="level"/>      
+      <multiplicity id="38" minimum="0" maximum="2147483647"/>    
     </end>    
     <end type="TARGET" refId="22" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <generalization id="39">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="40">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="41">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <nesting id="42">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="18"/>  
+  </nesting>  
   <generalization id="43">    
-    <end type="SOURCE" refId="9"/>    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <generalization id="44">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="45">    
+  <association id="44">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="45" name="type"/>      
+      <multiplicity id="46" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="47">    
     <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="46" name="color"/>      
-      <multiplicity id="47" minimum="0" maximum="1"/>    
+      <attribute id="48" name="color"/>      
+      <multiplicity id="49" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="23" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="48">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <generalization id="49">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
   <generalization id="50">    
-    <end type="SOURCE" refId="14"/>    
+    <end type="SOURCE" refId="24"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
   <generalization id="51">    
@@ -306,21 +307,33 @@
     <end type="TARGET" refId="6"/>  
   </generalization>  
   <generalization id="52">    
-    <end type="SOURCE" refId="1"/>    
+    <end type="SOURCE" refId="19"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
   <generalization id="53">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="54">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="55">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="56">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="57">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="58">    
     <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <association id="54">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="55" name="subtype"/>      
-      <multiplicity id="56" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="18" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <classifier-display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

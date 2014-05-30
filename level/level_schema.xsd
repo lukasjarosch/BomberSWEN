@@ -10,7 +10,7 @@
 			</xs:sequence>
 		  </xs:complexType>
 		</xs:element>
-        <xs:element name="undestroyable">
+        <xs:element name="indestructible">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="position" maxOccurs="unbounded" minOccurs="3">
@@ -25,7 +25,7 @@
             <xs:attribute type="xs:positiveInteger" name="count"/>
           </xs:complexType>
         </xs:element>
-        <xs:element name="destroyable">
+        <xs:element name="destructible">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="position" maxOccurs="unbounded" minOccurs="3">
@@ -33,6 +33,7 @@
                   <xs:sequence>
                     <xs:element type="xs:positiveInteger" name="x"/>
                     <xs:element type="xs:positiveInteger" name="y"/>
+                    <xs:element type="xs:byte" name="item"/>
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>

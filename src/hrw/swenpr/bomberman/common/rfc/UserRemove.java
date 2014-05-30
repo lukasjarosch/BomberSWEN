@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * <p> C <=> S
- * {@link UserRemove} is sent from a client to the server, when he leaves the game/closes the software.
+ * <p>{@link UserRemove} is sent from a client to the server, when he leaves the game/closes the software.
  * The server forwards this message to the other clients to update the user tables.
  * 
  * @author Marco Egger
