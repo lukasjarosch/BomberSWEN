@@ -5,6 +5,8 @@ import hrw.swenpr.bomberman.common.rfc.User;
 
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -12,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  * <p>Provides information to the user e.g. users and their scores. Also for the admin selection for the level and time.
@@ -26,6 +29,8 @@ public class Sidebar extends JPanel {
 	private static final long serialVersionUID = 3L;
 
 	private static final String COLUMN_HEADS[] = { "Position", "Name", "Points" };
+	
+	private static final String TIME_REMAINING_HEADER = "Verbleibende Zeit:\n";
 
 	/**
 	 * Action commands.
@@ -37,7 +42,6 @@ public class Sidebar extends JPanel {
 	
 	private MainClient client;
 	private JButton chsLevel;
-	private JButton chsTime;
 	private JButton ready;
 	private JButton logout;
 	private ArrayList<User> users;
@@ -45,7 +49,21 @@ public class Sidebar extends JPanel {
 	private JLabel level;
 	private Font txtStyle;
 	private ButtonListener buttonListener;
+	
+	/*
+	 *  game timer components
+	 */
+	private JButton chsTime;
+	private JTextField timeTextField;
+	private long timeRemaining = 0; // remaining time in seconds
+	private Timer timer = new Timer();
+	private TimerTask timerTask = null;
 
+	/**
+	 * Create a sidebar.
+	 * 
+	 * @param client the instance of {@link MainClient}
+	 */
 	public Sidebar(MainClient client) {
 		this.client = client;
 		
@@ -77,6 +95,9 @@ public class Sidebar extends JPanel {
 		chsTime.setActionCommand(CHOOSE_TIME);
 		chsTime.addActionListener(buttonListener);
 		
+		// time remaining
+		timeTextField = new JTextField(TIME_REMAINING_HEADER + "Spiel noch nicht gestartet");
+		
 		// ready
 		ready = new JButton("bereit");
 		ready.setActionCommand(READY);
@@ -98,6 +119,7 @@ public class Sidebar extends JPanel {
 		level.setFont(txtStyle);
 
 		// add views
+		add(timeTextField);
 		add(new JScrollPane(userTable));
 		add(level);
 		add(chsLevel);
@@ -179,5 +201,48 @@ public class Sidebar extends JPanel {
 	public void updateLevel(String name)
 	{
 		level.setText("Levelname: " + name);
+	}
+	
+	/**
+	 * Set the timeRemaining text field.
+	 * 
+	 * @param minutes the minutes (5, 10, 15)
+	 */
+	public void setTime(int minutes) {
+		timeTextField.setText(TIME_REMAINING_HEADER + minutes + " Minuten");
+		// convert minutes to seconds
+		timeRemaining = minutes * 60;
+	}
+	
+	
+	/**
+	 * Start the timer of the game.
+	 */
+	public void startTimer() {
+		// if old running instance exists -> cancel
+		if(timerTask != null)
+			timerTask.cancel();
+		
+		timerTask = new TimerTask() {
+			
+			@Override
+			public void run() {
+				timeRemaining--;
+				
+				int minutes = (int) timeRemaining / 60;
+				int seconds = (int) timeRemaining - minutes * 60;
+				
+				timeTextField.setText(TIME_REMAINING_HEADER + minutes + ":" + seconds);
+			}
+		};
+		timer.scheduleAtFixedRate(timerTask, 1000L, 1000L);
+	}
+	
+	/**
+	 * Stops the timer of the game.
+	 */
+	public void stopTimer() {
+		if(timerTask != null)
+			timerTask.cancel();
 	}
 }

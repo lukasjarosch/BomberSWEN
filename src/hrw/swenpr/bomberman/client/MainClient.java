@@ -4,9 +4,12 @@ package hrw.swenpr.bomberman.client;
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
+import hrw.swenpr.bomberman.common.rfc.GameStart;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.Login;
+import hrw.swenpr.bomberman.common.rfc.RoundFinished;
+import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
@@ -227,43 +230,48 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * called when a round ends
+	 * Called when {@link RoundStart} message received and the next round is
+	 * about to start or the complete game starts.
 	 */
-	public void roundFinish()
-	{
-		
-	
+	public void roundStart() {
+		sidebar.startTimer();
 	}
 	
 	/**
-	 * called when a round starts
+	 * Called when {@link RoundFinished} message received and the current round
+	 * ends or the complete game ends.
 	 */
-	public void roundStart()
-	{
-		
+	public void roundFinish() {
+		sidebar.stopTimer();
 	}
-	
-	public void startGame()
-	{
-		
-	}
-	
+
 	/**
-	 * Sets the time of the hole game
-	 * @param time
+	 * Called when {@link GameStart} message received and game is about to
+	 * start.
 	 */
-	public void setTime(int time)
-	{
-		
+	public void startGame() {
+		// when game start message received also trigger round start
+		roundStart();
 	}
 	
 	/**
 	 * called when game is finished
 	 * @param usr array with data of each user
 	 */
-	public void gameEnd(User usr[])
+	public void endGame(User usr[])
 	{
+		// when game end message received also trigger round end
+		roundFinish();
 		new Result(null, null, null, 0, this);
+	}
+	
+	/**
+	 * Set the time of the complete game.
+	 * 
+	 * @param time in minutes
+	 */
+	public void setTime(int time) {
+		sidebar.setTime(time);
 	}
 	
 	public void showUser(User usr[])
@@ -332,13 +340,6 @@ public class MainClient extends JFrame {
 	public void playerLeft(User usr)
 	{
 		model.removePlayer(usr);
-	}
-	/**
-	 * is called when the game starts
-	 */
-	public void gameStart() 
-	{
-		
 	}
 	
 	/**

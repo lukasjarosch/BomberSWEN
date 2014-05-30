@@ -88,7 +88,7 @@ public class Communication extends Thread {
 					break;
 					
 				case GAME_START:
-					client.gameStart();
+					client.startGame();
 					break;
 					
 				case ROUND_START:
@@ -114,10 +114,6 @@ public class Communication extends Thread {
 				case BOMB:
 					Bomb bomb = (Bomb) msg;
 					client.setBomb(bomb);
-					break;
-					
-				case OBJECT_DESTROYED:
-					
 					break;
 				
 				case ERROR_MESSAGE:
