@@ -1,7 +1,9 @@
 package hrw.swenpr.bomberman.server;
 
 import hrw.swenpr.bomberman.common.ServerConnection;
+import hrw.swenpr.bomberman.common.rfc.Login;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
+import hrw.swenpr.bomberman.server.thread.LoginThread;
 import hrw.swenpr.bomberman.server.view.MainWindow;
 
 import javax.swing.JFrame;
@@ -30,7 +32,15 @@ public class Server extends JFrame {
 	 */
 	private static ServerConnection connection;
 
+	/**
+	 * The default port on which the socket will listen on
+	 */
 	public static final int DEFAULT_PORT = 6969;
+	
+	/**
+	 * The {@link LoginThread}
+	 */
+	private static LoginThread loginThread = new LoginThread();
 	
 	/**
 	 * Application main method
@@ -55,21 +65,48 @@ public class Server extends JFrame {
 		mainWindow = new MainWindow();		
 		
 		// Start logging console
-		MainWindow.log(new LogMessage(LEVEL.NONE, "----- Server application started -----"));
+		MainWindow.log(new LogMessage(LEVEL.NONE, "## Server ready :)"));
 		
-		// Create communication
-		Server.communication = new Communication();
-		
+		Server.prepare();
+	}
+	
+	/**
+	 * Prepare the Server for startup
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public static void prepare() {
+
 		// Create ServerConnection
 		Server.connection = new ServerConnection(DEFAULT_PORT);
-		
+
+		// Create communication
+		Server.communication = new Communication();
+
 		// Instantiate the server model
-		
-		// Start the login thread
-		
-		// Register the ServerListener
+		Server.model = new ServerModel();
 	}
 
+	/**
+	 * Start the server to accept connections
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public static void start() {
+		
+		// Start LoginThread
+		Server.loginThread.start();
+	}
+	
+	/**
+	 * Shut the server down and prepare to be restarted
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public static void shutdown() {
+		loginThread = new LoginThread();
+	}
+	
 	/**
 	 * Fetch the server model
 	 * 
@@ -104,5 +141,13 @@ public class Server extends JFrame {
 	 */
 	public static ServerConnection getConnection() {
 		return connection;
+	}
+
+	public static LoginThread getLoginThread() {
+		return loginThread;
+	}
+
+	public static void setLoginThread(LoginThread loginThread) {
+		Server.loginThread = loginThread;
 	}
 }

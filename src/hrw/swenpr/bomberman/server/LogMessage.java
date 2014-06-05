@@ -59,7 +59,7 @@ public class LogMessage {
 		// Gather data and build string		
 		message = logMessage.trim();
 		timestampString = new SimpleDateFormat("HH:mm:ss").format(new Date());
-		logString = timestampString + " # " +  message + severity + "\n";
+		logString = timestampString + " ~ " +  message + severity + "\n";
 	}
 	
 	/**
