@@ -3,6 +3,7 @@ package hrw.swenpr.bomberman.client;
 
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.ClientConnection;
+import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.GameStart;
 import hrw.swenpr.bomberman.common.rfc.Level;
@@ -14,9 +15,12 @@ import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
+import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.awt.BorderLayout;
 import java.awt.Point;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -48,8 +52,6 @@ public class MainClient extends JFrame {
 	
 	private boolean isAdmin = false;
 	private int userID;
-	private String username;
-	private UserColor color;
 
 	private Socket socket;
 
@@ -87,7 +89,7 @@ public class MainClient extends JFrame {
 		// position and show window
 		setLocationRelativeTo(null);
 		
-		this.addKeyListener(new GameKeyListener(this));
+		setListener();
 		
 		sidebar = new Sidebar(this);
 		field = new Field();
@@ -99,6 +101,19 @@ public class MainClient extends JFrame {
 		this.showLogin();
 		
 		setVisible(true);
+	}
+	
+	
+	private void setListener() {
+		addKeyListener(new GameKeyListener(this));
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosed(WindowEvent event) {
+				// send remove message when window closed
+				com.sendMessage(new UserRemove(userID));
+			}
+		});
 	}
 	
 	/**
@@ -126,8 +141,6 @@ public class MainClient extends JFrame {
 		
 			// send login message to server with entered username and color
 			com.sendMessage(new Login(name.getText(), ret));
-			username = name.getText();
-			color = ret;
 		}
 		else {
 			// socket creation failed -> exit software
@@ -289,12 +302,17 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * Adds a user to the game
+	 * Adds player in model, if he does not exist.
+	 * 
 	 * @param usr User that is added
 	 */
-	public void addPlayer(User usr)
-	{
-		this.model.addPlayer(usr);
+	public void addPlayer(User usr) {
+		for(UserModel user: model.getUsers()) {
+			if(user.getUsername().equals(usr.getUsername()))
+				return;
+		}
+		
+		model.addPlayer(usr);
 	}
 	
 	/**
@@ -321,15 +339,22 @@ public class MainClient extends JFrame {
 	 */
 	public void setUserID(int id) {
 		this.userID = id;
-		sidebar.updateTable(new User(userID, username, 0, color));
 	}
 	
 	/**
 	 * Removes a dead player
 	 * @param usr Dead player
 	 */
-	public void playerDead(User usr)
-	{
+	public void playerDead(User usr) {
+		
+	}
+	
+	/**
+	 * Removes a player.
+	 * 
+	 * @param usr the player to remove
+	 */
+	public void playerRemove(User usr) {
 		
 	}
 	
