@@ -1,18 +1,24 @@
 package hrw.swenpr.bomberman.client;
 
+import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType;
 import hrw.swenpr.bomberman.common.rfc.Header;
+import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
+import hrw.swenpr.bomberman.common.rfc.LevelFile;
+import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
- * With this class the communication with the server is done.
+ * In this class the communication with the server is done.
  * 
  * @author Daniel Hofer
  * @author Marco Egger
@@ -63,9 +69,53 @@ public class Communication extends Thread {
 					
 				case USER:
 					User user = (User) msg;
+					client.addPlayer(user);
 					client.getSidebar().updateTable(user);
 					break;
-
+					
+				case LEVEL_SELECTION:
+					client.setLevel(((LevelSelection) msg).getFilename());
+					break;
+					
+				case LEVEL_AVAILABLE:
+					client.setAvailableLevel(((LevelAvailable) msg).getLevel());
+					break;
+							
+				case LEVEL_FILE:
+					File tmp = new File("." + File.separator + "Levels" + File.separator + client.getLevelName());
+					((LevelFile) msg).writeLevelFile(tmp);
+					client.getLevelFile(tmp);
+					break;
+					
+				case GAME_START:
+					client.startGame();
+					break;
+					
+				case ROUND_START:
+					client.roundStart();
+					break;
+					
+				case ROUND_FINISHED:
+					client.roundFinish();
+					break;
+					
+				case GAME_OVER:
+					
+					break;
+	
+				case USER_POSITION:
+					client.movePlayer((UserPosition) msg);
+					break;
+					
+				case USER_DEAD:
+					client.playerDead((User) msg);
+					break;
+					
+				case BOMB:
+					Bomb bomb = (Bomb) msg;
+					client.setBomb(bomb);
+					break;
+				
 				case ERROR_MESSAGE:
 					ErrorMessage error = (ErrorMessage) msg;
 					

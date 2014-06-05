@@ -1,9 +1,7 @@
 package hrw.swenpr.bomberman.common;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -27,8 +25,7 @@ public class ClientConnection {
 		Socket socket = null;
 		try {
 			socket = new Socket(InetAddress.getByName(host), port);
-		} catch (IOException  e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			System.out.println("Unable to create socket to " + host + " on port " + port);
 		}
 		

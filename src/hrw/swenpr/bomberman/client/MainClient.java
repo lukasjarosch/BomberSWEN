@@ -4,13 +4,22 @@ package hrw.swenpr.bomberman.client;
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
+import hrw.swenpr.bomberman.common.rfc.GameStart;
+import hrw.swenpr.bomberman.common.rfc.Level;
+import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.Login;
+import hrw.swenpr.bomberman.common.rfc.RoundFinished;
+import hrw.swenpr.bomberman.common.rfc.RoundStart;
+import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
+import java.io.File;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -35,9 +44,12 @@ public class MainClient extends JFrame {
 	private Communication com;
 	private Sidebar sidebar;
 	private Field field;
+	private ClientModel model;
 	
 	private boolean isAdmin = false;
 	private int userID;
+	private String username;
+	private UserColor color;
 
 	private Socket socket;
 
@@ -62,7 +74,9 @@ public class MainClient extends JFrame {
 	/**
 	 * Default constructor for main window.
 	 */
-	private MainClient() {
+	public MainClient() {
+		model = new ClientModel();
+		
 		// setting up JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Bomberman");
@@ -104,7 +118,7 @@ public class MainClient extends JFrame {
 		UserColor ret = (UserColor) JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
 		
 		socket = ClientConnection.getSocket(ipAddress.getText(), DEFAULT_PORT);
-		
+			
 		if(socket != null) {
 			// create and start communication thread
 			com = new Communication(socket);
@@ -112,6 +126,8 @@ public class MainClient extends JFrame {
 		
 			// send login message to server with entered username and color
 			com.sendMessage(new Login(name.getText(), ret));
+			username = name.getText();
+			color = ret;
 		}
 		else {
 			// socket creation failed -> exit software
@@ -153,33 +169,59 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * logs player out
-	 */
-	public void logout()
-	{
-		
-	}
-	
-	/**
 	 * shows player a dialog where he can choose a level
 	 * only shown if player is admin
 	 */
-	public void showLevelialog()
+	public void showLevelDialog()
 	{
-	
+		//Testdata
+		ArrayList<Level> tmp = new ArrayList<Level>();
+		tmp.add(new Level("test 1", new Point(1, 2)));
+		tmp.add(new Level("test 2", new Point(1, 2)));
+		tmp.add(new Level("test 3", new Point(1, 2)));
+		this.setAvailableLevel(tmp);
+		
+		// create array with level names
+		Object[] levels = new Object[model.getAvailableLevel().size()];
+		
+		for(int i = 0; i < levels.length; i++)
+		{
+			levels[i] = model.getAvailableLevel().get(i).getFilename();
+		}
+		
+		//create the message
+		Object message = "Wählen Sie das Level aus:";
+		
+		// show dialog
+		String ret = (String) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, levels, levels[0]);
+		
+		//Send message to server
+		com.sendMessage(new LevelSelection(ret));
+		
+		this.setLevel(ret);
 	}
 	
 	/**
 	 * shows player a dialog where he can choose the duration of the game
-	 * only shwon if player is admin
+	 * only shown if player is admin
 	 */
 	public void showTimeDialog()
 	{
+		// create array with play times
+		Object[] time = {5, 10, 15};
 		
+		//create the message
+		Object message = "Wählen Sie die Spieldauer in Minuten aus:";
+		
+		// show dialog
+		int ret = (int) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, time, time[0]);
+		
+		//Send message to server
+		com.sendMessage(new TimeSelection(ret));
 	}
 	
 	/**
-	 * getter for fiel
+	 * Returns the field
 	 * @return returns instance of the field
 	 */
 	public Field getField()
@@ -188,22 +230,48 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * called when a round ends
-	 * @param usr array with data of each user
+	 * Called when {@link RoundStart} message received and the next round is
+	 * about to start or the complete game starts.
 	 */
-	public void roundEnd()
-	{
-		
+	public void roundStart() {
+		sidebar.startTimer();
+	}
 	
+	/**
+	 * Called when {@link RoundFinished} message received and the current round
+	 * ends or the complete game ends.
+	 */
+	public void roundFinish() {
+		sidebar.stopTimer();
+	}
+
+	/**
+	 * Called when {@link GameStart} message received and game is about to
+	 * start.
+	 */
+	public void startGame() {
+		// when game start message received also trigger round start
+		roundStart();
 	}
 	
 	/**
 	 * called when game is finished
 	 * @param usr array with data of each user
 	 */
-	public void gameEnd(User usr[])
+	public void endGame(User usr[])
 	{
+		// when game end message received also trigger round end
+		roundFinish();
 		new Result(null, null, null, 0, this);
+	}
+	
+	/**
+	 * Set the time of the complete game.
+	 * 
+	 * @param time in minutes
+	 */
+	public void setTime(int time) {
+		sidebar.setTime(time);
 	}
 	
 	public void showUser(User usr[])
@@ -211,17 +279,35 @@ public class MainClient extends JFrame {
 		
 	}
 	
+	/**
+	 * Moves a player on the field
+	 * @param usrPos
+	 */
 	public void movePlayer(UserPosition usrPos)
 	{
-		
-	}
-	
-	public void setBomb(Bomb bomb)
-	{
-		
+		model.movePlayer(usrPos);
 	}
 	
 	/**
+	 * Adds a user to the game
+	 * @param usr User that is added
+	 */
+	public void addPlayer(User usr)
+	{
+		this.model.addPlayer(usr);
+	}
+	
+	/**
+	 * Sets a new bomb in the game model
+	 * @param bomb Bomb that is set in the model
+	 */
+	public void setBomb(Bomb bomb)
+	{
+		this.model.setBomb(bomb);
+	}
+	
+	/**
+	 * Returns the userID
 	 * @return the userID
 	 */
 	public int getUserID()
@@ -229,17 +315,67 @@ public class MainClient extends JFrame {
 		return userID;
 	}
 	
+	/**
+	 * Sets the user id
+	 * @param id
+	 */
 	public void setUserID(int id) {
 		this.userID = id;
+		sidebar.updateTable(new User(userID, username, 0, color));
 	}
 	
-	public void pickUpSpecialItem()
+	/**
+	 * Removes a dead player
+	 * @param usr Dead player
+	 */
+	public void playerDead(User usr)
 	{
 		
 	}
 	
-	public void playerDead(int id)
+	/**
+	 * Removes a player which left the game due to a bad connection
+	 * @param usr Dead player
+	 */
+	public void playerLeft(User usr)
 	{
-		
+		model.removePlayer(usr);
+	}
+	
+	/**
+	 * Adds a list of levels to the game
+	 * @param level {@link ArrayList} of new levels
+	 */
+	public void setAvailableLevel(ArrayList<Level> level)
+	{
+		model.setLevels(level);
+	}
+	
+	/**
+	 * Transfers the level into the model
+	 * @param level Level on which the round is played on
+	 */
+	public void getLevelFile(File level)
+	{
+		model.loadLevel(level);
+	}
+	
+	/**
+	 * Sets the name of the level which is chosen by the admin
+	 * @param filename Level name
+	 */
+	public void setLevel(String filename)
+	{
+		model.setLevelName(filename);
+		sidebar.updateLevel(filename);
+	}
+	
+	/**
+	 * Returns the level name
+	 * @return Level name
+	 */
+	public String getLevelName()
+	{
+		return model.getLevelName();
 	}
 }
