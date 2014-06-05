@@ -143,11 +143,12 @@ public class Server extends JFrame {
 		return connection;
 	}
 
+	/**
+	 * Returns the current {@link LoginThread}
+	 * @return
+	 */
 	public static LoginThread getLoginThread() {
 		return loginThread;
 	}
 
-	public static void setLoginThread(LoginThread loginThread) {
-		Server.loginThread = loginThread;
-	}
 }
