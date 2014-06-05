@@ -167,10 +167,11 @@ public abstract class BombermanBaseModel {
 	 */
 	public synchronized void addPlayer(User user) {
 		UserModel um = null;
-		int x = size.x;
-		int y = size.y;
 
 		if (levelLoaded) {
+			int x = size.x;
+			int y = size.y;
+			
 			switch (user.getUserID()) {
 			case 0:
 				// convert User to UserModel with position
