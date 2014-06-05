@@ -36,7 +36,7 @@ public class LoginThread extends Thread {
 			Socket clientSocket = Server.getConnection().listenSocket();
 			
 			// The uid for the next player to login
-			int uid = Server.getModel().getClientCount() + 1;
+			int uid = Server.getModel().getClientCount();
 			
 			// A new client has connected
 			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "A client (IP: " + clientSocket.getInetAddress().toString() + ") is requesting login"));
@@ -87,8 +87,6 @@ public class LoginThread extends Thread {
 				}
 			
 		}
-		
-		// Kill tha bitch
 	}
 	
 	/**

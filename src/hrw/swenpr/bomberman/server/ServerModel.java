@@ -43,7 +43,7 @@ public class ServerModel extends BombermanBaseModel {
 	/**
 	 * Store all client threads
 	 */
-	private ArrayList<ClientThread> clientThreads;
+	private ArrayList<ClientThread> clientThreads = new ArrayList<ClientThread>();
 	
 	/**
 	 * The {@link ServerModel} constructor
