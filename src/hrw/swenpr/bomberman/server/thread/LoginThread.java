@@ -39,7 +39,7 @@ public class LoginThread extends Thread {
 			int uid = Server.getModel().getClientCount() + 1;
 			
 			// A new client has connected
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "A client is requesting login"));
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "A client (IP: " + clientSocket.getInetAddress().toString() + ") is requesting login"));
 			
 			// Create dummy object for message
 			Object message = null;
