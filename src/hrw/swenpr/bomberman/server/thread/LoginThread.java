@@ -161,6 +161,7 @@ public class LoginThread extends Thread {
 		// Create and start ClientThread
 		ClientThread thread = new ClientThread();
 		thread.setSocket(socket);
+		thread.setId(user.getUserID());
 		thread.start();
 		Server.getModel().addClientThread(user.getUserID(), thread);
 		

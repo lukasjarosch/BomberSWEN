@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.server;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
@@ -59,6 +60,25 @@ public class ServerModel extends BombermanBaseModel {
 	 * Empty default constructor
 	 */
 	public ServerModel() {}
+	
+	/**
+	 * Fetch a {@link UserModel} by ID
+	 * 
+	 * @param id
+	 * @return The {@link UserModel} or null
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	public UserModel getUserById(int id) {
+		Iterator<UserModel> it = getUsers().iterator();
+		while(it.hasNext()) {
+			if(it.next().getUserID() == id) {
+				// FIXME: Dafuq is going on?
+				return it.next();
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * We do not allow direct modification of the readyCount.

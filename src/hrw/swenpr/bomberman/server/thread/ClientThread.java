@@ -5,6 +5,10 @@ import java.net.Socket;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
+import hrw.swenpr.bomberman.server.LogMessage;
+import hrw.swenpr.bomberman.server.Server;
+import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
+import hrw.swenpr.bomberman.server.view.MainWindow;
 
 /**
  * This thread is started for each 
@@ -29,6 +33,11 @@ public class ClientThread extends Thread {
 	private Socket socket = null;
 	
 	/**
+	 * The user id
+	 */
+	private int userId;
+	
+	/**
 	 * Creates the socket for communicating with the client
 	 * 
 	 * @author Lukas Jarosch
@@ -42,7 +51,7 @@ public class ClientThread extends Thread {
 	 */
 	@Override
 	public void run() {		
-		System.out.println("ClientThread running");
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "ClientThread for User " + Server.getModel().getUserById(userId) ));
 		
 		if(isGameAdmin()) {
 			System.out.println("I AM ADMIN");
@@ -133,5 +142,13 @@ public class ClientThread extends Thread {
 
 	public void setGameAdmin(boolean gameAdmin) {
 		this.gameAdmin = gameAdmin;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setId(int id) {
+		this.userId = id;
 	}
 }
