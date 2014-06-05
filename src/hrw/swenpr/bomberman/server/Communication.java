@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class Communication {
@@ -39,9 +40,10 @@ public class Communication {
 	 */
 	public <T> void sendToAllClients(T message){
 		ArrayList<ClientThread> threads = Server.getModel().getClientThreads();
+		Iterator<ClientThread> it = threads.iterator();
 		
-		while(threads.iterator().hasNext()) {
-			sendToClient(threads.iterator().next().getSocket(), message);
+		while(it.hasNext()) {
+			sendToClient(it.next().getSocket(), message);
 		}
 	}
 }

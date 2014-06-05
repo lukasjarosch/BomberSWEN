@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.ErrorMessage;
@@ -59,7 +60,7 @@ public class LoginThread extends Thread {
 				// We received a Login object => cast
 				Login login = (Login)message;
 				
-				if(requestLogin(clientSocket, login.getUsername())) {
+				if(requestLogin(clientSocket, login)) {
 					
 					// Log actions
 					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player '" + login.getUsername() + "' logged in"));
@@ -72,7 +73,7 @@ public class LoginThread extends Thread {
 					User user = new User(uid, login.getUsername(), 0, login.getColor());
 					
 					// Add player to model
-					addPlayer(user);
+					addPlayer(user, clientSocket);
 					
 					// Inform all clients
 					sendUserData(user);
@@ -85,7 +86,6 @@ public class LoginThread extends Thread {
 				Server.getCommunication().sendToClient(clientSocket, 
 						new ErrorMessage(ErrorType.ERROR, "First packet has to be a Login object"));			
 				}
-			
 		}
 	}
 	
@@ -101,7 +101,7 @@ public class LoginThread extends Thread {
 	 * 
 	 * @return Whether to accept further logins or not
 	 */
-	private boolean requestLogin(Socket socket, String username) {
+	private boolean requestLogin(Socket socket, Login login) {
 		
 		// Deny login if game is already running
 		if(Server.getModel().isGameRunning()) {
@@ -110,6 +110,17 @@ public class LoginThread extends Thread {
 			
 			return false;
 		}		
+		
+		// Deny login if color is already taken
+		Iterator<UserModel> it = Server.getModel().getUsers().iterator();
+		while(it.hasNext()) {
+			if(it.next().getColor() == login.getColor()) {
+				MainWindow.log(new LogMessage(LEVEL.WARNING, "Login rejected. Color is already taken!"));			
+				Server.getCommunication().sendToClient(socket, new ErrorMessage(ErrorType.ERROR, "Color already taken"));
+				
+				return false;
+			}
+		}
 		
 		// Deny login if server is already full
 		if(Server.getModel().getClientCount() == 4) {
@@ -120,7 +131,7 @@ public class LoginThread extends Thread {
 		}
 		
 		// Check if name is already registered
-		if(!usernameAvailable(username)) {
+		if(!usernameAvailable(login.getUsername())) {
 			MainWindow.log(new LogMessage(LEVEL.WARNING, "Login rejected. Username not available!"));				
 			Server.getCommunication().sendToClient(socket, new ErrorMessage(ErrorType.ERROR, "Username not available"));
 			
@@ -135,10 +146,11 @@ public class LoginThread extends Thread {
 	 * Handles the creation of a new player
 	 * 
 	 * @param User user
+	 * @param Socket client socket
 	 * 
 	 * @author Lukas Jarosch
 	 */
-	private void addPlayer(User user) {
+	private void addPlayer(User user, Socket socket) {
 		
 		// Add player model to the server model container
 		Server.getModel().addPlayer(user);
@@ -148,8 +160,10 @@ public class LoginThread extends Thread {
 		
 		// Create and start ClientThread
 		ClientThread thread = new ClientThread();
+		thread.setSocket(socket);
 		thread.start();
-		Server.getModel().addClientThread(1, thread);
+		Server.getModel().addClientThread(user.getUserID(), thread);
+		
 		
 		// Player with UID 0 is admin
 		if(user.getUserID() == 0) {
@@ -167,7 +181,12 @@ public class LoginThread extends Thread {
 	 * @author Lukas Jarosch
 	 */
 	private boolean usernameAvailable(String username) {
-		
+		Iterator<UserModel> it = Server.getModel().getUsers().iterator();
+		while(it.hasNext()) {
+			if(it.next().getUsername().equals(username)) {
+				return false;
+			}
+		}
 		
 		return true;
 	}
