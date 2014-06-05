@@ -1,5 +1,10 @@
 package hrw.swenpr.bomberman.server.listener;
 
+import hrw.swenpr.bomberman.server.LogMessage;
+import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
+import hrw.swenpr.bomberman.server.Server;
+import hrw.swenpr.bomberman.server.view.MainWindow;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,18 +18,17 @@ public class ButtonListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		
-		/*
-		 * The following does not yet work because we do not have an instance of
-		 * the ServerModel yet
-		 * 
-		if(ServerMain.getModel().isServerRunning()) {
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "----- Server terminated -----"));
-			ServerMain.getModel().setServerRunning(false);
+		if(Server.getModel().isServerRunning()) {
+			MainWindow.log(new LogMessage(LEVEL.NONE, "## Server terminated"));
+			Server.getModel().setServerRunning(false);
+			
+			Server.shutdown();
 		} else {
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "----- Server running -----"));
-			ServerMain.getModel().setServerRunning(true);
-		}
-		*/
+			MainWindow.log(new LogMessage(LEVEL.NONE, "## Server running"));
+			Server.getModel().setServerRunning(true);
+			
+			Server.start();
+		}		
 	}
 
 }
