@@ -17,6 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 /**
  * In this class the communication with the server is done.
  * 
@@ -111,6 +113,9 @@ public class Communication extends Thread {
 					client.playerDead((User) msg);
 					break;
 					
+				case USER_REMOVE:
+					client.playerRemove((User) msg);
+					
 				case BOMB:
 					Bomb bomb = (Bomb) msg;
 					client.setBomb(bomb);
@@ -119,13 +124,12 @@ public class Communication extends Thread {
 				case ERROR_MESSAGE:
 					ErrorMessage error = (ErrorMessage) msg;
 					
+					JOptionPane.showMessageDialog(client, error.getMessage());
+					
 					// fatal error
-					if(error.getSubtype() == ErrorType.ERROR) {
-						System.out.println("Error received: " + error.getMessage());
-					}
-					else {
-						System.out.println("Warning received: " + error.getMessage());
-					}
+					if(error.getSubtype() == ErrorType.ERROR) 
+						System.exit(0);
+					
 					break;
 				default:
 					break;
