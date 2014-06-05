@@ -20,11 +20,13 @@ public class ButtonListener implements ActionListener {
 		
 		if(Server.getModel().isServerRunning()) {
 			MainWindow.log(new LogMessage(LEVEL.NONE, "## Server terminated"));
+			MainWindow.getMainPanel().getBtnStartStop().setText("Start server");
 			Server.getModel().setServerRunning(false);
 			
 			Server.shutdown();
 		} else {
 			MainWindow.log(new LogMessage(LEVEL.NONE, "## Server running"));
+			MainWindow.getMainPanel().getBtnStartStop().setText("Stop server");
 			Server.getModel().setServerRunning(true);
 			
 			Server.start();
