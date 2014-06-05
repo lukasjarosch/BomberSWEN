@@ -4,7 +4,12 @@ import hrw.swenpr.bomberman.server.LogMessage;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
@@ -74,6 +79,7 @@ public class MainWindow extends JFrame {
 		setTitle(FRAME_TITLE);
 		setTitlePrefix("OFFLINE");
 		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+		setIconImage(new ImageIcon("./icons/server_frame_icon.png").getImage());
 		
 		// Set Look and Feel
 		try {
