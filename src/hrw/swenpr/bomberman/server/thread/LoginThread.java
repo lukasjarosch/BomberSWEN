@@ -3,7 +3,6 @@ package hrw.swenpr.bomberman.server.thread;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import hrw.swenpr.bomberman.common.UserModel;
@@ -30,22 +29,20 @@ public class LoginThread extends Thread {
 	 */
 	public synchronized void run() {
 		
-		// Loop until the server is about to shut down
 		while(Server.getModel().isServerRunning()) {
 			
 			// Wait for client connection
 			Socket clientSocket = Server.getConnection().listenSocket();
 			
-			// The uid for the next player to login
+			// Prepare uid and an empty object
 			int uid = Server.getModel().getClientCount();
+                        Object message = null;
+
 			
 			// A new client has connected
 			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "A client (IP: " + clientSocket.getInetAddress().toString() + ") is requesting login"));
-			
-			// Create dummy object for message
-			Object message = null;
-			
-			// Fetch ObjectInputStream and read Object
+						
+			// Try to read from the ObjectInputStream
 			try {
 				ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
 				message = input.readObject();
@@ -57,26 +54,11 @@ public class LoginThread extends Thread {
 			MessageType type = Header.getMessageType(message);
 			if(type == MessageType.LOGIN) {
 				
-				// We received a Login object => cast
+				// We received a Login object => handle login
 				Login login = (Login)message;
 				
 				if(requestLogin(clientSocket, login)) {
-					
-					// Log actions
-					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player '" + login.getUsername() + "' logged in"));
-					MainWindow.log(new LogMessage(LEVEL.INFORMATION, login.getUsername() + " is color " + login.getColor().toString()));
-					
-					// Create UID and reply with LoginOK
-					Server.getCommunication().sendToClient(clientSocket, new LoginOk(uid));			
-					
-					// Create user
-					User user = new User(uid, login.getUsername(), 0, login.getColor());
-					
-					// Add player to model
-					addPlayer(user, clientSocket);
-					
-					// Inform all clients
-					sendUserData(user);
+					handleLogin(login, clientSocket, uid);
 				} 
 				
 			// No LOGIN object received => ErrorMessage
@@ -85,9 +67,36 @@ public class LoginThread extends Thread {
 				
 				Server.getCommunication().sendToClient(clientSocket, 
 						new ErrorMessage(ErrorType.ERROR, "First packet has to be a Login object"));			
-				}
+			}
 		}
 	}
+        
+        /**
+         * Handles a login request by a client
+         * 
+         * @author Lukas Jarosch
+         * 
+         * @param The Login packet
+         * @param The socket from which the login was requested
+         * @param The uid of the new user
+         */
+        private void handleLogin(Login login, Socket clientSocket, int uid) {
+            // Log actions
+            MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player '" + login.getUsername() + "' logged in"));
+            MainWindow.log(new LogMessage(LEVEL.INFORMATION, login.getUsername() + " is color " + login.getColor().toString()));
+
+            // Create UID and reply with LoginOK
+            Server.getCommunication().sendToClient(clientSocket, new LoginOk(uid));
+
+            // Create user
+            User user = new User(uid, login.getUsername(), 0, login.getColor());
+
+            // Add player to model
+            addPlayer(user, clientSocket);
+
+            // Inform all clients
+            sendUserData(user);
+        }
 	
 	/**
 	 * Waits for a login message
