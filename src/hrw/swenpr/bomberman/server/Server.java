@@ -1,7 +1,10 @@
 package hrw.swenpr.bomberman.server;
 
 import hrw.swenpr.bomberman.common.ServerConnection;
+import hrw.swenpr.bomberman.server.Communication;
+import hrw.swenpr.bomberman.server.LogMessage;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
+import hrw.swenpr.bomberman.server.ServerModel;
 import hrw.swenpr.bomberman.server.thread.LoginThread;
 import hrw.swenpr.bomberman.server.view.MainWindow;
 
