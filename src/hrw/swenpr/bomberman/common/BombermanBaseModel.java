@@ -253,7 +253,7 @@ public abstract class BombermanBaseModel {
 	 */
 	public synchronized boolean movePlayer(UserPosition uPos) {
 		// if field not walkable return false
-		if(!isWalkable(uPos.getPosition())) {
+		if(!isWalkableField(getUserPosition(uPos.getUserID()), uPos.getPosition())) {
 			return false;
 		}
 		
@@ -318,20 +318,35 @@ public abstract class BombermanBaseModel {
 	 * @param pos the position
 	 * @return true when it's possible
 	 */
-	protected synchronized boolean isWalkable(Point pos) {
-		// if the field is not a plain field you can not walk on it
+	protected synchronized boolean isWalkableField(Point oldPos, Point newPos) {
+		// catch exceptions when index out of bounds
 		try {
-			
-			if(getFieldType(pos) == FieldType.PLAIN_FIELD)
-				return true;
-			else
+			// first of all get point up, right, down and left of oldPos
+			Point up = new Point(oldPos.x, oldPos.y - 1);
+			Point right = new Point(oldPos.x + 1, oldPos.y);
+			Point down = new Point(oldPos.x, oldPos.y + 1);
+			Point left = new Point(oldPos.x - 1, oldPos.y);
+
+			// check if newPos is equal one of these points
+			if (!(newPos.equals(up) || newPos.equals(right)
+					|| newPos.equals(down) || newPos.equals(left))) {
 				return false;
-			
+			}
+
+			// only reached when position is besides current position
+			// then check if field is a plain field, all others are NOT walkable
+			if (field[newPos.x][newPos.y] != FieldType.PLAIN_FIELD) {
+				return false;
+			}
 		} catch (Exception e) {
-			// when exception occurs the value is out of the range of the pitch -> not walkable
+			// when exception occurs the value is out of the range of the pitch
+			// -> not walkable
 			e.printStackTrace();
 			return false;
 		}
+
+		// only reached when no return false -> field walkable
+		return true;
 	}
 	
 
