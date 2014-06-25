@@ -98,6 +98,9 @@ public class LoginThread extends Thread {
             // Log actions
             MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player '" + login.getUsername() + "' logged in"));
             MainWindow.log(new LogMessage(LEVEL.INFORMATION, login.getUsername() + " is color " + login.getColor().toString()));
+            
+            if(uid == 0) 
+            	System.out.println("Player " + login.getUsername() + " is admin");
 
             // Create UID and reply with LoginOK
             Server.getCommunication().sendToClient(clientOut, new LoginOk(uid));
