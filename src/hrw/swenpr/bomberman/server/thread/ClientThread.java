@@ -127,7 +127,12 @@ public class ClientThread extends Thread {
 			
 				case LEVEL_SELECTION:
 					handleLevelSelection((LevelSelection) msg);
-					System.out.println("Admin selected " + ((LevelSelection)msg).getFilename());
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Admin selected level: " + ((LevelSelection) msg).getFilename()));
+					break;
+					
+				case TIME_SELECTION:
+					handleTimeSelection((TimeSelection) msg);
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Admin selected time: " + ((TimeSelection) msg).getTime() + " minutes"));
 					break;
 									
 				case USER_READY:
@@ -135,8 +140,8 @@ public class ClientThread extends Thread {
 					
 					model.incrementReadyCount();
 					
-					// If all players are ready => start game by sending the level file
-					if(model.getReadyCount() == model.getUsers().size()) {
+					// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
+					if(model.getReadyCount() == model.getUsers().size() && model.getUsers().size() > 1) {
 	
 						// Send level file
 						File file = new File(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
@@ -165,6 +170,8 @@ public class ClientThread extends Thread {
 	 * Handles a {@link LevelSelection} from the game admin(!)
 	 * Other players cannot select the level
 	 * 
+	 * @param selection the level selection
+	 * 
 	 * @author Lukas Jarosch
 	 * @author Marco Egger
 	 */
@@ -183,13 +190,19 @@ public class ClientThread extends Thread {
 	 * Handles a {@link TimeSelection} from the game admin(!)
 	 * Other players cannot select the time
 	 * 
+	 * @param selection the time selection
+	 * 
 	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
-	public void handleTimeSelection() {
-	
-		// Test if admin
-		
-		// Set time in model
+	public void handleTimeSelection(TimeSelection selection) {
+		if(isGameAdmin()) {
+			// store time
+			Server.getModel().setGameTime(selection.getTime());
+			
+			// send selection to all clients
+			Server.getCommunication().sendToAllClients(selection);
+		}
 	}
 	
 	/**

@@ -40,6 +40,11 @@ public class ServerModel extends BombermanBaseModel {
 	private Timer gameTimer;
 	
 	/**
+	 * The time a whole game lasts
+	 */
+	private long gameTime = 0;
+	
+	/**
 	 * Holds the number of clients logged in
 	 */
 	private int clientCount = 0;
@@ -184,6 +189,20 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void setGameTimer(Timer gameTimer) {
 		this.gameTimer = gameTimer;
+	}
+
+	/**
+	 * @return the gameTime in seconds
+	 */
+	public long getGameTime() {
+		return gameTime;
+	}
+
+	/**
+	 * @param gameTime the gameTime to set in minutes
+	 */
+	public void setGameTime(int gameTime) {
+		this.gameTime = gameTime * 60;
 	}
 
 	/**
