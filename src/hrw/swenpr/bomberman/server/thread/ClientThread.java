@@ -22,8 +22,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * This thread is started for each 
- * @author Lukas
+ * This thread is started for each client and
+ * handles the communication with it
+ * 
+ * @author Lukas Jarosch
+ * @author Marco Egger
  *
  */
 public class ClientThread extends Thread {
@@ -49,6 +52,11 @@ public class ClientThread extends Thread {
 	private ObjectOutputStream outputStream = null;
 	
 	/**
+	 * The input stream
+	 */
+	private ObjectInputStream inputStream = null;
+	
+	/**
 	 * The user id
 	 */
 	private int userId;
@@ -60,11 +68,15 @@ public class ClientThread extends Thread {
 	 * @author Lukas Jarosch
 	 * @author Marco Egger
 	 */
-	public ClientThread(ObjectOutputStream out) {
+	public ClientThread(ObjectOutputStream out, ObjectInputStream in) {
 		this.outputStream = out;
+		this.inputStream = in;
 	}
 	
 	/**
+	 * The main method of the thread which is running in an endless
+	 * loop until the game ends
+	 * 
 	 * @author Lukas Jarosch
 	 */
 	@Override
@@ -73,60 +85,59 @@ public class ClientThread extends Thread {
 
 		// Admin receives a list of all levels
 		if (isGameAdmin()) {
-			// get all available levels
+			
+			// Get all available levels
 			ArrayList<Level> levels = Server.getModel().getAvailableLevels();
 			
-			// send to game admin
+			// Send to game admin
 			Server.getCommunication().sendToClient(outputStream, new LevelAvailable(levels));
 		}
 
-		ObjectInputStream in = null;
-
-		try {
-			// get input stream
-			in = new ObjectInputStream(socket.getInputStream());
-		} catch (IOException e) {
-			MainWindow.log(new LogMessage(LEVEL.ERROR, "Could not create InputStream."));
-			e.printStackTrace();
-		}
-
+		// Enter working loop
 		while (!Thread.interrupted()) {
 
 			Object msg = null;
 
 			try {
 				// read object
-				msg = in.readObject();
+				msg = inputStream.readObject();
 			} catch (ClassNotFoundException | IOException e) {
 				MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from InputStream."));
 				e.printStackTrace();
 			}
-
 			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Received message of type: " + Header.getMessageType(msg)));
 			
+			
+			// Handle messages from client
 			switch (Header.getMessageType(msg)) {
 			
-			case LEVEL_SELECTION:
-				handleLevelSelection((LevelSelection) msg);
-				System.out.println("Admin selected " + ((LevelSelection)msg).getFilename());
-				break;
-								
-			case USER_READY:
-				ServerModel model = Server.getModel();
-				
-				model.incrementReadyCount();
-				if(model.getReadyCount() == model.getUsers().size()) {
-					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
-					Server.getCommunication().sendToAllClients(new GameStart());
+				case LEVEL_SELECTION:
+					handleLevelSelection((LevelSelection) msg);
+					System.out.println("Admin selected " + ((LevelSelection)msg).getFilename());
+					break;
+									
+				case USER_READY:
+					ServerModel model = Server.getModel();
 					
-					File file = new File(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
-					System.out.println(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
-					Server.getCommunication().sendToAllClients(new LevelFile(file));
-				}
-				break;
-
-			default:
-				break;
+					model.incrementReadyCount();
+					
+					// If all players are ready => start game by sending the level file
+					if(model.getReadyCount() == model.getUsers().size()) {
+	
+						// Send level file
+						File file = new File(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
+						MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Sending level: " + model.getLevelFilename()));
+						Server.getCommunication().sendToAllClients(new LevelFile(file));
+						
+						// Start game
+						MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
+						Server.getCommunication().sendToAllClients(new GameStart());
+						
+					}
+					break;
+	
+				default:
+					break;
 			}
 		}		
 	}
