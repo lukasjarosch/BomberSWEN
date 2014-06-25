@@ -8,6 +8,7 @@ import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
+import hrw.swenpr.bomberman.common.rfc.UserRemove;
 import hrw.swenpr.bomberman.server.LogMessage;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.Server;
@@ -134,6 +135,10 @@ public class ClientThread extends Thread {
 						Server.getCommunication().sendToAllClients(new GameStart());
 						
 					}
+					break;
+					
+				case USER_REMOVE:
+					Server.getModel().removeUser(((UserRemove)msg).getUserID());
 					break;
 	
 				default:
