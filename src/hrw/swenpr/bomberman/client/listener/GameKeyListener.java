@@ -1,7 +1,9 @@
 package hrw.swenpr.bomberman.client.listener;
 
 import hrw.swenpr.bomberman.client.MainClient;
+import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
+import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -45,6 +47,11 @@ public class GameKeyListener implements KeyListener
 		case KeyEvent.VK_A:
 			newPos = new Point(curPos.x - 1, curPos.y);
 			break;
+			
+		// place a bomb
+		case KeyEvent.VK_SPACE:
+			mainClient.setBomb(new Bomb(mainClient.getUserID(), BombType.NORMAL_BOMB, getCurrentPosition()));
+			break;
 
 		default:
 			break;
@@ -52,7 +59,7 @@ public class GameKeyListener implements KeyListener
 		
 		// when movement key pressed and new position was calculated
 		if(newPos != null)
-			mainClient.getModel().movePlayer(new UserPosition(mainClient.getUserID(), newPos));
+			mainClient.movePlayer(new UserPosition(mainClient.getUserID(), newPos));
 	}
 
 	@Override

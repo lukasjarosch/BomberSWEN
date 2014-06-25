@@ -14,6 +14,7 @@ import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
+import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.awt.BorderLayout;
@@ -297,6 +298,18 @@ public class MainClient extends JFrame {
 	public void showUser(User usr[])
 	{
 		
+	}
+	
+	/**
+	 * @param userPos the user position
+	 */
+	public void movePlayer(UserPosition userPos) {
+		if(model.movePlayer(userPos)) {
+			// player successfully moved
+			
+			// send new position to server
+			com.sendMessage(userPos);
+		}
 	}
 	
 	/**
