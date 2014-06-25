@@ -246,14 +246,20 @@ public class ServerModel extends BombermanBaseModel {
 		clientCount = getClientCount() + 1;
 	}
 	
+	
 	/**
-	 * Returns all users logged in
+	 * Removes the user from the model with the userID.
 	 * 
-	 * @return All {@link UserModel}s
+	 * @param userID the userID
 	 * 
-	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
-	public ArrayList<UserModel> getUsers() {
-		return this.users;
+	public void removeUser(int userID) {
+		for (UserModel user : users) {
+			// if users match remove the current user
+			if(user.getUserID() == userID) {
+				users.remove(user);
+			}
+		}
 	}
 }
