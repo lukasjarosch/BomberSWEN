@@ -26,6 +26,11 @@ public class LoginThread extends Thread {
 	 * The output stream for each client
 	 */
 	private ObjectOutputStream clientOut = null;
+	
+	/**
+	 * The output stream for each client
+	 */
+	private ObjectInputStream clientIn = null;
 
 	/**
 	 * The login loop which is constantly waiting for a login request
@@ -58,8 +63,8 @@ public class LoginThread extends Thread {
 						
 			// Try to read from the ObjectInputStream
 			try {
-				ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
-				message = input.readObject();
+				clientIn = new ObjectInputStream(clientSocket.getInputStream());
+				message = clientIn.readObject();
 			} catch (IOException | ClassNotFoundException e) {
 				MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from Socket in LoginThread::run()"));
 			}
@@ -185,7 +190,7 @@ public class LoginThread extends Thread {
 		Server.getModel().incrementClientCount();
 		
 		// Create and start ClientThread
-		ClientThread thread = new ClientThread(clientOut);
+		ClientThread thread = new ClientThread(clientOut, clientIn);
 		thread.setSocket(socket);
 		thread.setId(user.getUserID());
 		thread.start();
