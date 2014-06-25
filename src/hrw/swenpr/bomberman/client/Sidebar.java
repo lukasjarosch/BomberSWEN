@@ -159,7 +159,7 @@ public class Sidebar extends JPanel {
 			// enlist username in first column
 			userTable.setValueAt(users.get(i).getUsername(), i, 1);
 			// enlist userscore in second column
-			userTable.setValueAt(users.get(i).getScore(), i, 2);
+			userTable.setValueAt(Integer.toString(users.get(i).getScore()), i, 2);
 		}
 
 		userTable.repaint();

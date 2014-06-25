@@ -306,7 +306,7 @@ public class MainClient extends JFrame {
 	public void movePlayer(UserPosition userPos) {
 		if(model.movePlayer(userPos)) {
 			// player successfully moved
-			
+			model.movePlayer(userPos);
 			// send new position to server
 			com.sendMessage(userPos);
 		}

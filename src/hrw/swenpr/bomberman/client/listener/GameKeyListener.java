@@ -52,6 +52,16 @@ public class GameKeyListener implements KeyListener
 		case KeyEvent.VK_SPACE:
 			mainClient.setBomb(new Bomb(mainClient.getUserID(), BombType.NORMAL_BOMB, getCurrentPosition()));
 			break;
+		
+		// place a super-bomb
+		case KeyEvent.VK_N:
+			mainClient.setBomb(new Bomb(mainClient.getUserID(), BombType.SUPER_BOMB, getCurrentPosition()));
+			break;
+						
+		// place a mega-bomb
+		case KeyEvent.VK_M:
+			mainClient.setBomb(new Bomb(mainClient.getUserID(), BombType.SUPER_BOMB, getCurrentPosition()));
+			break;
 
 		default:
 			break;
