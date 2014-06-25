@@ -14,7 +14,6 @@ import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
-import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.awt.BorderLayout;
@@ -101,6 +100,14 @@ public class MainClient extends JFrame {
 		this.showLogin();
 		
 		setVisible(true);
+	}
+	
+	
+	/**
+	 * @return the model
+	 */
+	public ClientModel getModel() {
+		return model;
 	}
 	
 	
@@ -290,15 +297,6 @@ public class MainClient extends JFrame {
 	public void showUser(User usr[])
 	{
 		
-	}
-	
-	/**
-	 * Moves a player on the field
-	 * @param usrPos
-	 */
-	public void movePlayer(UserPosition usrPos)
-	{
-		model.movePlayer(usrPos);
 	}
 	
 	/**

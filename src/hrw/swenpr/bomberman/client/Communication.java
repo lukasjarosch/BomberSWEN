@@ -106,7 +106,7 @@ public class Communication extends Thread {
 					break;
 	
 				case USER_POSITION:
-					client.movePlayer((UserPosition) msg);
+					client.getModel().movePlayer((UserPosition) msg);
 					break;
 					
 				case USER_DEAD:
