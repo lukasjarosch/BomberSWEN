@@ -99,16 +99,27 @@ public class ServerModel extends BombermanBaseModel {
 		return null;
 	}
 	
+	/**
+	 * Reads all files in {@code LEVEL_DIR}.
+	 * 
+	 * @return {@link ArrayList} with all {@link File}s.
+	 * 
+	 * @author Marco Egger
+	 */
 	public ArrayList<Level> getAvailableLevels() {
 		ArrayList<Level> levels = new ArrayList<Level>();
 		
+		// create necessary variables
 		File levelDir = new File(LEVEL_DIR);
 		File[] levelFiles = levelDir.listFiles();
 		
+		// go through all found Files
 		for (int i = 0; i < levelFiles.length; i++) {
 			File file = levelFiles[i];
 			
-			levels.add(new Level(file.getName(), null));
+			// add the file if it's a "real" file
+			if(file.isFile())
+				levels.add(new Level(file.getName(), null));
 		}
 		
 		return levels;
