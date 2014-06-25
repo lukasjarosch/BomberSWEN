@@ -61,6 +61,11 @@ public class ClientThread extends Thread {
 	 * The user id
 	 */
 	private int userId;
+
+	/**
+	 * Holds if the client has sent a {@link UserRemove} message
+	 */
+	private boolean removed = false;
 	
 	
 	/**
@@ -103,8 +108,16 @@ public class ClientThread extends Thread {
 				// read object
 				msg = inputStream.readObject();
 			} catch (ClassNotFoundException | IOException e) {
-				MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from InputStream."));
+				// when error occurred because client logged off
+				if(removed)
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "User " + userId + " logged off and closed connection"));
+				else
+					MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from InputStream."));
+				
 				e.printStackTrace();
+				
+				// exit thread
+				return;
 			}
 			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Received message of type: " + Header.getMessageType(msg)));
 			
@@ -139,6 +152,7 @@ public class ClientThread extends Thread {
 					
 				case USER_REMOVE:
 					Server.getModel().removeUser(((UserRemove)msg).getUserID());
+					removed = true;
 					break;
 	
 				default:
