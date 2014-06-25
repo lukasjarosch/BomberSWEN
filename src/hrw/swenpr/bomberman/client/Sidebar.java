@@ -130,7 +130,7 @@ public class Sidebar extends JPanel {
 		add(new JScrollPane(userTable));
 		add(level);
 		add(chsLevel);
-		add(chsTime);
+		add(chsTime);		
 		add(ready);
 		add(logout);
 		setVisible(true);

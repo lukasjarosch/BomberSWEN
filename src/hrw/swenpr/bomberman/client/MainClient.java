@@ -95,7 +95,7 @@ public class MainClient extends JFrame {
 		field = new Field();
 		
 		add(sidebar, BorderLayout.EAST);
-		add(field);
+		add(field, BorderLayout.CENTER);
 		
 		// show login dialog
 		this.showLogin();
@@ -144,7 +144,7 @@ public class MainClient extends JFrame {
 			
 		if(socket != null) {
 			// create and start communication thread
-			com = new Communication(socket);
+			com = new Communication(socket, this);
 			com.start();
 		
 			// send login message to server with entered username and color
@@ -195,13 +195,6 @@ public class MainClient extends JFrame {
 	 */
 	public void showLevelDialog()
 	{
-		//Testdata
-		ArrayList<Level> tmp = new ArrayList<Level>();
-		tmp.add(new Level("test 1", new Point(1, 2)));
-		tmp.add(new Level("test 2", new Point(1, 2)));
-		tmp.add(new Level("test 3", new Point(1, 2)));
-		this.setAvailableLevel(tmp);
-		
 		// create array with level names
 		Object[] levels = new Object[model.getAvailableLevel().size()];
 		
@@ -228,6 +221,7 @@ public class MainClient extends JFrame {
 	 */
 	public void showTimeDialog()
 	{
+		int ret = 0;
 		// create array with play times
 		Object[] time = {5, 10, 15};
 		
@@ -235,10 +229,11 @@ public class MainClient extends JFrame {
 		Object message = "Wählen Sie die Spieldauer in Minuten aus:";
 		
 		// show dialog
-		int ret = (int) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, time, time[0]);
+		ret = (int) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, time, time[0]);
 		
 		//Send message to server
-		com.sendMessage(new TimeSelection(ret));
+		if(ret != 0)
+			com.sendMessage(new TimeSelection(ret));
 	}
 	
 	/**
@@ -256,6 +251,12 @@ public class MainClient extends JFrame {
 	 */
 	public void roundStart() {
 		sidebar.startTimer();
+		try {
+			field.createNewField();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -394,6 +395,12 @@ public class MainClient extends JFrame {
 	public void getLevelFile(File level)
 	{
 		model.loadLevel(level);
+		try {
+			field.createNewField();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
