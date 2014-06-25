@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.server.thread;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Iterator;
 
@@ -19,6 +20,17 @@ import hrw.swenpr.bomberman.server.Server;
 import hrw.swenpr.bomberman.server.view.MainWindow;
 
 public class LoginThread extends Thread {
+	
+	
+	/**
+	 * The output stream for each client
+	 */
+	private ObjectOutputStream clientOut = null;
+	
+	/**
+	 * The output stream for each client
+	 */
+	private ObjectInputStream clientIn = null;
 
 	/**
 	 * The login loop which is constantly waiting for a login request
@@ -38,14 +50,21 @@ public class LoginThread extends Thread {
 			int uid = Server.getModel().getClientCount();
                         Object message = null;
 
+            // Create output stream
+            try {
+				clientOut = new ObjectOutputStream(clientSocket.getOutputStream());
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			// A new client has connected
 			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "A client (IP: " + clientSocket.getInetAddress().toString() + ") is requesting login"));
 						
 			// Try to read from the ObjectInputStream
 			try {
-				ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
-				message = input.readObject();
+				clientIn = new ObjectInputStream(clientSocket.getInputStream());
+				message = clientIn.readObject();
 			} catch (IOException | ClassNotFoundException e) {
 				MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from Socket in LoginThread::run()"));
 			}
@@ -57,7 +76,7 @@ public class LoginThread extends Thread {
 				// We received a Login object => handle login
 				Login login = (Login)message;
 				
-				if(requestLogin(clientSocket, login)) {
+				if(requestLogin(clientOut, login)) {
 					handleLogin(login, clientSocket, uid);
 				} 
 				
@@ -65,7 +84,7 @@ public class LoginThread extends Thread {
 			} else {
 				MainWindow.log(new LogMessage(LEVEL.WARNING, "Client did not send a LOGIN request"));
 				
-				Server.getCommunication().sendToClient(clientSocket, 
+				Server.getCommunication().sendToClient(clientOut, 
 						new ErrorMessage(ErrorType.ERROR, "First packet has to be a Login object"));			
 			}
 		}
@@ -84,9 +103,12 @@ public class LoginThread extends Thread {
             // Log actions
             MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player '" + login.getUsername() + "' logged in"));
             MainWindow.log(new LogMessage(LEVEL.INFORMATION, login.getUsername() + " is color " + login.getColor().toString()));
+            
+            if(uid == 0) 
+            	System.out.println("Player " + login.getUsername() + " is admin");
 
             // Create UID and reply with LoginOK
-            Server.getCommunication().sendToClient(clientSocket, new LoginOk(uid));
+            Server.getCommunication().sendToClient(clientOut, new LoginOk(uid));
 
             // Create user
             User user = new User(uid, login.getUsername(), 0, login.getColor());
@@ -105,17 +127,17 @@ public class LoginThread extends Thread {
 	 * 
 	 * @author Lukas Jarosch
 	 * 
-	 * @param The socket which requested the login
+	 * @param The output stream which requested the login
 	 * @param The user who requested the login
 	 * 
 	 * @return Whether to accept further logins or not
 	 */
-	private boolean requestLogin(Socket socket, Login login) {
+	private boolean requestLogin(ObjectOutputStream out, Login login) {
 		
 		// Deny login if game is already running
 		if(Server.getModel().isGameRunning()) {
 			MainWindow.log(new LogMessage(LEVEL.WARNING, "Login rejected. Game is already running!"));			
-			Server.getCommunication().sendToClient(socket, new ErrorMessage(ErrorType.ERROR, "Game is already running"));
+			Server.getCommunication().sendToClient(out, new ErrorMessage(ErrorType.ERROR, "Game is already running"));
 			
 			return false;
 		}		
@@ -125,7 +147,7 @@ public class LoginThread extends Thread {
 		while(it.hasNext()) {
 			if(it.next().getColor() == login.getColor()) {
 				MainWindow.log(new LogMessage(LEVEL.WARNING, "Login rejected. Color is already taken!"));			
-				Server.getCommunication().sendToClient(socket, new ErrorMessage(ErrorType.ERROR, "Color already taken"));
+				Server.getCommunication().sendToClient(out, new ErrorMessage(ErrorType.ERROR, "Color already taken"));
 				
 				return false;
 			}
@@ -134,7 +156,7 @@ public class LoginThread extends Thread {
 		// Deny login if server is already full
 		if(Server.getModel().getClientCount() == 4) {
 			MainWindow.log(new LogMessage(LEVEL.WARNING, "Login rejected. Server is full!"));				
-			Server.getCommunication().sendToClient(socket, new ErrorMessage(ErrorType.ERROR, "Server full"));
+			Server.getCommunication().sendToClient(out, new ErrorMessage(ErrorType.ERROR, "Server full"));
 			
 			return false;
 		}
@@ -142,7 +164,7 @@ public class LoginThread extends Thread {
 		// Check if name is already registered
 		if(!usernameAvailable(login.getUsername())) {
 			MainWindow.log(new LogMessage(LEVEL.WARNING, "Login rejected. Username not available!"));				
-			Server.getCommunication().sendToClient(socket, new ErrorMessage(ErrorType.ERROR, "Username not available"));
+			Server.getCommunication().sendToClient(out, new ErrorMessage(ErrorType.ERROR, "Username not available"));
 			
 			return false;
 		}		
@@ -168,7 +190,7 @@ public class LoginThread extends Thread {
 		Server.getModel().incrementClientCount();
 		
 		// Create and start ClientThread
-		ClientThread thread = new ClientThread();
+		ClientThread thread = new ClientThread(clientOut, clientIn);
 		thread.setSocket(socket);
 		thread.setId(user.getUserID());
 		thread.start();

@@ -8,6 +8,7 @@ import hrw.swenpr.bomberman.server.thread.ClientThread;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 
 public class ServerModel extends BombermanBaseModel {
@@ -37,6 +38,11 @@ public class ServerModel extends BombermanBaseModel {
 	 * based on the decision of the game admin
 	 */
 	private Timer gameTimer;
+	
+	/**
+	 * The time a whole game lasts
+	 */
+	private long gameTime = 0;
 	
 	/**
 	 * Holds the number of clients logged in
@@ -98,16 +104,27 @@ public class ServerModel extends BombermanBaseModel {
 		return null;
 	}
 	
+	/**
+	 * Reads all files in {@code LEVEL_DIR}.
+	 * 
+	 * @return {@link ArrayList} with all {@link File}s.
+	 * 
+	 * @author Marco Egger
+	 */
 	public ArrayList<Level> getAvailableLevels() {
 		ArrayList<Level> levels = new ArrayList<Level>();
 		
+		// create necessary variables
 		File levelDir = new File(LEVEL_DIR);
 		File[] levelFiles = levelDir.listFiles();
 		
+		// go through all found Files
 		for (int i = 0; i < levelFiles.length; i++) {
 			File file = levelFiles[i];
 			
-			levels.add(new Level(file.getName(), null));
+			// add the file if it's a "real" file
+			if(file.isFile())
+				levels.add(new Level(file.getName(), null));
 		}
 		
 		return levels;
@@ -172,6 +189,20 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void setGameTimer(Timer gameTimer) {
 		this.gameTimer = gameTimer;
+	}
+
+	/**
+	 * @return the gameTime in seconds
+	 */
+	public long getGameTime() {
+		return gameTime;
+	}
+
+	/**
+	 * @param gameTime the gameTime to set in minutes
+	 */
+	public void setGameTime(int gameTime) {
+		this.gameTime = gameTime * 60;
 	}
 
 	/**
@@ -246,14 +277,23 @@ public class ServerModel extends BombermanBaseModel {
 		clientCount = getClientCount() + 1;
 	}
 	
+	
 	/**
-	 * Returns all users logged in
+	 * Removes the user from the model with the userID.
 	 * 
-	 * @return All {@link UserModel}s
+	 * @param userID the userID
 	 * 
-	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
-	public ArrayList<UserModel> getUsers() {
-		return this.users;
+	public void removeUser(int userID) {
+		Iterator<UserModel> it = users.iterator();
+		while(it.hasNext()) {
+			UserModel user = it.next();
+			
+			// if users match remove the current user
+			if(user.getUserID() == userID) {
+				it.remove();
+			}
+		}
 	}
 }
