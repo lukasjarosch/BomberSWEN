@@ -1,16 +1,20 @@
 package hrw.swenpr.bomberman.server.thread;
 
+import hrw.swenpr.bomberman.common.rfc.GameStart;
 import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
+import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
 import hrw.swenpr.bomberman.server.LogMessage;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.Server;
+import hrw.swenpr.bomberman.server.ServerModel;
 import hrw.swenpr.bomberman.server.view.MainWindow;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -67,8 +71,13 @@ public class ClientThread extends Thread {
 	public void run() {		
 		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "ClientThread for User " + Server.getModel().getUserById(userId).getUsername()));
 
+		// Admin receives a list of all levels
 		if (isGameAdmin()) {
-			System.out.println("I AM ADMIN");
+			// get all available levels
+			ArrayList<Level> levels = Server.getModel().getAvailableLevels();
+			
+			// send to game admin
+			Server.getCommunication().sendToClient(outputStream, new LevelAvailable(levels));
 		}
 
 		ObjectInputStream in = null;
@@ -93,16 +102,27 @@ public class ClientThread extends Thread {
 				e.printStackTrace();
 			}
 
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Received message of type: " + Header.getMessageType(msg)));
+			
 			switch (Header.getMessageType(msg)) {
+			
 			case LEVEL_SELECTION:
 				handleLevelSelection((LevelSelection) msg);
+				System.out.println("Admin selected " + ((LevelSelection)msg).getFilename());
 				break;
+								
+			case USER_READY:
+				ServerModel model = Server.getModel();
 				
-			case LEVEL_AVAILABLE:
-				// get all available levels
-				ArrayList<Level> levels = Server.getModel().getAvailableLevels();
-				// send to game admin
-				Server.getCommunication().sendToClient(outputStream, new LevelAvailable(levels));
+				model.incrementReadyCount();
+				if(model.getReadyCount() == model.getUsers().size()) {
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
+					Server.getCommunication().sendToAllClients(new GameStart());
+					
+					File file = new File(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
+					System.out.println(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
+					Server.getCommunication().sendToAllClients(new LevelFile(file));
+				}
 				break;
 
 			default:
@@ -120,7 +140,8 @@ public class ClientThread extends Thread {
 	 */
 	public void handleLevelSelection(LevelSelection selection) {
 		if(isGameAdmin()) {
-			// store level selection in the model
+			
+			// Store level information
 			Server.getModel().setLevelFilename(selection.getFilename());
 			
 			// send selection to all clients
