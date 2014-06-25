@@ -1,15 +1,9 @@
 package hrw.swenpr.bomberman.client;
 
-import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
-import hrw.swenpr.bomberman.common.rfc.Bomb;
-import hrw.swenpr.bomberman.common.rfc.Level;
-import hrw.swenpr.bomberman.common.rfc.User;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.io.File;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
