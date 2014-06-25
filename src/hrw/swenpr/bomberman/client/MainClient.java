@@ -116,7 +116,7 @@ public class MainClient extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			
 			@Override
-			public void windowClosed(WindowEvent event) {
+			public void windowClosing(WindowEvent event) {
 				// send remove message when window closed
 				com.sendMessage(new UserRemove(userID));
 			}
@@ -192,8 +192,9 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * shows player a dialog where he can choose a level
-	 * only shown if player is admin
+	 * <p>Shows player a dialog where he can choose a level
+	 * 
+	 * <p>Only shown if player is admin.
 	 */
 	public void showLevelDialog()
 	{
@@ -211,10 +212,13 @@ public class MainClient extends JFrame {
 		// show dialog
 		String ret = (String) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, levels, levels[0]);
 		
-		//Send message to server
-		com.sendMessage(new LevelSelection(ret));
-		
-		this.setLevel(ret);
+		// when dialog not canceled
+		if(ret != null) {
+			//Send message to server
+			com.sendMessage(new LevelSelection(ret));
+			
+			this.setLevel(ret);
+		}
 	}
 	
 	/**
