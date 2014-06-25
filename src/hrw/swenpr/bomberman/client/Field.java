@@ -72,12 +72,12 @@ public class Field extends JPanel
 						grid[i][j] = new JLabel();
 						grid[i][j].setBackground(Color.WHITE);
 						break;
-					case DESTROYABLE_FIELD:
+					case DESTRUCTIBLE_FIELD:
 						grid[i][j] = new JLabel();
 						grid[i][j].setBackground(Color.GRAY);
 						break;
 						
-					case UNDESTROYABLE_FIELD:
+					case INDESTRUCTUBLE_FIELD:
 						grid[i][j] = new JLabel();
 						grid[i][j].setBackground(Color.BLACK);
 						break;
