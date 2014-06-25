@@ -17,6 +17,7 @@ public class UserModel {
 	protected String username;
 	protected UserColor color;
 	protected Point position;
+	protected boolean ready = false;
 
 	/**
 	 * @param userID
@@ -99,5 +100,19 @@ public class UserModel {
 	 */
 	public void setPosition(Point position) {
 		this.position = position;
+	}
+
+	/**
+	 * @return the ready
+	 */
+	public boolean isReady() {
+		return ready;
+	}
+
+	/**
+	 * @param ready the ready to set
+	 */
+	public void setReady(boolean ready) {
+		this.ready = ready;
 	}
 }
