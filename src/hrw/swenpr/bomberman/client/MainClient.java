@@ -142,6 +142,9 @@ public class MainClient extends JFrame {
 		if(ret == null)
 			System.exit(0);
 		
+		if(ret == null)
+			System.exit(0);
+		
 		socket = ClientConnection.getSocket(ipAddress.getText(), DEFAULT_PORT);
 			
 		if(socket != null) {
