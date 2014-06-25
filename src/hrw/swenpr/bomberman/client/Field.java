@@ -1,13 +1,17 @@
 package hrw.swenpr.bomberman.client;
 
+import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -25,8 +29,8 @@ public class Field extends JPanel
 	private Image Stone;
 	private Image bomb[];
 	private Image indestructible;
-	private int grid[][];
-	
+	private JLabel grid[][];
+	private MainClient mainClient;
 	
 	public Field()
 	{
@@ -38,20 +42,110 @@ public class Field extends JPanel
 	 * @param members players with their position and color
 	 * @param bombs position and kind of bomb
 	 */
-	public void drawField(User members[], Bomb bombs[], File level)
+	public void drawField()
 	{
-		
+
 	}
 	
 	/**
 	 * draws new level
-	 * @param members players with their position and color
-	 * @param bombs position and kind of bomb
-	 * @param level new selected level
+	 * @throws Exception 
 	 */
-	public void createnewfield(User members[], Bomb bombs[], Level level)
+	public void createNewField() throws Exception
 	{
-
+		mainClient = MainClient.getInstance();
+		ClientModel model = mainClient.getModel();
+		//get field size
+		int x = model.getSize().x;
+		int y = model.getSize().y;
+		grid = new JLabel[x][y];
+		this.setLayout(new GridLayout(x, y));
+		
+		//Going through the field 
+		for(int i = 0; i < x; i++){
+			for(int j = 0; j < y; j++){
+				
+				//Determine the field type and set according symbols and
+				//backgrounds
+				switch (model.getFieldType(x, y)){
+					case PLAIN_FIELD:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						break;
+					case DESTROYABLE_FIELD:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.GRAY);
+						break;
+						
+					case UNDESTROYABLE_FIELD:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.BLACK);
+						break;
+						
+					case NORMAL_BOMB:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("NB");
+						break;
+						
+					case SUPER_BOMB:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("SB");
+						break;
+						
+					case MEGA_BOMB:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("MB");
+						break;
+						
+					case ITEM_SUPER_BOMB:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("ISB");
+						break;
+						
+					case ITEM_MEGA_BOMB:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("IMB");
+						break;
+						
+					case USER1:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("U1");
+						break;
+						
+					case USER2:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("U2");
+						break;
+						
+					case USER3:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("U2");
+						break;
+						
+					case USER4:
+						grid[i][j] = new JLabel();
+						grid[i][j].setBackground(Color.WHITE);
+						grid[i][j].setText("U3");
+						break;
+					
+					default:
+						
+						break;
+				}
+				//Add grid to panel
+				this.add(grid[i][j]);
+			}
+		}
+		//repaint field
+		this.repaint();
 	}
 	
 	/**
@@ -59,6 +153,6 @@ public class Field extends JPanel
 	 */
 	protected void paintComponent(Graphics g) 
 	{
-
+		super.paintComponent(g);
 	}
 }

@@ -15,7 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+
+import javax.swing.JOptionPane;
 
 /**
  * In this class the communication with the server is done.
@@ -29,14 +32,32 @@ public class Communication extends Thread {
 	 * The socket connected to the server
 	 */
 	private Socket socket;
-
+	
+	/**
+	 * Reference to the mainClient
+	 */
+	private MainClient client;
+	
+	/**
+	 * ObjectOutputStream
+	 */
+	private ObjectOutputStream out;
+	
 	/**
 	 * Create separate thread.
 	 * 
-	 * @param socket the socket connected to the server
+	 * @param socket the socket connected to the server 
 	 */
-	public Communication(Socket socket) {
+	public Communication(Socket socket, MainClient client){
 		this.socket = socket;
+		this.client = client;
+		try {
+			this.out = new ObjectOutputStream(socket.getOutputStream());
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	
@@ -46,7 +67,6 @@ public class Communication extends Thread {
 			// get input stream
 			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 			Object msg = null;
-			MainClient client = MainClient.getInstance();
 
 			// loop until thread gets interrupted
 			while (!Thread.interrupted()) {
@@ -59,7 +79,7 @@ public class Communication extends Thread {
 					
 					client.setVisible(true);
 					
-					// when userID = 0 -> game master
+					// when userID = 0 -> admin
 					if (login.getUserID() == 0) {
 						client.setAdmin(true);
 					}
@@ -82,7 +102,7 @@ public class Communication extends Thread {
 					break;
 							
 				case LEVEL_FILE:
-					File tmp = new File("." + File.separator + "Levels" + File.separator + client.getLevelName());
+					File tmp = new File(System.getProperty("user.dir") + File.separator + client.getLevelName());
 					((LevelFile) msg).writeLevelFile(tmp);
 					client.getLevelFile(tmp);
 					break;
@@ -104,12 +124,15 @@ public class Communication extends Thread {
 					break;
 	
 				case USER_POSITION:
-					client.movePlayer((UserPosition) msg);
+					client.getModel().movePlayer((UserPosition) msg);
 					break;
 					
 				case USER_DEAD:
 					client.playerDead((User) msg);
 					break;
+					
+				case USER_REMOVE:
+					client.playerRemove((User) msg);
 					
 				case BOMB:
 					Bomb bomb = (Bomb) msg;
@@ -119,13 +142,12 @@ public class Communication extends Thread {
 				case ERROR_MESSAGE:
 					ErrorMessage error = (ErrorMessage) msg;
 					
+					JOptionPane.showMessageDialog(client, error.getMessage());
+					
 					// fatal error
-					if(error.getSubtype() == ErrorType.ERROR) {
-						System.out.println("Error received: " + error.getMessage());
-					}
-					else {
-						System.out.println("Warning received: " + error.getMessage());
-					}
+					if(error.getSubtype() == ErrorType.ERROR) 
+						System.exit(0);
+					
 					break;
 				default:
 					break;
@@ -147,7 +169,6 @@ public class Communication extends Thread {
 	 */
 	public void sendMessage(Object message) {
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
 			out.writeObject(message);
 		} catch (IOException | NullPointerException e) {
 			e.printStackTrace();

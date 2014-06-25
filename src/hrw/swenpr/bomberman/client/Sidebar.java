@@ -110,7 +110,14 @@ public class Sidebar extends JPanel {
 		
 		// user table
 		String[][] tmp = { {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""} };
-		userTable = new JTable(tmp, COLUMN_HEADS);
+		userTable = new JTable(tmp, COLUMN_HEADS) {
+			private static final long serialVersionUID = 1L;
+			
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
+		
 		userTable.setFont(txtStyle);
 		userTable.setShowGrid(false);
 		
@@ -123,7 +130,7 @@ public class Sidebar extends JPanel {
 		add(new JScrollPane(userTable));
 		add(level);
 		add(chsLevel);
-		add(chsTime);
+		add(chsTime);		
 		add(ready);
 		add(logout);
 		setVisible(true);
@@ -141,9 +148,8 @@ public class Sidebar extends JPanel {
 		} else {
 			// when user exist just update score
 			for (User user : users) {
-				if (user.getUsername() == usr.getUsername()) {
+				if (user.getUsername().equals(usr.getUsername()))
 					user.setScore(usr.getScore());
-				}
 			}
 		}
 
@@ -153,7 +159,7 @@ public class Sidebar extends JPanel {
 			// enlist username in first column
 			userTable.setValueAt(users.get(i).getUsername(), i, 1);
 			// enlist userscore in second column
-			userTable.setValueAt(users.get(i).getScore(), i, 2);
+			userTable.setValueAt(Integer.toString(users.get(i).getScore()), i, 2);
 		}
 
 		userTable.repaint();
@@ -171,7 +177,7 @@ public class Sidebar extends JPanel {
 		
 		// go through player list and check if a matching username exist
 		for(User usr : users) {
-			if(usr.getUsername() == user.getUsername())
+			if(usr.getUsername().equals(user.getUsername()))
 				result = true;
 		}
 		
