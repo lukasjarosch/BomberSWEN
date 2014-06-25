@@ -4,6 +4,7 @@ import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserRemove;
 import hrw.swenpr.bomberman.server.thread.ClientThread;
 
 import java.io.File;
@@ -134,7 +135,7 @@ public class ServerModel extends BombermanBaseModel {
 	 * We do not allow direct modification of the readyCount.
 	 * A player can only click on 'Ready' but not 'unclick' it.
 	 * 
-	 * This will simply increments the current readyCount
+	 * This will simply increment the current readyCount
 	 * 
 	 * It will not perform any validation!
 	 * 
@@ -142,6 +143,21 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void incrementReadyCount() {
 		readyCount++;
+	}
+	
+	/**
+	 * We do not allow direct modification of the readyCount.
+	 * A player can only click on 'Ready' but not 'unclick' it,
+	 * but it can be decreased because of an {@link UserRemove} message.
+	 * 
+	 * This will simply decrement the current readyCount
+	 * 
+	 * It will not perform any validation!
+	 * 
+	 * @author Marco Egger
+	 */
+	public void decrementReadyCount() {
+		readyCount--;
 	}
 	
 	/**

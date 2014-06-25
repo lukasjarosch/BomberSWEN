@@ -139,6 +139,7 @@ public class ClientThread extends Thread {
 					ServerModel model = Server.getModel();
 					
 					model.incrementReadyCount();
+					model.getUserById(userId).setReady(true);
 					
 					// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
 					if(model.getReadyCount() == model.getUsers().size() && model.getUsers().size() > 1) {
@@ -156,6 +157,10 @@ public class ClientThread extends Thread {
 					break;
 					
 				case USER_REMOVE:
+					// if user was set ready -> decrease ready count
+					if(Server.getModel().getUserById(userId).isReady())
+						Server.getModel().decrementReadyCount();
+					
 					Server.getModel().removeUser(((UserRemove)msg).getUserID());
 					removed = true;
 					break;
