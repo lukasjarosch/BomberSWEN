@@ -16,6 +16,17 @@ public class Level implements Serializable {
 	
 	/**
 	 * @param filename
+	 */
+	public Level(String filename) {
+		this.filename = filename;
+	}
+	
+	
+	/**
+	 * @deprecated The size of the level should not be used anymore. 
+	 * It can be set, but it is often set to {@code NULL}.
+	 * 
+	 * @param filename
 	 * @param size
 	 */
 	public Level(String filename, Point size) {
@@ -30,19 +41,24 @@ public class Level implements Serializable {
 	public String getFilename() {
 		return filename;
 	}
+	
 	/**
 	 * @param filename the filename to set
 	 */
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+	
 	/**
+	 * @deprecated
 	 * @return the size
 	 */
 	public Point getSize() {
 		return size;
 	}
+	
 	/**
+	 * @deprecated
 	 * @param size the size to set
 	 */
 	public void setSize(Point size) {
