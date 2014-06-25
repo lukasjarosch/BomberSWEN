@@ -107,6 +107,9 @@ public class Server extends JFrame {
 	 */
 	public static void shutdown() {
 		loginThread = new LoginThread();
+		
+		//  Create a new server model
+		model = new ServerModel();
 	}
 	
 	/**
