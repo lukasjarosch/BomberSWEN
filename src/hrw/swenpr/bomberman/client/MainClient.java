@@ -139,6 +139,9 @@ public class MainClient extends JFrame {
 		// show dialog
 		UserColor ret = (UserColor) JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
 		
+		if(ret == null)
+			System.exit(0);
+		
 		socket = ClientConnection.getSocket(ipAddress.getText(), DEFAULT_PORT);
 			
 		if(socket != null) {
