@@ -16,6 +16,7 @@ public class UserModel {
 	protected int userID;
 	protected String username;
 	protected UserColor color;
+	protected int score;
 	protected Point position;
 	protected boolean ready = false;
 
@@ -23,12 +24,14 @@ public class UserModel {
 	 * @param userID
 	 * @param username
 	 * @param color
+	 * @param score
 	 * @param position
 	 */
-	public UserModel(int userID, String username, UserColor color, Point position) {
+	public UserModel(int userID, String username, UserColor color, int score, Point position) {
 		this.userID = userID;
 		this.username = username;
 		this.color = color;
+		this.score = score;
 		this.position = position;
 	}
 
@@ -43,6 +46,7 @@ public class UserModel {
 		this.userID = user.getUserID();
 		this.username = user.getUsername();
 		this.color = user.getColor();
+		this.score = user.getScore();
 		this.position = position;
 	}
 
@@ -86,6 +90,20 @@ public class UserModel {
 	 */
 	public void setColor(UserColor color) {
 		this.color = color;
+	}
+
+	/**
+	 * @return the score
+	 */
+	public int getScore() {
+		return score;
+	}
+
+	/**
+	 * @param score the score to set
+	 */
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	/**
