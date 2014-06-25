@@ -8,6 +8,7 @@ import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
+import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 import hrw.swenpr.bomberman.server.LogMessage;
@@ -103,7 +104,7 @@ public class ClientThread extends Thread {
 		// send all currently logged-in users to new client
 		ArrayList<UserModel> users = Server.getModel().getUsers();
 		for (UserModel user : users) {
-			// TODO: send User message
+			Server.getCommunication().sendToClient(outputStream, new User(user.getUserID(), user.getUsername(), user.getScore(), user.getColor()));
 		}
 		
 
