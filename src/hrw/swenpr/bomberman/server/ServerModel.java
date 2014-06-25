@@ -8,6 +8,7 @@ import hrw.swenpr.bomberman.server.thread.ClientThread;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 
 public class ServerModel extends BombermanBaseModel {
@@ -255,10 +256,13 @@ public class ServerModel extends BombermanBaseModel {
 	 * @author Marco Egger
 	 */
 	public void removeUser(int userID) {
-		for (UserModel user : users) {
+		Iterator<UserModel> it = users.iterator();
+		while(it.hasNext()) {
+			UserModel user = it.next();
+			
 			// if users match remove the current user
 			if(user.getUserID() == userID) {
-				users.remove(user);
+				it.remove();
 			}
 		}
 	}
