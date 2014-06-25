@@ -1,16 +1,18 @@
 package hrw.swenpr.bomberman.server;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Timer;
-
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.UserModel;
+import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.server.thread.ClientThread;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Timer;
+
 public class ServerModel extends BombermanBaseModel {
+	
+	public static final String LEVEL_DIR = System.getProperty("user.dir") + File.separator +  "level";
 
 	/**
 	 * How many players are ready to start the game?
@@ -47,6 +49,11 @@ public class ServerModel extends BombermanBaseModel {
 	private ArrayList<ClientThread> clientThreads = new ArrayList<ClientThread>();
 	
 	/**
+	 * The selected level filename
+	 */
+	private String levelFilename = null;
+	
+	/**
 	 * The {@link ServerModel} constructor
 	 * 
 	 * @param The players participating in the game
@@ -62,22 +69,48 @@ public class ServerModel extends BombermanBaseModel {
 	public ServerModel() {}
 	
 	/**
+	 * Set the filename of the selected level.
+	 * 
+	 * @param filename the filename
+	 */
+	public void setLevelFilename(String filename) {
+		levelFilename = filename;
+	}
+	
+	public String getLevelFilename() {
+		return levelFilename;
+	}
+	
+	/**
 	 * Fetch a {@link UserModel} by ID
 	 * 
 	 * @param id
 	 * @return The {@link UserModel} or null
 	 * 
 	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
 	public UserModel getUserById(int id) {
-		Iterator<UserModel> it = getUsers().iterator();
-		while(it.hasNext()) {
-			if(it.next().getUserID() == id) {
-				// FIXME: Dafuq is going on?
-				return it.next();
-			}
+		for(UserModel user : getUsers()) {
+			if(user.getUserID() == id)
+				return user;
 		}
 		return null;
+	}
+	
+	public ArrayList<Level> getAvailableLevels() {
+		ArrayList<Level> levels = new ArrayList<Level>();
+		
+		File levelDir = new File(LEVEL_DIR);
+		File[] levelFiles = levelDir.listFiles();
+		
+		for (int i = 0; i < levelFiles.length; i++) {
+			File file = levelFiles[i];
+			
+			levels.add(new Level(file.getName(), null));
+		}
+		
+		return levels;
 	}
 	
 	/**

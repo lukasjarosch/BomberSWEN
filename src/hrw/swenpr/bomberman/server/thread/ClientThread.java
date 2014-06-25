@@ -1,14 +1,20 @@
 package hrw.swenpr.bomberman.server.thread;
 
-import java.net.Socket;
-
+import hrw.swenpr.bomberman.common.rfc.Header;
+import hrw.swenpr.bomberman.common.rfc.Level;
+import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
 import hrw.swenpr.bomberman.server.LogMessage;
-import hrw.swenpr.bomberman.server.Server;
 import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
+import hrw.swenpr.bomberman.server.Server;
 import hrw.swenpr.bomberman.server.view.MainWindow;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * This thread is started for each 
@@ -37,6 +43,7 @@ public class ClientThread extends Thread {
 	 */
 	private int userId;
 	
+	
 	/**
 	 * Creates the socket for communicating with the client
 	 * 
@@ -51,11 +58,50 @@ public class ClientThread extends Thread {
 	 */
 	@Override
 	public void run() {		
-		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "ClientThread for User " + Server.getModel().getUserById(userId) ));
-		
-		if(isGameAdmin()) {
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "ClientThread for User " + Server.getModel().getUserById(userId)));
+
+		if (isGameAdmin()) {
 			System.out.println("I AM ADMIN");
 		}
+
+		ObjectInputStream in = null;
+
+		try {
+			// get input stream
+			in = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			MainWindow.log(new LogMessage(LEVEL.ERROR, "Could not create InputStream."));
+			e.printStackTrace();
+		}
+
+		while (!Thread.interrupted()) {
+
+			Object msg = null;
+
+			try {
+				// read object
+				msg = in.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from InputStream."));
+				e.printStackTrace();
+			}
+
+			switch (Header.getMessageType(msg)) {
+			case LEVEL_SELECTION:
+				handleLevelSelection((LevelSelection) msg);
+				break;
+				
+			case LEVEL_AVAILABLE:
+				// get all available levels
+				ArrayList<Level> levels = Server.getModel().getAvailableLevels();
+				// send to game admin
+				Server.getCommunication().sendToClient(socket, new LevelAvailable(levels));
+				break;
+
+			default:
+				break;
+			}
+		}		
 	}
 
 	/**
@@ -63,13 +109,16 @@ public class ClientThread extends Thread {
 	 * Other players cannot select the level
 	 * 
 	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
-	public void handleLevelSelection() {
-	
-		// Test if admin
-		
-		// Set level
-		
+	public void handleLevelSelection(LevelSelection selection) {
+		if(isGameAdmin()) {
+			// store level selection in the model
+			Server.getModel().setLevelFilename(selection.getFilename());
+			
+			// send selection to all clients
+			Server.getCommunication().sendToAllClients(selection);			
+		}
 	}
 	
 	/**
