@@ -1,15 +1,12 @@
 package hrw.swenpr.bomberman.server;
 
+import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.thread.ClientThread;
 import hrw.swenpr.bomberman.server.view.MainWindow;
-import hrw.swenpr.bomberman.server.LogMessage;
-import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 public class Communication {
@@ -17,14 +14,14 @@ public class Communication {
 	/**
 	 * Send a message to a specified socket
 	 * 
-	 * @param socket The socket to use
+	 * @param socket The output stream to use
 	 * @param message The message to send
 	 */
-	public <T> void sendToClient(Socket socket, T message) {
-		ObjectOutputStream out;
+	public <T> void sendToClient(ObjectOutputStream out, T message) {
 		
 		try {
-			out = new ObjectOutputStream(socket.getOutputStream());
+			if(out == null)
+				System.out.println("out null");
 			out.writeObject(message);
 		} catch (IOException | NullPointerException e) {
 			e.printStackTrace();
@@ -40,10 +37,9 @@ public class Communication {
 	 */
 	public <T> void sendToAllClients(T message){
 		ArrayList<ClientThread> threads = Server.getModel().getClientThreads();
-		Iterator<ClientThread> it = threads.iterator();
 		
-		while(it.hasNext()) {
-			sendToClient(it.next().getSocket(), message);
+		for (ClientThread clientThread : threads) {
+			sendToClient(clientThread.getOutputStream(), message);
 		}
 	}
 }

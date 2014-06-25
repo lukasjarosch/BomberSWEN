@@ -13,6 +13,7 @@ import hrw.swenpr.bomberman.server.view.MainWindow;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -39,6 +40,11 @@ public class ClientThread extends Thread {
 	private Socket socket = null;
 	
 	/**
+	 * The output stream
+	 */
+	private ObjectOutputStream outputStream = null;
+	
+	/**
 	 * The user id
 	 */
 	private int userId;
@@ -48,9 +54,10 @@ public class ClientThread extends Thread {
 	 * Creates the socket for communicating with the client
 	 * 
 	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
-	public ClientThread() {
-		// Create socket and set it locally
+	public ClientThread(ObjectOutputStream out) {
+		this.outputStream = out;
 	}
 	
 	/**
@@ -58,7 +65,7 @@ public class ClientThread extends Thread {
 	 */
 	@Override
 	public void run() {		
-		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "ClientThread for User " + Server.getModel().getUserById(userId)));
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "ClientThread for User " + Server.getModel().getUserById(userId).getUsername()));
 
 		if (isGameAdmin()) {
 			System.out.println("I AM ADMIN");
@@ -95,7 +102,7 @@ public class ClientThread extends Thread {
 				// get all available levels
 				ArrayList<Level> levels = Server.getModel().getAvailableLevels();
 				// send to game admin
-				Server.getCommunication().sendToClient(socket, new LevelAvailable(levels));
+				Server.getCommunication().sendToClient(outputStream, new LevelAvailable(levels));
 				break;
 
 			default:
@@ -178,7 +185,7 @@ public class ClientThread extends Thread {
 	}
 
 	/**
-	 * Set the client socket 
+	 * Set the client socket  and the output stream
 	 * @param socket Socket
 	 */
 	public void setSocket(Socket socket) {
@@ -199,5 +206,9 @@ public class ClientThread extends Thread {
 
 	public void setId(int id) {
 		this.userId = id;
+	}
+
+	public ObjectOutputStream getOutputStream() {
+		return outputStream;
 	}
 }
