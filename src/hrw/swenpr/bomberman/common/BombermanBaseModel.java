@@ -36,9 +36,9 @@ public abstract class BombermanBaseModel {
 	protected Point size = null;
 	// user arraylist with ID, color and position for each user
 	protected ArrayList<UserModel> users = new ArrayList<UserModel>();
-	// undestroyable objects arraylist
+	// indestructible objects arraylist
 	protected ArrayList<Point> indestructible = new ArrayList<Point>();
-	// destroyable objects arraylist
+	// destructible objects arraylist
 	protected ArrayList<Destructible> destructible = new ArrayList<Destructible>();
 	// builder for level file
 	protected SAXBuilder builder = new SAXBuilder();
@@ -54,8 +54,8 @@ public abstract class BombermanBaseModel {
 	 */
 	public enum FieldType {
 		PLAIN_FIELD,
-		DESTROYABLE_FIELD,
-		UNDESTROYABLE_FIELD,
+		DESTRUCTIBLE_FIELD,
+		INDESTRUCTUBLE_FIELD,
 		NORMAL_BOMB,
 		SUPER_BOMB,
 		MEGA_BOMB,
@@ -111,19 +111,19 @@ public abstract class BombermanBaseModel {
 			// store on model
 			size = new Point(x, y);
 
-			// read and store all undestroyable fields
-			List<Element> undestroy = root.getChild("undestroyable")
-					.getChildren();
-			for (Element elem : undestroy) {
-				Point p = new Point(Integer.parseInt(elem.getChildText("x")),
-						Integer.parseInt(elem.getChildText("y")));
+			// read and store all indestructible fields
+			List<Element> indest = root.getChild("indestructible").getChildren();
+			for (Element elem : indest) {
+				// read the position and reduce each value by 1 because an array starts at zero and the level file starts with one
+				Point p = new Point(Integer.parseInt(elem.getChildText("x")) - 1, Integer.parseInt(elem.getChildText("y")) - 1);
 				this.indestructible.add(p);
 			}
 
-			// read and store all destroyable fields
-			List<Element> destroy = root.getChild("destroyable").getChildren();
-			for (Element elem : destroy) {
-				Destructible destruct = new Destructible(new Point(Integer.parseInt(elem.getChildText("x")), Integer.parseInt(elem.getChildText("y"))));
+			// read and store all destructible fields
+			List<Element> dest = root.getChild("destructible").getChildren();
+			for (Element elem : dest) {
+				// read the position and reduce each value by 1 because an array starts at zero and the level file starts with one
+				Destructible destruct = new Destructible(new Point(Integer.parseInt(elem.getChildText("x")) - 1, Integer.parseInt(elem.getChildText("y")) - 1));
 				destruct.setItem(Integer.parseInt(elem.getChildText("item")));
 				
 				this.destructible.add(destruct);
@@ -146,11 +146,11 @@ public abstract class BombermanBaseModel {
 
 		// set the indestructible fields
 		for (Point p : this.indestructible) {
-			field[p.x][p.y] = FieldType.UNDESTROYABLE_FIELD;
+			field[p.x][p.y] = FieldType.INDESTRUCTUBLE_FIELD;
 		}
 		// set the destructible fields
 		for (Destructible dest : this.destructible) {
-			field[dest.getPosition().x][dest.getPosition().y] = FieldType.DESTROYABLE_FIELD;
+			field[dest.getPosition().x][dest.getPosition().y] = FieldType.DESTRUCTIBLE_FIELD;
 		}
 		
 		levelLoaded = true;
