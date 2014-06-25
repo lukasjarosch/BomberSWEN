@@ -1,5 +1,6 @@
 package hrw.swenpr.bomberman.server.thread;
 
+import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.GameStart;
 import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.Level;
@@ -98,6 +99,13 @@ public class ClientThread extends Thread {
 			// Send to game admin
 			Server.getCommunication().sendToClient(outputStream, new LevelAvailable(levels));
 		}
+		
+		// send all currently logged-in users to new client
+		ArrayList<UserModel> users = Server.getModel().getUsers();
+		for (UserModel user : users) {
+			// TODO: send User message
+		}
+		
 
 		// Enter working loop
 		while (!Thread.interrupted()) {
@@ -139,7 +147,6 @@ public class ClientThread extends Thread {
 					ServerModel model = Server.getModel();
 					
 					model.incrementReadyCount();
-					model.getUserById(userId).setReady(true);
 					
 					// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
 					if(model.getReadyCount() == model.getUsers().size() && model.getUsers().size() > 1) {
@@ -156,12 +163,15 @@ public class ClientThread extends Thread {
 					}
 					break;
 					
-				case USER_REMOVE:
-					// if user was set ready -> decrease ready count
-					if(Server.getModel().getUserById(userId).isReady())
-						Server.getModel().decrementReadyCount();
+				case BOMB:
+					// forward all bomb messages to all clients
+					Server.getCommunication().sentToAllOtherClients(msg, this);
+					break;
 					
+				case USER_REMOVE:
 					Server.getModel().removeUser(((UserRemove)msg).getUserID());
+					// forward message to all clients
+					Server.getCommunication().sentToAllOtherClients(msg, this);
 					removed = true;
 					break;
 	
