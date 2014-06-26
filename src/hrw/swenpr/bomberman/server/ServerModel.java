@@ -206,6 +206,8 @@ public class ServerModel extends BombermanBaseModel {
 	public void setGameTimer(Timer gameTimer) {
 		this.gameTimer = gameTimer;
 	}
+	
+	
 
 	/**
 	 * @return the gameTime in seconds

@@ -53,57 +53,7 @@ public class GameThread implements Runnable {
 		// Send GameEnd to clients
 	}
 	
-	/**
-	 * Sets up a {@link Timer} which will end the game
-	 * after the selected time.
-	 * It will send a {@link GameOver} message to all clients
-	 * 
-	 * The timer is stored in the {@link ServerModel}
-	 * 
-	 * @author Lukas Jarosch
-	 */
-	private void scheduleGameEnd() {
-		model.setGameTimer(new Timer());
-		model.getGameTimer().schedule(new TimerTask() {
-			
-			@Override
-			public void run() {
-				
-				// Game end!
-				model.setGameRunning(false);
-				
-				// Send GameOver Message to all clients
-				
-				// Free resources...whatever...
-			}
-		}, 1/* INSERT TIME */ );
-	}
-	
-	/**
-	 * Handles packages of type {@link UserPosition}
-	 * 
-	 * @author Lukas Jarosch
-	 */
-	private void handleUserPosition() {
-		
-		// Edit model
-		
-		// Inform all clients of new position by sending a User object
-	}
-	
-	/**
-	 * Handles packages of type {@link Bomb}
-	 * 
-	 * @author Lukas Jarosch
-	 */
-	private void handleBomb() {
-		
-		// ??? Check if player is hit by bomb ???
-		
-		// Change 'alive' in ClientThread of the user to FALSE
-		
-		// Inform all players by sending a UserDead message
-	}
+
 	
 	/**
 	 * Checks if there is only one player left (alive)
