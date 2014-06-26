@@ -145,24 +145,7 @@ public class ClientThread extends Thread {
 					break;
 									
 				case USER_READY:
-					ServerModel model = Server.getModel();
-					
-					model.incrementReadyCount();
-					model.getUserById(userId).setReady(true);
-					
-					// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
-					if(model.getReadyCount() == model.getUsers().size() && model.getUsers().size() > 1) {
-	
-						// Send level file
-						File file = new File(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
-						MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Sending level: " + model.getLevelFilename()));
-						Server.getCommunication().sendToAllClients(new LevelFile(file));
-						
-						// Start game
-						MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
-						Server.getCommunication().sendToAllClients(new GameStart());
-						
-					}
+					handleUserReady();
 					break;
 					
 				case BOMB:
@@ -234,13 +217,24 @@ public class ClientThread extends Thread {
 	 */
 	public void handleUserReady() {
 		
-		// Get the server model
+		ServerModel model = Server.getModel();
 		
-		// model.increaseReadyCount();
+		model.incrementReadyCount();
+		model.getUserById(userId).setReady(true);
 		
-		// Test if readyCount == playerCount
-		
-			// Start the game
+		// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
+		if(model.getReadyCount() == model.getUsers().size() && model.getUsers().size() > 1) {
+
+			// Send level file
+			File file = new File(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Sending level: " + model.getLevelFilename()));
+			Server.getCommunication().sendToAllClients(new LevelFile(file));
+			
+			// Start game
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
+			Server.getCommunication().sendToAllClients(new GameStart());
+			
+		}
 	}
 
 	/**
