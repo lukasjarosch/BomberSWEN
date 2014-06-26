@@ -1,6 +1,7 @@
 package hrw.swenpr.bomberman.server.thread;
 
 import hrw.swenpr.bomberman.common.UserModel;
+import hrw.swenpr.bomberman.common.rfc.GameOver;
 import hrw.swenpr.bomberman.common.rfc.GameStart;
 import hrw.swenpr.bomberman.common.rfc.Header;
 import hrw.swenpr.bomberman.common.rfc.Level;
@@ -145,6 +146,7 @@ public class ClientThread extends Thread {
 					break;
 									
 				case USER_READY:
+					// Increment user_ready count and start game if necessary
 					handleUserReady();
 					break;
 					
@@ -154,17 +156,20 @@ public class ClientThread extends Thread {
 					break;
 					
 				case USER_REMOVE:
-					// if user was set ready -> decrease ready count
-					if(Server.getModel().getUserById(userId).isReady())
-						Server.getModel().decrementReadyCount();
-					
-					Server.getModel().removeUser(((UserRemove)msg).getUserID());
-					
-					// forward message to all clients
-					Server.getCommunication().sentToAllOtherClients(msg, this);
-					removed = true;
+					handleUserRemove((UserRemove)msg);
 					break;
 	
+
+				case USER_POSITION:
+						Server.getCommunication().sentToAllOtherClients(msg, this);
+					break;
+					
+					
+				case USER_DEAD:
+						handleUserDead();
+					break;
+					
+				
 				default:
 					break;
 			}
@@ -189,6 +194,42 @@ public class ClientThread extends Thread {
 			// send selection to all clients
 			Server.getCommunication().sendToAllClients(selection);			
 		}
+	}
+	
+	/**
+	 * Handles a dying user. If one or less players are left
+	 * the game will end
+	 */
+	public void handleUserDead() {
+		setAlive(false);
+		
+		int numDead = 0;
+		for (ClientThread client : Server.getModel().getClientThreads()) {
+			if(client.clientIsAlive()) 
+				numDead++;
+		}
+		
+		// Game ends when one or less players are alive
+		if(Server.getModel().getClientCount() - 1 <= numDead) {
+			Server.getCommunication().sendToAllClients(new GameOver());
+		}
+	}
+	
+	/**
+	 * Removes a user from the model
+	 * 
+	 * @param msg The {@link UserRemove}
+	 */
+	public void handleUserRemove(UserRemove msg) {
+		// if user was set ready -> decrease ready count
+		if(Server.getModel().getUserById(userId).isReady())
+			Server.getModel().decrementReadyCount();
+		
+		Server.getModel().removeUser(msg.getUserID());
+		
+		// forward message to all clients
+		Server.getCommunication().sentToAllOtherClients(msg, this);
+		removed = true;
 	}
 	
 	/**
@@ -251,8 +292,16 @@ public class ClientThread extends Thread {
 	 * 
 	 * @param alive
 	 */
-	public void setAlive(boolean alive) {
+	private void setAlive(boolean alive) {
 		this.alive = alive;
+	}
+
+	/**
+	 * Returns whether 
+	 * @return
+	 */
+	public boolean clientIsAlive() {
+		return alive;
 	}
 
 	/**
