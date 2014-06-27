@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.server;
 
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.UserModel;
+import hrw.swenpr.bomberman.common.rfc.GameOver;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
@@ -11,10 +12,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerModel extends BombermanBaseModel {
 	
+	/**
+	 * Default location of the level files.
+	 */
 	public static final String LEVEL_DIR = System.getProperty("user.dir") + File.separator +  "level";
+	
+	/**
+	 * The default number of rounds to be played to finish a whole game.
+	 */
+	public static final int DEFAULT_ROUND_AMOUNT = 3;
 
 	/**
 	 * How many players are ready to start the game?
@@ -41,7 +51,7 @@ public class ServerModel extends BombermanBaseModel {
 	private Timer gameTimer;
 	
 	/**
-	 * The time a whole game lasts
+	 * The time a whole game lasts in seconds
 	 */
 	private long gameTime = 0;
 	
@@ -59,6 +69,11 @@ public class ServerModel extends BombermanBaseModel {
 	 * The selected level filename
 	 */
 	private String levelFilename = null;
+	
+	/**
+	 * Holds the number of rounds played
+	 */
+	private int roundCount = 0;
 	
 	/**
 	 * The {@link ServerModel} constructor
@@ -313,5 +328,59 @@ public class ServerModel extends BombermanBaseModel {
 				it.remove();
 			}
 		}
+	}
+
+	/**
+	 * Returns the amount of rounds played.
+	 * 
+	 * @return the roundCount
+	 * 
+	 * @author Marco Egger
+	 */
+	public int getRoundCount() {
+		return roundCount;
+	}
+
+	/**
+	 * <p>Increases the counter for rounds already played.
+	 * 
+	 * <p>This does NOT send any message to a client.
+	 * 
+	 * @param roundCount the roundCount to set
+	 * 
+	 * @author Marco Egger
+	 */
+	public void roundFinished() {
+		roundCount++;
+		
+		// stop timer and free all TimerTasks
+		gameTimer.cancel();
+		gameTimer.purge();
+	}
+	
+	/**
+	 * <p>Starts a new round. Schedules a {@link TimerTask} every second to decrease game time.
+	 * 
+	 * <p>This does NOT send any message to a client.
+	 * 
+	 * @author Marco Egger
+	 */
+	public void roundStart() {
+		// set timer to schedule every second
+		gameTimer.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				// decrease time
+				gameTime--;
+				
+				// check if game is over
+				if(gameTime <= 0) {
+					// set game to not running and notify the clients
+					setGameRunning(false);
+					Server.getCommunication().sendToAllClients(new GameOver());
+				}
+			}
+		}, 1000, 1000);
 	}
 }
