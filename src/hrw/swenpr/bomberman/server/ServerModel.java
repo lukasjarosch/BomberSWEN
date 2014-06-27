@@ -391,4 +391,18 @@ public class ServerModel extends BombermanBaseModel {
 		// print log
 		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Round started."));
 	}
+	
+	/**
+	 * Checks if a level and a game time are selected by the game admin.
+	 * 
+	 * @return {@code true} when both are selected, else {@code false}
+	 * 
+	 * @author Marco Egger
+	 */
+	public boolean isReadyToStart() {
+		if(levelFilename != null && gameTime != 0)
+			return true;
+		else
+			return false;
+	}
 }
