@@ -287,20 +287,39 @@ public class ClientThread extends Thread {
 	}
 	
 	/**
-	 * Removes a user from the model
+	 * Removes a user from the model and sends messages to other clients with important
+	 * information such as the game admin left or there are not enough players during game phase.
 	 * 
 	 * @param msg The {@link UserRemove}
+	 * 
+	 * @author Marco Egger
 	 */
 	public void handleUserRemove(UserRemove msg) {
-		// if user was set ready -> decrease ready count
-		if(Server.getModel().getUserById(userId).isReady())
-			Server.getModel().decrementReadyCount();
+		ServerModel model = Server.getModel();
 		
-		Server.getModel().removeUser(msg.getUserID());
+		// if user was set ready -> decrease ready count
+		if(model.getUserById(userId).isReady())
+			model.decrementReadyCount();
+		
+		model.removeUser(msg.getUserID());
+		model.removeClientThread(this);
 		
 		// forward message to all clients
 		Server.getCommunication().sentToAllOtherClients(msg, this);
 		removed = true;
+		
+		// if game is running
+		if(model.isGameRunning()) {
+			// when only one player logged in
+			if(model.getUsers().size() <= 1) {
+				Server.getCommunication().sendToAllClients(new ErrorMessage(ErrorType.ERROR, "Zu wenig Spieler vorhanden!"));
+			}
+		}
+		
+		// if game admin left -> end game
+		if(isGameAdmin()) {
+			Server.getCommunication().sendToAllClients(new ErrorMessage(ErrorType.ERROR, "Spielleiter hat das Spiel verlassen."));
+		}
 	}
 	
 	/**

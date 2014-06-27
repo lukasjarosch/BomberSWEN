@@ -289,6 +289,17 @@ public class ServerModel extends BombermanBaseModel {
 	public void addClientThread(int userId, ClientThread thread) {
 		this.clientThreads.add(userId, thread);
 	}
+	
+	/**
+	 * Removes a {@link ClientThread} instance when the client send a {@link UserRemove} message.
+	 * 
+	 * @param thread the client thread
+	 * 
+	 * @author Marco Egger
+	 */
+	public void removeClientThread(ClientThread thread) {
+		clientThreads.remove(thread);
+	}
 
 	/**
 	 * Returns the amount of players currently logged in 
