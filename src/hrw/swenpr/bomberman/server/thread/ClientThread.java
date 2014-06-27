@@ -1,6 +1,8 @@
 package hrw.swenpr.bomberman.server.thread;
 
 import hrw.swenpr.bomberman.common.UserModel;
+import hrw.swenpr.bomberman.common.rfc.ErrorMessage;
+import hrw.swenpr.bomberman.common.rfc.ErrorMessage.ErrorType;
 import hrw.swenpr.bomberman.common.rfc.GameOver;
 import hrw.swenpr.bomberman.common.rfc.GameStart;
 import hrw.swenpr.bomberman.common.rfc.Header;
@@ -139,8 +141,9 @@ public class ClientThread extends Thread {
 					break;
 					
 				case USER_REMOVE:
-					handleUserRemove((UserRemove)msg);
+					// log message before deleting user else it will be null
 					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + getLogUser() + " left."));
+					handleUserRemove((UserRemove)msg);
 					break;
 
 				case USER_POSITION:
@@ -320,16 +323,29 @@ public class ClientThread extends Thread {
 	}
 	
 	/**
-	 * Handles a {@link UserReady} message from the player
+	 * Handles a {@link UserReady} message from the player.
 	 * 
 	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
 	public void handleUserReady() {
-		
 		ServerModel model = Server.getModel();
 		
-		model.incrementReadyCount();
-		model.getUserById(userId).setReady(true);
+		// check if admin
+		if(isGameAdmin()) {
+			// check if he selected a level and a time
+			if(!model.isReadyToStart()) {
+				// send error message to notify about missing selection
+				Server.getCommunication().sendToClient(outputStream, new ErrorMessage(ErrorType.WARNING, "Du musst ein Level und die Spielzeit auswählen!"));
+				return;
+			}
+		}
+		
+		// only increase ready count if user has not been set to ready already
+		if(!model.getUserById(userId).isReady()) {
+			model.incrementReadyCount();
+			model.getUserById(userId).setReady(true);
+		}
 		
 		// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
 		if(model.getReadyCount() == model.getUsers().size() && model.getUsers().size() > 1) {
@@ -432,6 +448,6 @@ public class ClientThread extends Thread {
 	 * @author Marco Egger
 	 */
 	private String getLogUser() {
-		return "'" + Server.getModel().getUserById(userId) + "' (" + userId + ")";
+		return "'" + Server.getModel().getUserById(userId).getUsername() + "' (" + userId + ")";
 	}
 }
