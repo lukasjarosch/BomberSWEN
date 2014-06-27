@@ -278,6 +278,7 @@ public class MainClient extends JFrame {
 	 */
 	public void roundFinish() {
 		sidebar.stopTimer();
+		sidebar.toggleReady(true);
 	}
 
 	/**

@@ -8,6 +8,7 @@ import hrw.swenpr.bomberman.common.rfc.UserRemove;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 public class ButtonListener implements ActionListener {
@@ -34,6 +35,7 @@ public class ButtonListener implements ActionListener {
 		if(event.getActionCommand() == Sidebar.READY) {
 			UserReady ready = new UserReady(client.getUserID());
 			client.getCommunication().sendMessage(ready);
+			((JButton)event.getSource()).setEnabled(false);
 		}
 		
 		// logout
