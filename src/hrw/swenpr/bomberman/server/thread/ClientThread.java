@@ -8,6 +8,7 @@ import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
+import hrw.swenpr.bomberman.common.rfc.RoundFinished;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
@@ -233,19 +234,30 @@ public class ClientThread extends Thread {
 	/**
 	 * Handles a dying user. If one or less players are left
 	 * the game will end
+	 * 
+	 * @author Marco Egger
 	 */
 	public void handleUserDead() {
+		ServerModel model = Server.getModel();
 		setAlive(false);
 		
 		int numDead = 0;
-		for (ClientThread client : Server.getModel().getClientThreads()) {
+		for (ClientThread client : model.getClientThreads()) {
 			if(client.clientIsAlive()) 
 				numDead++;
 		}
 		
-		// Game ends when one or less players are alive
-		if(Server.getModel().getClientCount() - 1 <= numDead) {
-			Server.getCommunication().sendToAllClients(new GameOver());
+		// Game/round ends when one or less players are alive
+		if(model.getClientCount() - 1 <= numDead) {
+			// check the number of rounds played
+			if(model.getRoundCount() >= ServerModel.DEFAULT_ROUND_AMOUNT) {
+				Server.getCommunication().sendToAllClients(new GameOver());
+			}
+			else {
+				// if game not finished completely -> increase round count and send RoundFinished message to all clients
+				model.roundFinished();
+				Server.getCommunication().sendToAllClients(new RoundFinished());
+			}
 		}
 	}
 	
