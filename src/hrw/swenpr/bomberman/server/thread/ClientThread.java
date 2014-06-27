@@ -87,6 +87,7 @@ public class ClientThread extends Thread {
 	 * loop until the game ends
 	 * 
 	 * @author Lukas Jarosch
+	 * @author Marco Egger
 	 */
 	@Override
 	public void run() {		
@@ -109,8 +110,7 @@ public class ClientThread extends Thread {
 			
 			// Exit thread if nothing was read
 			if(msg.equals(null))
-				return;
-			
+				return;			
 			
 			// Handle messages from client
 			switch (Header.getMessageType(msg)) {
@@ -131,24 +131,21 @@ public class ClientThread extends Thread {
 					break;
 					
 				case BOMB:
-					// forward all bomb messages to all clients
+					// Forward all bomb messages to all clients
 					Server.getCommunication().sentToAllOtherClients(msg, this);
 					break;
 					
 				case USER_REMOVE:
 					handleUserRemove((UserRemove)msg);
 					break;
-	
 
 				case USER_POSITION:
 						Server.getCommunication().sentToAllOtherClients(msg, this);
-					break;
-					
+					break;		
 					
 				case USER_DEAD:
 						handleUserDead();
-					break;
-					
+					break;					
 				
 				default:
 					break;
