@@ -43,10 +43,16 @@ public class Field extends JPanel {
 	 * Stores the position of all player
 	 */
 	private Hashtable playerPosition;
+	
+	/**
+	 * Stores the position of all bombs
+	 */
+	private Hashtable bombPosition;
 
 	public Field() {
 		super();
 		playerPosition = new Hashtable();
+		bombPosition = new Hashtable();
 		this.setFocusable(true);
 	}
 
@@ -203,6 +209,22 @@ public class Field extends JPanel {
 		}
 		Point oldPos = (Point) playerPosition.get(id);
 		grid[oldPos.y][oldPos.x].setText("");
+		
+		if(bombPosition.containsKey(oldPos)){
+			switch ((BombType)bombPosition.get(oldPos)) {
+			case NORMAL_BOMB:
+				grid[oldPos.y][oldPos.x].setText("NB");
+				break;
+			case SUPER_BOMB:
+				grid[oldPos.y][oldPos.x].setText("SB");
+				break;
+
+			case MEGA_BOMB:
+				grid[oldPos.y][oldPos.x].setText("MB");
+				break;
+
+			}
+		}
 		grid[newPos.y][newPos.x].setText(field + "U" + id);
 		playerPosition.remove(id);
 		playerPosition.put(id, newPos);
@@ -234,6 +256,8 @@ public class Field extends JPanel {
 			break;
 
 		}
+		
+		bombPosition.put(pos, type);
 	}
 	
 	/**
