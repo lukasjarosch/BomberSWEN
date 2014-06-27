@@ -9,6 +9,7 @@ import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.RoundFinished;
+import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
@@ -129,6 +130,7 @@ public class ClientThread extends Thread {
 				case USER_READY:
 					// Increment user_ready count and start game if necessary
 					handleUserReady();
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + getLogUser() +  " ready."));
 					break;
 					
 				case BOMB:
@@ -138,14 +140,16 @@ public class ClientThread extends Thread {
 					
 				case USER_REMOVE:
 					handleUserRemove((UserRemove)msg);
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + getLogUser() + " left."));
 					break;
 
 				case USER_POSITION:
-						Server.getCommunication().sentToAllOtherClients(msg, this);
+					Server.getCommunication().sentToAllOtherClients(msg, this);
 					break;		
 					
 				case USER_DEAD:
-						handleUserDead();
+					handleUserDead();
+					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + getLogUser() + "is dead."));
 					break;					
 				
 				default:
@@ -223,11 +227,29 @@ public class ClientThread extends Thread {
 	public void handleLevelSelection(LevelSelection selection) {
 		if(isGameAdmin()) {
 			
-			// Store level information
-			Server.getModel().setLevelFilename(selection.getFilename());
-			
-			// send selection to all clients
-			Server.getCommunication().sendToAllClients(selection);			
+			// when no round played -> waiting for UserReady messages from all clients
+			if(Server.getModel().getRoundCount() == 0) {
+				// Store level information
+				Server.getModel().setLevelFilename(selection.getFilename());
+				
+				// send selection to all clients
+				Server.getCommunication().sendToAllClients(selection);
+			}
+			else {
+				// at least one round played -> LevelSelection triggers RoundStart
+				
+				// set level in model
+				Server.getModel().setLevelFilename(selection.getFilename());
+				// send selection to all clients
+				Server.getCommunication().sendToAllClients(selection);
+				
+				// send level file
+				sendLevelFile(selection.getFilename());
+				
+				// start round
+				Server.getModel().roundStart();
+				Server.getCommunication().sendToAllClients(new RoundStart());
+			}
 		}
 	}
 	
@@ -312,10 +334,8 @@ public class ClientThread extends Thread {
 		// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
 		if(model.getReadyCount() == model.getUsers().size() && model.getUsers().size() > 1) {
 
-			// Send level file
-			File file = new File(ServerModel.LEVEL_DIR + File.separator + model.getLevelFilename());
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Sending level: " + model.getLevelFilename()));
-			Server.getCommunication().sendToAllClients(new LevelFile(file));
+			// send level file
+			sendLevelFile(model.getLevelFilename());
 			
 			// Start game
 			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
@@ -385,5 +405,33 @@ public class ClientThread extends Thread {
 
 	public ObjectOutputStream getOutputStream() {
 		return outputStream;
+	}
+	
+	/**
+	 * Sends a {@link File} to all clients. Internal use to send the level file to all clients.
+	 * 
+	 * @param filename the filename of the level to send
+	 * 
+	 * @author Marco Egger
+	 */
+	private void sendLevelFile(String filename) {
+		// create reference to the file
+		File file = new File(ServerModel.LEVEL_DIR + File.separator + filename);
+		// print log
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Sending level: " + filename));
+		// send file over sockets
+		Server.getCommunication().sendToAllClients(new LevelFile(file));
+	}
+	
+	/**
+	 * Returns a {@link String} in the following format:
+	 * 'Playername' (userID)
+	 * 
+	 * @return a String for the {@link MainWindow} log.
+	 * 
+	 * @author Marco Egger
+	 */
+	private String getLogUser() {
+		return "'" + Server.getModel().getUserById(userId) + "' (" + userId + ")";
 	}
 }
