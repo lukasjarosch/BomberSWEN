@@ -12,6 +12,14 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
+/**
+ * Level loader to get all available levels.
+ * 
+ * @deprecated Should not be used anymore. The {@link ServerModel} handles this internally and 
+ * provides a function, with better performance, for getting all available levels.
+ * 
+ * @author Marco Egger
+ */
 public class LevelLoader {
 	
 	/**

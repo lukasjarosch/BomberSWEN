@@ -39,11 +39,6 @@ public class MainWindow extends JFrame {
 	private static MainPanel mainPanel = new MainPanel();
 	
 	/**
-	 * The {@link SidebarPanel} which holds information about the current game
-	 */
-	private SidebarPanel sidebarPanel = new SidebarPanel();
-	
-	/**
 	 * Constructor for the main window
 	 * 
 	 * @author Lukas Jarosch
@@ -55,7 +50,6 @@ public class MainWindow extends JFrame {
 
 		// Add panels
 		add(mainPanel, BorderLayout.CENTER);
-		add(sidebarPanel, BorderLayout.EAST);
 			
 		// Set missing attributes
 		pack();

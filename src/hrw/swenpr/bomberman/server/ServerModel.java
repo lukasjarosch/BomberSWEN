@@ -2,18 +2,31 @@ package hrw.swenpr.bomberman.server;
 
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.UserModel;
+import hrw.swenpr.bomberman.common.rfc.GameOver;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserRemove;
+import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.thread.ClientThread;
+import hrw.swenpr.bomberman.server.view.MainWindow;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class ServerModel extends BombermanBaseModel {
 	
+	/**
+	 * Default location of the level files.
+	 */
 	public static final String LEVEL_DIR = System.getProperty("user.dir") + File.separator +  "level";
+	
+	/**
+	 * The default number of rounds to be played to finish a whole game.
+	 */
+	public static final int DEFAULT_ROUND_AMOUNT = 3;
 
 	/**
 	 * How many players are ready to start the game?
@@ -40,7 +53,7 @@ public class ServerModel extends BombermanBaseModel {
 	private Timer gameTimer;
 	
 	/**
-	 * The time a whole game lasts
+	 * The time a whole game lasts in seconds
 	 */
 	private long gameTime = 0;
 	
@@ -58,6 +71,11 @@ public class ServerModel extends BombermanBaseModel {
 	 * The selected level filename
 	 */
 	private String levelFilename = null;
+	
+	/**
+	 * Holds the number of rounds played
+	 */
+	private int roundCount = 0;
 	
 	/**
 	 * The {@link ServerModel} constructor
@@ -124,7 +142,7 @@ public class ServerModel extends BombermanBaseModel {
 			
 			// add the file if it's a "real" file
 			if(file.isFile())
-				levels.add(new Level(file.getName(), null));
+				levels.add(new Level(file.getName()));
 		}
 		
 		return levels;
@@ -134,7 +152,7 @@ public class ServerModel extends BombermanBaseModel {
 	 * We do not allow direct modification of the readyCount.
 	 * A player can only click on 'Ready' but not 'unclick' it.
 	 * 
-	 * This will simply increments the current readyCount
+	 * This will simply increment the current readyCount
 	 * 
 	 * It will not perform any validation!
 	 * 
@@ -142,6 +160,21 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void incrementReadyCount() {
 		readyCount++;
+	}
+	
+	/**
+	 * We do not allow direct modification of the readyCount.
+	 * A player can only click on 'Ready' but not 'unclick' it,
+	 * but it can be decreased because of an {@link UserRemove} message.
+	 * 
+	 * This will simply decrement the current readyCount
+	 * 
+	 * It will not perform any validation!
+	 * 
+	 * @author Marco Egger
+	 */
+	public void decrementReadyCount() {
+		readyCount--;
 	}
 	
 	/**
@@ -190,6 +223,8 @@ public class ServerModel extends BombermanBaseModel {
 	public void setGameTimer(Timer gameTimer) {
 		this.gameTimer = gameTimer;
 	}
+	
+	
 
 	/**
 	 * @return the gameTime in seconds
@@ -254,6 +289,17 @@ public class ServerModel extends BombermanBaseModel {
 	public void addClientThread(int userId, ClientThread thread) {
 		this.clientThreads.add(userId, thread);
 	}
+	
+	/**
+	 * Removes a {@link ClientThread} instance when the client send a {@link UserRemove} message.
+	 * 
+	 * @param thread the client thread
+	 * 
+	 * @author Marco Egger
+	 */
+	public void removeClientThread(ClientThread thread) {
+		clientThreads.remove(thread);
+	}
 
 	/**
 	 * Returns the amount of players currently logged in 
@@ -295,5 +341,79 @@ public class ServerModel extends BombermanBaseModel {
 				it.remove();
 			}
 		}
+	}
+
+	/**
+	 * Returns the amount of rounds played.
+	 * 
+	 * @return the roundCount
+	 * 
+	 * @author Marco Egger
+	 */
+	public int getRoundCount() {
+		return roundCount;
+	}
+
+	/**
+	 * <p>Increases the counter for rounds already played.
+	 * 
+	 * <p>This does NOT send any message to a client.
+	 * 
+	 * @param roundCount the roundCount to set
+	 * 
+	 * @author Marco Egger
+	 */
+	public void roundFinished() {
+		roundCount++;
+		
+		// stop timer and free all TimerTasks
+		gameTimer.cancel();
+		gameTimer.purge();
+		
+		// print log
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Round finished."));
+	}
+	
+	/**
+	 * <p>Starts a new round. Schedules a {@link TimerTask} every second to decrease game time.
+	 * 
+	 * <p>This does NOT send any message to a client.
+	 * 
+	 * @author Marco Egger
+	 */
+	public void roundStart() {
+		// set timer to schedule every second
+		gameTimer.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+				// decrease time
+				gameTime--;
+				
+				// check if game is over
+				if(gameTime <= 0) {
+					// set game to not running and notify the clients
+					setGameRunning(false);
+					Server.getCommunication().sendToAllClients(new GameOver());
+				}
+			}
+		}, 1000, 1000);
+		
+		// print log
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Round started."));
+	}
+	
+	/**
+	 * Checks if a level and a game time are selected by the game admin.
+	 * 
+	 * @return {@code true} when both are selected, else {@code false}
+	 * 
+	 * @author Marco Egger
+	 */
+	public boolean isReadyToStart() {
+		if(levelFilename != null && gameTime != 0)
+			return true;
+		else
+			return false;
 	}
 }
