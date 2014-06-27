@@ -38,7 +38,7 @@ public class GameKeyListener implements KeyListener {
 		// get the current position of the local player
 		Point curPos = getCurrentPosition();
 		Point newPos = null;
-		System.out.println("Key pressed: " + event.getKeyCode());
+		
 		try {
 			switch (event.getKeyCode()) {
 			// move upwards
