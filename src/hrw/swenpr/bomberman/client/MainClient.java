@@ -343,7 +343,7 @@ public class MainClient extends JFrame {
 		// replace player
 		field.repositionUser(userPos.getUserID(), userPos.getPosition());
 
-		this.repaint();		
+		this.repaint();
 	}
 
 	/**
@@ -366,12 +366,23 @@ public class MainClient extends JFrame {
 	 * server.
 	 * 
 	 * @param bomb
-	 *            Bomb that is set in the model
+	 *            Bomb that is set in the model and displayed
 	 */
 	public void setBomb(Bomb bomb) {
 		this.model.setBomb(bomb);
 		field.setBomb(bomb.getPosition(), bomb.getBombType());
 		com.sendMessage(bomb);
+	}
+
+	/**
+	 * Displays a bomb that is not set by the user
+	 * 
+	 * @param bomb
+	 *            Bomb that is set in the model and displayed
+	 */
+	public void bombIsSet(Bomb bomb) {
+		this.model.setBomb(bomb);
+		field.setBomb(bomb.getPosition(), bomb.getBombType());
 	}
 
 	/**
@@ -386,7 +397,8 @@ public class MainClient extends JFrame {
 	/**
 	 * Sets the user id
 	 * 
-	 * @param id Player ID
+	 * @param id
+	 *            Player ID
 	 */
 	public void setUserID(int id) {
 		this.userID = id;

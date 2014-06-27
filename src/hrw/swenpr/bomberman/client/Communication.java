@@ -140,8 +140,7 @@ public class Communication extends Thread {
 					break;
 					
 				case BOMB:
-					Bomb bomb = (Bomb) msg;
-					
+					client.bombIsSet((Bomb) msg);
 					break;
 				
 				case ERROR_MESSAGE:
