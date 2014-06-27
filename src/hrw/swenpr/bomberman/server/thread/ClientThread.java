@@ -132,7 +132,6 @@ public class ClientThread extends Thread {
 				case USER_READY:
 					// Increment user_ready count and start game if necessary
 					handleUserReady();
-					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + getLogUser() +  " ready."));
 					break;
 					
 				case BOMB:
@@ -364,6 +363,7 @@ public class ClientThread extends Thread {
 		if(!model.getUserById(userId).isReady()) {
 			model.incrementReadyCount();
 			model.getUserById(userId).setReady(true);
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + getLogUser() +  " ready."));
 		}
 		
 		// If all players are ready (and at least 2 players are logged in) => start game by sending the level file
@@ -375,7 +375,6 @@ public class ClientThread extends Thread {
 			// Start game
 			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
 			Server.getCommunication().sendToAllClients(new GameStart());
-			
 		}
 	}
 
