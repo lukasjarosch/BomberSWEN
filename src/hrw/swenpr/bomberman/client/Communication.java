@@ -136,7 +136,7 @@ public class Communication extends Thread {
 					break;
 					
 				case USER_REMOVE:
-					client.playerRemove((UserRemove) msg);
+					client.removePlayer((UserRemove) msg);
 					break;
 					
 				case BOMB:

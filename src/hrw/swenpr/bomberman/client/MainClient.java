@@ -399,27 +399,18 @@ public class MainClient extends JFrame {
 	 *            Dead player
 	 */
 	public void playerDead(UserDead usr) {
-
+		field.deletePlayer(usr.getUserID());
 	}
 
 	/**
-	 * Removes a player.
+	 * Removes a player which left the game due to a bad connection.
 	 * 
 	 * @param usr
 	 *            the player to remove
 	 */
-	public void playerRemove(UserRemove usr) {
-
-	}
-
-	/**
-	 * Removes a player which left the game due to a bad connection
-	 * 
-	 * @param usr
-	 *            Dead player
-	 */
-	public void playerLeft(User usr) {
-		model.removePlayer(usr);
+	public void removePlayer(UserRemove usr) {
+		model.deleteUserByID(usr.getUserID());
+		field.deletePlayer(usr.getUserID());
 	}
 
 	/**

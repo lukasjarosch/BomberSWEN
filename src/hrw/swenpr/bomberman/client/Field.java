@@ -73,6 +73,7 @@ public class Field extends JPanel {
 		// get field size
 		int x = model.getSize().x;
 		int y = model.getSize().y;
+		//Calculate size of each panels
 		int sizey = this.getSize().height / x;
 		int sizex = this.getSize().width / y;
 		grid = new JLabel[x][y];
@@ -195,9 +196,14 @@ public class Field extends JPanel {
 	 *            New position of player
 	 */
 	public void repositionUser(int id, Point newPos) {
+		String field = "";
+		field = grid[newPos.y][newPos.x].getText();
+		if(!field.equals("")){
+			field += ", ";
+		}
 		Point oldPos = (Point) playerPosition.get(id);
 		grid[oldPos.y][oldPos.x].setText("");
-		grid[newPos.y][newPos.x].setText("U" + id);
+		grid[newPos.y][newPos.x].setText(field + "U" + id);
 		playerPosition.remove(id);
 		playerPosition.put(id, newPos);
 	}
@@ -209,22 +215,31 @@ public class Field extends JPanel {
 	 *            Position of the bomb
 	 */
 	public void setBomb(Point pos, BombType type) {
+		String field = "";
+		field = grid[pos.y][pos.x].getText();
+		if(!field.equals("")){
+			field += ", ";
+		}
 		grid[pos.y][pos.x].setText("");
 		switch (type) {
 		case NORMAL_BOMB:
-			grid[pos.y][pos.x].setText("NB");
+			grid[pos.y][pos.x].setText(field + "NB");
 			break;
 		case SUPER_BOMB:
-			grid[pos.y][pos.x].setText("SB");
+			grid[pos.y][pos.x].setText(field + "SB");
 			break;
 
 		case MEGA_BOMB:
-			grid[pos.y][pos.x].setText("MB");
+			grid[pos.y][pos.x].setText(field + "MB");
 			break;
 
 		}
 	}
-
+	
+	/**
+	 * deletes Player
+	 * @param id Player ID
+	 */
 	public void deletePlayer(int id) {
 		Point oldPos = (Point) playerPosition.get(id);
 		grid[oldPos.y][oldPos.x].setText("");
