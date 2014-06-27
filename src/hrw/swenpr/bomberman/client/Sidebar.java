@@ -97,6 +97,7 @@ public class Sidebar extends JPanel {
 		
 		// time remaining
 		timeTextField = new JTextField(TIME_REMAINING_HEADER + "Spiel noch nicht gestartet");
+		timeTextField.setEditable(false);
 		
 		// ready
 		ready = new JButton("bereit");
