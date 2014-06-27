@@ -9,8 +9,20 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class GameKeyListener implements KeyListener 
-{
+/**
+ * <p>Listener for all keyboard interactions.
+ * 
+ * <p>Possible actions are moving the player with {@code W}, {@code A}, {@code S}, {@code D} or the arrow keys and placing bombs.
+ * 
+ * <p>Bomb types:<br>
+ * • normal bomb: {@code SPACE}<br>
+ * • super bomb: {@code N}<br>
+ * • mega bomb:{@code  M}
+ * 
+ * @author Marco Egger
+ * @author Daniel Hofer
+ */
+public class GameKeyListener implements KeyListener {
 	private MainClient mainClient;
 	
 	public GameKeyListener(MainClient mainClient) {
@@ -60,7 +72,7 @@ public class GameKeyListener implements KeyListener
 						
 		// place a mega-bomb
 		case KeyEvent.VK_M:
-			mainClient.setBomb(new Bomb(mainClient.getUserID(), BombType.SUPER_BOMB, getCurrentPosition()));
+			mainClient.setBomb(new Bomb(mainClient.getUserID(), BombType.MEGA_BOMB, getCurrentPosition()));
 			break;
 
 		default:

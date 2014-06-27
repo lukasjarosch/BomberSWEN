@@ -18,7 +18,6 @@ import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -117,7 +116,7 @@ public class MainClient extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			
 			@Override
-			public void windowClosed(WindowEvent event) {
+			public void windowClosing(WindowEvent event) {
 				// send remove message when window closed
 				com.sendMessage(new UserRemove(userID));
 			}
@@ -139,6 +138,9 @@ public class MainClient extends JFrame {
 		
 		// show dialog
 		UserColor ret = (UserColor) JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
+		
+		if(ret == null)
+			System.exit(0);
 		
 		socket = ClientConnection.getSocket(ipAddress.getText(), DEFAULT_PORT);
 			
@@ -190,8 +192,9 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * shows player a dialog where he can choose a level
-	 * only shown if player is admin
+	 * <p>Shows player a dialog where he can choose a level
+	 * 
+	 * <p>Only shown if player is admin.
 	 */
 	public void showLevelDialog()
 	{
@@ -209,10 +212,13 @@ public class MainClient extends JFrame {
 		// show dialog
 		String ret = (String) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, levels, levels[0]);
 		
-		//Send message to server
-		com.sendMessage(new LevelSelection(ret));
-		
-		this.setLevel(ret);
+		// when dialog not canceled
+		if(ret != null) {
+			//Send message to server
+			com.sendMessage(new LevelSelection(ret));
+			
+			this.setLevel(ret);
+		}
 	}
 	
 	/**
@@ -328,12 +334,13 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * Sets a new bomb in the game model
+	 * Sets a new bomb in the game model and sends the placed bomb to the server.
+	 * 
 	 * @param bomb Bomb that is set in the model
 	 */
-	public void setBomb(Bomb bomb)
-	{
+	public void setBomb(Bomb bomb) {
 		this.model.setBomb(bomb);
+		com.sendMessage(bomb);
 	}
 	
 	/**
