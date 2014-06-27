@@ -169,8 +169,9 @@ public abstract class BombermanBaseModel {
 		UserModel um = null;
 
 		if (levelLoaded) {
-			int x = size.x;
-			int y = size.y;
+			// - 1 because of the shifting from 1 to zero in an array
+			int x = size.x - 1;
+			int y = size.y - 1;
 			
 			switch (user.getUserID()) {
 			case 0:
@@ -217,8 +218,9 @@ public abstract class BombermanBaseModel {
 	 * Should be called when a level is loaded to place all user into their predefined corners.
 	 */
 	protected synchronized void placeUsersInCorners() {
-		int x = size.x;
-		int y = size.y;
+		// - 1 because of the shifting from 1 to zero in an array
+		int x = size.x - 1;
+		int y = size.y - 1;
 		
 		for(UserModel user: users) {
 			switch (user.getUserID()) {
