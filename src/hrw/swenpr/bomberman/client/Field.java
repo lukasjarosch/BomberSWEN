@@ -202,10 +202,8 @@ public class Field extends JPanel {
 		}
 
 		for (UserModel tmpUsr : model.getUsers()) {
-			System.out.println("field position: " + tmpUsr.getPosition());
 			playerPosition.put(tmpUsr.getUserID(), tmpUsr.getPosition());
 		}
-		System.out.println("field: " + playerPosition.size());
 	}
 
 	/**
@@ -217,14 +215,16 @@ public class Field extends JPanel {
 	 *            New position of player
 	 */
 	public void repositionUser(int id, Point newPos) {
+		//Saving sign of the new panel
 		String field = "";
 		field = grid[newPos.y][newPos.x].getText();
 		if(!field.equals("")){
 			field += ", ";
 		}
+		//Delete player from old position
 		Point oldPos = (Point) playerPosition.get(id);
 		grid[oldPos.y][oldPos.x].setText("");
-		
+		//See if there is an item on the new psoition
 		if(bombPosition.containsKey(oldPos)){
 			switch ((BombType)bombPosition.get(oldPos)) {
 			case NORMAL_BOMB:
@@ -240,6 +240,8 @@ public class Field extends JPanel {
 
 			}
 		}
+		
+		//Add player to new position
 		grid[newPos.y][newPos.x].setText(field + "U" + id);
 		playerPosition.remove(id);
 		playerPosition.put(id, newPos);
@@ -252,12 +254,14 @@ public class Field extends JPanel {
 	 *            Position of the bomb
 	 */
 	public void setBomb(Point pos, BombType type) {
+		//Saving sign before placing the bomb
 		String field = "";
 		field = grid[pos.y][pos.x].getText();
 		if(!field.equals("")){
 			field += ", ";
 		}
 		grid[pos.y][pos.x].setText("");
+		//Determine which bomb is played and display a according sign
 		switch (type) {
 		case NORMAL_BOMB:
 			grid[pos.y][pos.x].setText(field + "NB");
@@ -271,7 +275,7 @@ public class Field extends JPanel {
 			break;
 
 		}
-		
+		//Save bombs position
 		bombPosition.put(pos, type);
 	}
 	
@@ -280,6 +284,7 @@ public class Field extends JPanel {
 	 * @param id Player ID
 	 */
 	public void deletePlayer(int id) {
+		//Getting the players position and remove it from the list
 		Point oldPos = (Point) playerPosition.get(id);
 		grid[oldPos.y][oldPos.x].setText("");
 		playerPosition.remove(id);
