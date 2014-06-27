@@ -94,19 +94,11 @@ public class ClientThread extends Thread {
 
 		// Admin receives a list of all levels
 		if (isGameAdmin()) {
-			
-			// Get all available levels
-			ArrayList<Level> levels = Server.getModel().getAvailableLevels();
-			
-			// Send to game admin
-			Server.getCommunication().sendToClient(outputStream, new LevelAvailable(levels));
+			sendLevelList();			
 		}
 		
-		// send all currently logged-in users to new client
-		ArrayList<UserModel> users = Server.getModel().getUsers();
-		for (UserModel user : users) {
-			Server.getCommunication().sendToClient(outputStream, new User(user.getUserID(), user.getUsername(), user.getScore(), user.getColor()));
-		}
+		// Send all currently logged-in users to new client
+		sendUserList();
 		
 
 		// Enter working loop
@@ -162,6 +154,34 @@ public class ClientThread extends Thread {
 					break;
 			}
 		}		
+	}
+	
+	/**
+	 * Sends a list of all currently logged in users to the
+	 * client.
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	private void sendUserList() {
+		ArrayList<UserModel> users = Server.getModel().getUsers();
+		for (UserModel user : users) {
+			Server.getCommunication().sendToClient(outputStream, new User(user.getUserID(), user.getUsername(), user.getScore(), user.getColor()));
+		}
+	}
+	
+	/**
+	 * Sends a list of all levels to a client.
+	 * Only the game admin should receive this, so make
+	 * sure to check for that
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	private void sendLevelList() {
+		// Get all available levels
+		ArrayList<Level> levels = Server.getModel().getAvailableLevels();
+
+		// Send to game admin
+		Server.getCommunication().sendToClient(outputStream, new LevelAvailable(levels));
 	}
 	
 	/**
