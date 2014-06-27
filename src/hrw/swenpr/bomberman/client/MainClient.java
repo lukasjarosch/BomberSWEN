@@ -263,6 +263,7 @@ public class MainClient extends JFrame {
 		sidebar.startTimer();
 		try {
 			field.createNewField();
+			System.out.println("main: " + model.getUsers().size());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
