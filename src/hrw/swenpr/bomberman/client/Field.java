@@ -77,8 +77,9 @@ public class Field extends JPanel {
 		mainClient = MainClient.getInstance();
 		ClientModel model = mainClient.getModel();
 		// get field size
-		int x = model.getSize().x;
-		int y = model.getSize().y;
+		int x = model.getSize().x + 1;
+		int y = model.getSize().y + 1;
+		
 		//Calculate size of each panels
 		int sizey = this.getSize().height / x;
 		int sizex = this.getSize().width / y;
@@ -96,12 +97,14 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 				case DESTRUCTIBLE_FIELD:
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.GRAY);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -109,6 +112,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.BLACK);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -116,6 +120,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -123,6 +128,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -130,6 +136,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -137,6 +144,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -144,6 +152,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -151,6 +160,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setText("U1");
 					grid[i][j].setOpaque(true);
 					break;
@@ -159,6 +169,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setText("U2");
 					grid[i][j].setOpaque(true);
 					break;
@@ -167,6 +178,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setText("U3");
 					grid[i][j].setOpaque(true);
 					break;
@@ -175,6 +187,7 @@ public class Field extends JPanel {
 					grid[i][j] = new JLabel();
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
+					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
 					grid[i][j].setText("U4");
 					grid[i][j].setOpaque(true);
 					break;
@@ -189,8 +202,10 @@ public class Field extends JPanel {
 		}
 
 		for (UserModel tmpUsr : model.getUsers()) {
+			System.out.println("field position: " + tmpUsr.getPosition());
 			playerPosition.put(tmpUsr.getUserID(), tmpUsr.getPosition());
 		}
+		System.out.println("field: " + playerPosition.size());
 	}
 
 	/**
