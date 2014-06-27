@@ -264,6 +264,8 @@ public class MainClient extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.pack();
+		repaint();
 	}
 	
 	/**
@@ -317,6 +319,10 @@ public class MainClient extends JFrame {
 			model.movePlayer(userPos);
 			// send new position to server
 			com.sendMessage(userPos);
+			//replace player
+			field.repositionUser(userPos.getUserID(), userPos.getPosition());
+			
+			this.repaint();			
 		}
 	}
 	
@@ -403,12 +409,6 @@ public class MainClient extends JFrame {
 	public void getLevelFile(File level)
 	{
 		model.loadLevel(level);
-		try {
-			field.createNewField();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	/**
