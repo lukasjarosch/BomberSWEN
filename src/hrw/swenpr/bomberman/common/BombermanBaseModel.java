@@ -109,7 +109,8 @@ public abstract class BombermanBaseModel {
 			y = Integer.parseInt(root.getChild("size").getChildText("y"));
 
 			// store on model
-			size = new Point(x, y);
+			// - 1 because of the shifting from 1 to zero in an array
+			size = new Point(x - 1, y - 1);
 
 			// read and store all indestructible fields
 			List<Element> indest = root.getChild("indestructible").getChildren();
@@ -169,9 +170,8 @@ public abstract class BombermanBaseModel {
 		UserModel um = null;
 
 		if (levelLoaded) {
-			// - 1 because of the shifting from 1 to zero in an array
-			int x = size.x - 1;
-			int y = size.y - 1;
+			int x = size.x;
+			int y = size.y;
 			
 			switch (user.getUserID()) {
 			case 0:
@@ -218,9 +218,8 @@ public abstract class BombermanBaseModel {
 	 * Should be called when a level is loaded to place all user into their predefined corners.
 	 */
 	protected synchronized void placeUsersInCorners() {
-		// - 1 because of the shifting from 1 to zero in an array
-		int x = size.x - 1;
-		int y = size.y - 1;
+		int x = size.x;
+		int y = size.y;
 		
 		for(UserModel user: users) {
 			switch (user.getUserID()) {
