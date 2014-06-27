@@ -315,12 +315,19 @@ public class ServerModel extends BombermanBaseModel {
 	/**
 	 * Increments the client count
 	 * 
-	 * @param clientCount
-	 * 
 	 * @author Lukas Jarosch
 	 */
 	public void incrementClientCount() {
-		clientCount = getClientCount() + 1;
+		clientCount++;
+	}
+	
+	/**
+	 * Decrements the client count.
+	 * 
+	 * @author Marco Egger
+	 */
+	public void decrementClientCount() {
+		clientCount--;
 	}
 	
 	
@@ -339,6 +346,7 @@ public class ServerModel extends BombermanBaseModel {
 			// if users match remove the current user
 			if(user.getUserID() == userID) {
 				it.remove();
+				decrementClientCount();
 			}
 		}
 	}
