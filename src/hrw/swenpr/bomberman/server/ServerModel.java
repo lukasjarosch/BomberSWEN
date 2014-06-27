@@ -125,7 +125,7 @@ public class ServerModel extends BombermanBaseModel {
 			
 			// add the file if it's a "real" file
 			if(file.isFile())
-				levels.add(new Level(file.getName(), null));
+				levels.add(new Level(file.getName()));
 		}
 		
 		return levels;
