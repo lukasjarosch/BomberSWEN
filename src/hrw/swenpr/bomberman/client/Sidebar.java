@@ -134,6 +134,8 @@ public class Sidebar extends JPanel {
 		add(ready);
 		add(logout);
 		setVisible(true);
+		
+		toogleAdmin(client.isAdmin());
 	}
 
 	/**
