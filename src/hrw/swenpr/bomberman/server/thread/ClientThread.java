@@ -112,24 +112,12 @@ public class ClientThread extends Thread {
 		// Enter working loop
 		while (!Thread.interrupted()) {
 
-			Object msg = null;
-
-			try {
-				// read object
-				msg = inputStream.readObject();
-			} catch (ClassNotFoundException | IOException e) {
-				// when error occurred because client logged off
-				if(removed)
-					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "User " + userId + " logged off and closed connection"));
-				else
-					MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from InputStream."));
-				
-				e.printStackTrace();
-				
-				// exit thread
+			// Read object
+			Object msg = readObject();
+			
+			// Exit thread if nothing was read
+			if(msg.equals(null))
 				return;
-			}
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Received message of type: " + Header.getMessageType(msg)));
 			
 			
 			// Handle messages from client
@@ -174,6 +162,35 @@ public class ClientThread extends Thread {
 					break;
 			}
 		}		
+	}
+	
+	/**
+	 * Reads an object from the InputStream
+	 * 
+	 * @return The object which was read or null. If null the thread should be terminated
+	 * 
+	 * @author Lukas Jarosch
+	 */
+	private Object readObject() {
+		Object msg;
+		
+		try {
+			// read object
+			msg = inputStream.readObject();
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Received message of type: " + Header.getMessageType(msg)));
+		} catch (ClassNotFoundException | IOException e) {
+			// when error occurred because client logged off
+			if(removed)
+				MainWindow.log(new LogMessage(LEVEL.INFORMATION, "User " + userId + " logged off and closed connection"));
+			else
+				MainWindow.log(new LogMessage(LEVEL.ERROR, "Unable to read from InputStream."));
+			
+			e.printStackTrace();
+			
+			// exit thread
+			return null;
+		}
+		return msg;
 	}
 
 	/**
