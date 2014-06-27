@@ -71,6 +71,8 @@ public class Communication extends Thread {
 			while (!Thread.interrupted()) {
 				msg = in.readObject();
 				
+				System.out.println("Received message of type: " + Header.getMessageType(msg));
+				
 				// determine the message
 				switch (Header.getMessageType(msg)) {
 				case LOGIN_OK:
