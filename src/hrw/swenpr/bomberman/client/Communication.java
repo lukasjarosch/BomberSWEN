@@ -9,7 +9,9 @@ import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
+import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,11 +131,11 @@ public class Communication extends Thread {
 					break;
 					
 				case USER_DEAD:
-					client.playerDead((User) msg);
+					client.playerDead((UserDead) msg);
 					break;
 					
 				case USER_REMOVE:
-					client.playerRemove((User) msg);
+					client.playerRemove((UserRemove) msg);
 					
 				case BOMB:
 					Bomb bomb = (Bomb) msg;

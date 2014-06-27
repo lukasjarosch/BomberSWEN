@@ -14,6 +14,7 @@ import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
+import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
@@ -364,7 +365,7 @@ public class MainClient extends JFrame {
 	 * Removes a dead player
 	 * @param usr Dead player
 	 */
-	public void playerDead(User usr) {
+	public void playerDead(UserDead usr) {
 		
 	}
 	
@@ -373,7 +374,7 @@ public class MainClient extends JFrame {
 	 * 
 	 * @param usr the player to remove
 	 */
-	public void playerRemove(User usr) {
+	public void playerRemove(UserRemove usr) {
 		
 	}
 	
