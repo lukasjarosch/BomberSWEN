@@ -6,7 +6,9 @@ import hrw.swenpr.bomberman.common.rfc.GameOver;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
+import hrw.swenpr.bomberman.server.LogMessage.LEVEL;
 import hrw.swenpr.bomberman.server.thread.ClientThread;
+import hrw.swenpr.bomberman.server.view.MainWindow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -356,6 +358,9 @@ public class ServerModel extends BombermanBaseModel {
 		// stop timer and free all TimerTasks
 		gameTimer.cancel();
 		gameTimer.purge();
+		
+		// print log
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Round finished."));
 	}
 	
 	/**
@@ -382,5 +387,8 @@ public class ServerModel extends BombermanBaseModel {
 				}
 			}
 		}, 1000, 1000);
+		
+		// print log
+		MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Round started."));
 	}
 }
