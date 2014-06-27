@@ -334,12 +334,13 @@ public class MainClient extends JFrame {
 	}
 	
 	/**
-	 * Sets a new bomb in the game model
+	 * Sets a new bomb in the game model and sends the placed bomb to the server.
+	 * 
 	 * @param bomb Bomb that is set in the model
 	 */
-	public void setBomb(Bomb bomb)
-	{
+	public void setBomb(Bomb bomb) {
 		this.model.setBomb(bomb);
+		com.sendMessage(bomb);
 	}
 	
 	/**
