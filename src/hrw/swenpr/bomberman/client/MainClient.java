@@ -483,27 +483,7 @@ public class MainClient extends JFrame {
 		model.deleteUserByID(usr.getUserID());
 		field.deletePlayer(usr.getUserID());
 	}
-
-	/**
-	 * Adds a list of levels to the game
-	 * 
-	 * @param level
-	 *            {@link ArrayList} of new levels
-	 */
-	public void setAvailableLevel(ArrayList<Level> level) {
-		model.setLevels(level);
-	}
-
-	/**
-	 * Transfers the level into the model
-	 * 
-	 * @param level
-	 *            Level on which the round is played on
-	 */
-	public void getLevelFile(File level) {
-		model.loadLevel(level);
-	}
-
+	
 	/**
 	 * Sets the name of the level which is chosen by the admin
 	 * 
