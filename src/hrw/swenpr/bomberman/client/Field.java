@@ -87,11 +87,11 @@ public class Field extends JPanel {
 		this.setLayout(new GridLayout(x, y));
 		System.out.println(model.getUsers().size());
 		// Going through the field
-		for (int i = 0; i < x; i++) {
-			for (int j = 0; j < y; j++) {
+		for (int i = 0; i < y; i++) {
+			for (int j = 0; j < x; j++) {
 				// Determine the field type and set according symbols and
 				// backgrounds
-				switch (model.getFieldType(i, j)) {
+				switch (model.getFieldType(j, i)) {
 				// configure JLabels
 				case PLAIN_FIELD:
 					grid[i][j] = new JLabel();
