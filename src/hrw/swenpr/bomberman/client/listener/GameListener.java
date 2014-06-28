@@ -7,6 +7,7 @@ import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
 import hrw.swenpr.bomberman.common.BombermanListener;
 import hrw.swenpr.bomberman.common.UserModel;
+import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserDead;
 
 import java.awt.Point;
@@ -19,13 +20,10 @@ public class GameListener implements BombermanListener {
 	public void bombExplode(BombEvent event) {
 		ArrayList[] explosion = event.getExplosion();
 		ClientModel model = MainClient.getInstance().getModel();
+		UserModel usr = model.getUser(event.getUserID());
 		MainClient main = MainClient.getInstance();
 		boolean abort = false;
-		System.out.println(explosion[0]);
-		System.out.println(explosion[1]);
-		System.out.println(explosion[2]);
-		System.out.println(explosion[3]);
-		System.out.println();
+		
 		for(int i = 0; i < explosion.length; i++){
 			for(Point p : (ArrayList<Point>)explosion[i]){
 				try {
@@ -57,12 +55,23 @@ public class GameListener implements BombermanListener {
 					case USER1:
 						//Check if hit user is user who set bomb
 						if(BombermanBaseModel.convertToUserID(FieldType.USER1) == event.getUserID()){
-							UserModel usr = model.getUser(event.getUserID()); 
+							 
+							//reduce user points because killed by own bomb
 							usr.setScore(usr.getScore() - 5);
+						}else{
+							//User killed other player with bomb and gets points for it
+							usr = model.getUser(event.getUserID()); 
+							//reduce user points because killed by own bomb
+							usr.setScore(usr.getScore() + 10);
 						}
+						//Update the user table in the sidebar
+						main.getSidebar().updateTable(new User(usr.getUserID(), usr.getUsername(), usr.getScore(), usr.getColor()));
+							
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER1)));
 						//check if killed user is player
@@ -72,12 +81,22 @@ public class GameListener implements BombermanListener {
 					case USER2:
 						//Check if hit user is user who set bomb
 						if(BombermanBaseModel.convertToUserID(FieldType.USER2) == event.getUserID()){
-							UserModel usr = model.getUser(event.getUserID()); 
+							usr = model.getUser(event.getUserID()); 
+							//reduce user points because killed by own bomb
 							usr.setScore(usr.getScore() - 5);
+						}else{
+							//User killed other player with bomb and gets points for it
+							usr = model.getUser(event.getUserID()); 
+							//reduce user points because killed by own bomb
+							usr.setScore(usr.getScore() + 10);
 						}
+						//Update the user table in the sidebar
+						main.getSidebar().updateTable(new User(usr.getUserID(), usr.getUsername(), usr.getScore(), usr.getColor()));
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER2)));
 						//check if killed user is player
@@ -87,12 +106,22 @@ public class GameListener implements BombermanListener {
 					case USER3:
 						//Check if hit user is user who set bomb
 						if(BombermanBaseModel.convertToUserID(FieldType.USER3) == event.getUserID()){
-							UserModel usr = model.getUser(event.getUserID()); 
+							usr = model.getUser(event.getUserID());
+							//reduce user points because killed by own bomb
 							usr.setScore(usr.getScore() - 5);
+						}else{
+							//User killed other player with bomb and gets points for it
+							usr = model.getUser(event.getUserID()); 
+							//reduce user points because killed by own bomb
+							usr.setScore(usr.getScore() + 10);
 						}
+						//Update the user table in the sidebar
+						main.getSidebar().updateTable(new User(usr.getUserID(), usr.getUsername(), usr.getScore(), usr.getColor()));
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER3)));
 						//check if killed user is player
@@ -102,12 +131,22 @@ public class GameListener implements BombermanListener {
 					case USER4:
 						//Check if hit user is user who set bomb
 						if(BombermanBaseModel.convertToUserID(FieldType.USER4) == event.getUserID()){
-							UserModel usr = model.getUser(event.getUserID()); 
+							usr = model.getUser(event.getUserID()); 
+							//reduce user points because killed by own bomb
 							usr.setScore(usr.getScore() - 5);
+						}else{
+							//User killed other player with bomb and gets points for it
+							usr = model.getUser(event.getUserID()); 
+							//reduce user points because killed by own bomb
+							usr.setScore(usr.getScore() + 10);
 						}
+						//Update the user table in the sidebar
+						main.getSidebar().updateTable(new User(usr.getUserID(), usr.getUsername(), usr.getScore(), usr.getColor()));
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER4)));
 						//check if killed user is player
