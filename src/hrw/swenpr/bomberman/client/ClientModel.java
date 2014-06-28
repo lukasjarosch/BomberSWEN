@@ -121,8 +121,6 @@ public class ClientModel extends BombermanBaseModel {
 				setField(uPos.getPosition(), convertToFieldType(uPos.getUserID()));
 				// set new position in user array
 				user.setPosition(uPos.getPosition());
-				// trigger listener
-				onBombermanEvent();
 			}
 		}
 		
