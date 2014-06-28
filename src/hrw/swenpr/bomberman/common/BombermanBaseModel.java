@@ -1,14 +1,15 @@
 package hrw.swenpr.bomberman.common;
 
 import hrw.swenpr.bomberman.common.rfc.Bomb;
+import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
-import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -219,9 +220,9 @@ public abstract class BombermanBaseModel {
 	 *            User id
 	 * @return Corresponding User
 	 */
-	public UserModel getUser(int id){
-		for(UserModel user: users){
-			if(user.getUserID() == id)
+	public UserModel getUser(int id) {
+		for (UserModel user : users) {
+			if (user.getUserID() == id)
 				return user;
 		}
 		return null;
@@ -349,11 +350,14 @@ public abstract class BombermanBaseModel {
 					|| newPos.equals(down) || newPos.equals(left))) {
 				return false;
 			}
-			
+
 			// only reached when position is besides current position
-			// then check if field is a plain field, a super or mega bomb all others are NOT walkable
-			if (!(field[newPos.x][newPos.y].equals(FieldType.PLAIN_FIELD) || field[newPos.x][newPos.y].equals(FieldType.ITEM_MEGA_BOMB)
-					|| field[newPos.x][newPos.y].equals(FieldType.ITEM_SUPER_BOMB))) {
+			// then check if field is a plain field, a super or mega bomb all
+			// others are NOT walkable
+			if (!(field[newPos.x][newPos.y].equals(FieldType.PLAIN_FIELD)
+					|| field[newPos.x][newPos.y]
+							.equals(FieldType.ITEM_MEGA_BOMB) || field[newPos.x][newPos.y]
+						.equals(FieldType.ITEM_SUPER_BOMB))) {
 				return false;
 			}
 		} catch (Exception e) {
@@ -429,10 +433,18 @@ public abstract class BombermanBaseModel {
 		return FieldType.PLAIN_FIELD;
 	}
 	
-	public void collectSpecialItem(Point pos){
-		for (Destructible des : destructible) {
+	/**
+	 * Removes the sepcial item that a user picks up
+	 * @param pos Position from which the special item is picked up
+	 */
+	public void collectSpecialItem(Point pos) {
+		Iterator<Destructible> iter = destructible.iterator();
+
+		while (iter.hasNext()) {
+			Destructible des = iter.next();
+
 			if (des.getPosition().equals(pos))
-				destructible.remove(des);
+				iter.remove();
 		}
 	}
 
@@ -571,7 +583,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				left.add(p);
 			} catch (Exception e) {
-//				e.printStackTrace();
+				// e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -582,7 +594,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				up.add(p);
 			} catch (Exception e) {
-//				e.printStackTrace();
+				// e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -593,7 +605,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				right.add(p);
 			} catch (Exception e) {
-//				e.printStackTrace();
+				// e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -604,7 +616,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				down.add(p);
 			} catch (Exception e) {
-//				e.printStackTrace();
+				// e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -617,12 +629,14 @@ public abstract class BombermanBaseModel {
 
 		return result;
 	}
-	
+
 	/**
 	 * Adds an bomberman listener to the model
-	 * @param listener Listener which is added to the model
+	 * 
+	 * @param listener
+	 *            Listener which is added to the model
 	 */
-	public void setBombermanListener(BombermanListener listener){
+	public void setBombermanListener(BombermanListener listener) {
 		subscribers.add(listener);
 	}
 

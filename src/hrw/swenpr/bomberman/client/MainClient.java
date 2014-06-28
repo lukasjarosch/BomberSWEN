@@ -362,7 +362,20 @@ public class MainClient extends JFrame {
 		model.movePlayer(userPos);
 		// replace player
 		field.repositionUser(userPos.getUserID(), userPos.getPosition());
-
+		//check if user pick up a special item
+		if(model.getSpecialItem(userPos.getPosition()) != FieldType.PLAIN_FIELD){
+			switch(model.getSpecialItem(userPos.getPosition())){
+			case ITEM_MEGA_BOMB:
+				model.collectSpecialItem(userPos.getPosition());
+				break;
+			case ITEM_SUPER_BOMB:
+				model.collectSpecialItem(userPos.getPosition());
+				break;
+			default:
+				break;
+			}
+					
+		}
 		this.repaint();
 	}
 
