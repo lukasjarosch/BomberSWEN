@@ -214,12 +214,7 @@ public class Field extends JPanel {
 	 *            New position of player
 	 */
 	public void repositionUser(int id, Point newPos) {
-		//Saving sign of the new panel
-		String field = "";
-		field = grid[newPos.y][newPos.x].getText();
-		if(!field.equals("")){
-			field += ", ";
-		}
+		
 		//Delete player from old position
 		Point oldPos = (Point) playerPosition.get(id);
 		grid[oldPos.y][oldPos.x].setText("");
@@ -241,7 +236,7 @@ public class Field extends JPanel {
 		}
 		
 		//Add player to new position
-		grid[newPos.y][newPos.x].setText(field + "U" + id);
+		grid[newPos.y][newPos.x].setText("U" + id);
 		playerPosition.remove(id);
 		playerPosition.put(id, newPos);
 	}
@@ -253,7 +248,6 @@ public class Field extends JPanel {
 	public void redrawPanel(Point pos){
 		
 		bombPosition.remove(pos);
-		
 		try {
 			switch(MainClient.getInstance().getModel().getFieldType(pos)){
 			case PLAIN_FIELD:

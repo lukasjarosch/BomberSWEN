@@ -1,31 +1,47 @@
 package hrw.swenpr.bomberman.client.listener;
 
-import java.awt.Point;
-import java.util.ArrayList;
-
 import hrw.swenpr.bomberman.client.ClientModel;
 import hrw.swenpr.bomberman.client.MainClient;
 import hrw.swenpr.bomberman.common.BombEvent;
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
-import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
-import hrw.swenpr.bomberman.common.BombermanEvent;
 import hrw.swenpr.bomberman.common.BombermanListener;
+import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.UserDead;
+
+import java.awt.Point;
+import java.util.ArrayList;
 
 public class GameListener implements BombermanListener {
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public void bombExplode(BombEvent event) {
 		ArrayList[] explosion = event.getExplosion();
 		ClientModel model = MainClient.getInstance().getModel();
 		MainClient main = MainClient.getInstance();
 		boolean abort = false;
+		System.out.println(explosion[0]);
+		System.out.println(explosion[1]);
+		System.out.println(explosion[2]);
+		System.out.println(explosion[3]);
+		System.out.println();
 		for(int i = 0; i < explosion.length; i++){
 			for(Point p : (ArrayList<Point>)explosion[i]){
-				
 				try {
 					switch (model.getFieldType(p)) {
+					case ITEM_MEGA_BOMB:
+						//stop this direction and continue with next direction
+						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						main.updatePanel(event.getPosition());
+						abort = true;
+						break;
+					case ITEM_SUPER_BOMB:
+						//stop this direction and continue with next direction
+						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						main.updatePanel(event.getPosition());
+						abort = true;
+						break;
 					case INDESTRUCTUBLE_FIELD:
 						//stop this direction and continue with next direction
 						abort = true;
