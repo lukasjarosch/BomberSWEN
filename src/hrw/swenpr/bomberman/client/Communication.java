@@ -8,6 +8,7 @@ import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
+import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
@@ -98,6 +99,10 @@ public class Communication extends Thread {
 					
 				case LEVEL_SELECTION:
 					client.setLevel(((LevelSelection) msg).getFilename());
+					break;
+					
+				case TIME_SELECTION:
+					client.setTime(((TimeSelection) msg).getTime());
 					break;
 					
 				case LEVEL_AVAILABLE:

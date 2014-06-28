@@ -278,7 +278,6 @@ public class MainClient extends JFrame {
 	 */
 	public void roundFinish() {
 		sidebar.stopTimer();
-		sidebar.toggleReady(true);
 	}
 
 	/**
@@ -321,9 +320,9 @@ public class MainClient extends JFrame {
 	 *            the user position
 	 */
 	public void movePlayer(UserPosition userPos) {
+		
 		if (model.movePlayer(userPos)) {
 			// player successfully moved
-			model.movePlayer(userPos);
 			// send new position to server
 			com.sendMessage(userPos);
 			// replace player
@@ -371,7 +370,9 @@ public class MainClient extends JFrame {
 	 */
 	public void setBomb(Bomb bomb) {
 		this.model.setBomb(bomb);
+		
 		field.setBomb(bomb.getPosition(), bomb.getBombType());
+		
 		com.sendMessage(bomb);
 	}
 
@@ -383,6 +384,7 @@ public class MainClient extends JFrame {
 	 */
 	public void bombIsSet(Bomb bomb) {
 		this.model.setBomb(bomb);
+		System.out.println(bomb.getPosition());
 		field.setBomb(bomb.getPosition(), bomb.getBombType());
 	}
 

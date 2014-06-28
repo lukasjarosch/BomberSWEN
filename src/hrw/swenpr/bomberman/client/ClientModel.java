@@ -1,11 +1,17 @@
 package hrw.swenpr.bomberman.client;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import hrw.swenpr.bomberman.common.BombEvent;
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.UserModel;
+import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
+import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.Level;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
 /**
  * Stores all the information about the game the client needs
@@ -23,6 +29,11 @@ public class ClientModel extends BombermanBaseModel {
 	 * Stores the name of the chosen level
 	 */
 	private String filename;
+	
+	/**
+	 * Flag that shows if player set a bomb on current panel
+	 */
+	private FieldType secondFieldType = FieldType.PLAIN_FIELD;
 
 	/**
 	 * Sets a list of new level
@@ -87,5 +98,76 @@ public class ClientModel extends BombermanBaseModel {
 	 */
 	public String getLevelName() {
 		return filename;
+	}
+	
+	
+	/**
+	 * Tries to move a player to given position.
+	 * 
+	 * @param uPos containing the {@code userID} and the new {@code position}.
+	 * @return true when move is allowed, false if move failed (player stays at old position)
+	 */
+	@Override
+	public synchronized boolean movePlayer(UserPosition uPos) {
+		// if field not walkable return false
+		if(!isWalkableField(getUserPosition(uPos.getUserID()), uPos.getPosition())) {
+			return false;
+		}
+		
+		for (UserModel user : users) {
+			// if relevant user found
+			if(user.getUserID() == uPos.getUserID()) {
+				setField(user.getPosition(), secondFieldType);
+				secondFieldType = FieldType.PLAIN_FIELD;			
+				// set new field
+				setField(uPos.getPosition(), convertToFieldType(uPos.getUserID()));
+				// set new position in user array
+				user.setPosition(uPos.getPosition());
+				// trigger listener
+				onBombermanEvent();
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Adds a bomb to the model, that will trigger a {@link BombEvent} when exploding.
+	 * 
+	 * @param bomb
+	 */
+	@Override
+	public synchronized void setBomb(final Bomb bomb) {
+		// set field to bomb
+		switch (bomb.getBombType()) {
+		case NORMAL_BOMB:
+			setField(bomb.getPosition(), FieldType.NORMAL_BOMB);
+			secondFieldType = FieldType.NORMAL_BOMB;
+			break;
+			
+		case SUPER_BOMB:
+			setField(bomb.getPosition(), FieldType.SUPER_BOMB);
+			secondFieldType = FieldType.SUPER_BOMB;
+			break;
+			
+		case MEGA_BOMB:
+			setField(bomb.getPosition(), FieldType.MEGA_BOMB);
+			secondFieldType = FieldType.MEGA_BOMB;
+			break;
+
+		default:
+			break;
+		}
+		
+		// create timer task
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				// trigger event when bomb explodes
+				onBombEvent(bomb.getUserID(), bomb.getBombType(), bomb.getPosition(), getExplosion(bomb));
+			}
+		}, bomb.getTime());
 	}
 }

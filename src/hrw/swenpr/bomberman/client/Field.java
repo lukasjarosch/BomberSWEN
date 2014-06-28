@@ -85,7 +85,7 @@ public class Field extends JPanel {
 		int sizex = this.getSize().width / y;
 		grid = new JLabel[x][y];
 		this.setLayout(new GridLayout(x, y));
-
+		System.out.println(model.getUsers().size());
 		// Going through the field
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
@@ -161,7 +161,7 @@ public class Field extends JPanel {
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
 					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U1");
+					grid[i][j].setText("U0");
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -170,7 +170,7 @@ public class Field extends JPanel {
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
 					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U2");
+					grid[i][j].setText("U1");
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -179,7 +179,7 @@ public class Field extends JPanel {
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
 					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U3");
+					grid[i][j].setText("U2");
 					grid[i][j].setOpaque(true);
 					break;
 
@@ -188,7 +188,7 @@ public class Field extends JPanel {
 					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
 					grid[i][j].setBackground(Color.WHITE);
 					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U4");
+					grid[i][j].setText("U3");
 					grid[i][j].setOpaque(true);
 					break;
 
