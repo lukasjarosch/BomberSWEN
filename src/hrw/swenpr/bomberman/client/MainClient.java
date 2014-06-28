@@ -59,6 +59,7 @@ public class MainClient extends JFrame {
 
 	private boolean isAdmin = false;
 	private int userID;
+	private boolean isDead = false;
 
 	private Socket socket;
 
@@ -283,6 +284,8 @@ public class MainClient extends JFrame {
 	 */
 	public void roundFinish() {
 		sidebar.stopTimer();
+		model.setHaveMegaBomb(false);
+		model.setHaveSuperBomb(false);
 	}
 
 	/**
@@ -316,16 +319,15 @@ public class MainClient extends JFrame {
 		sidebar.setTime(time);
 	}
 
-	public void showUser(User usr[]) {
-
-	}
-
 	/**
 	 * @param userPos
 	 *            the user position
 	 */
 	public void movePlayer(UserPosition userPos) {
-		
+		//Check if player is dead 
+		if(isDead)
+			return;
+		//Check if player can move to wanted position
 		if (model.movePlayer(userPos)) {
 			// player successfully moved
 			// send new position to server
@@ -520,5 +522,21 @@ public class MainClient extends JFrame {
 	 */
 	public String getLevelName() {
 		return model.getLevelName();
+	}
+	
+	/**
+	 * Returns id player is dead 
+	 * @return true -> player is dead, false -> player is alive
+	 */
+	public boolean isDead() {
+		return isDead;
+	}
+	
+	/**
+	 * Sets flag which shows if player is dead
+	 * @param isDead true -> player is dead, false -> player is alive
+	 */
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 }

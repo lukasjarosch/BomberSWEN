@@ -137,6 +137,7 @@ public class Communication extends Thread {
 					break;
 					
 				case USER_DEAD:
+					System.out.println(((UserDead) msg).getUserID());
 					client.playerDead((UserDead) msg);
 					break;
 					

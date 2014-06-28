@@ -49,6 +49,9 @@ public class GameListener implements BombermanListener {
 						main.updatePanel(p);
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER1)));
+						//check if killed user is player
+						if(BombermanBaseModel.convertToUserID(FieldType.USER1) == main.getUserID())
+							main.setDead(true);
 						break;
 					case USER2:
 						//Check if hit user is user who set bomb
@@ -61,6 +64,9 @@ public class GameListener implements BombermanListener {
 						main.updatePanel(p);
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER2)));
+						//check if killed user is player
+						if(BombermanBaseModel.convertToUserID(FieldType.USER2) == main.getUserID())
+							main.setDead(true);
 						break;
 					case USER3:
 						//Check if hit user is user who set bomb
@@ -73,6 +79,9 @@ public class GameListener implements BombermanListener {
 						main.updatePanel(p);
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER3)));
+						//check if killed user is player
+						if(BombermanBaseModel.convertToUserID(FieldType.USER3) == main.getUserID())
+							main.setDead(true);
 						break;
 					case USER4:
 						//Check if hit user is user who set bomb
@@ -85,6 +94,9 @@ public class GameListener implements BombermanListener {
 						main.updatePanel(p);
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER4)));
+						//check if killed user is player
+						if(BombermanBaseModel.convertToUserID(FieldType.USER4) == main.getUserID())
+							main.setDead(true);
 						break;
 
 					default:
