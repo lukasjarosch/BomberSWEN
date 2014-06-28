@@ -26,7 +26,7 @@ import org.jdom2.input.SAXBuilder;
  */
 public abstract class BombermanBaseModel {
 	// the default field to inizialize
-	protected final FieldType DEFAULT_FIELD = FieldType.PLAIN_FIELD;
+	protected final static FieldType DEFAULT_FIELD = FieldType.PLAIN_FIELD;
 	// the default time of an explosion in milliseconds
 	public static final long EXPLOSION_TIME = 700;
 	
@@ -390,7 +390,7 @@ public abstract class BombermanBaseModel {
 	 * @param pos the position
 	 * @param type the new type
 	 */
-	protected synchronized void setField(Point pos, FieldType type) {
+	public synchronized void setField(Point pos, FieldType type) {
 		field[pos.x][pos.y] = type;
 	}
 	
@@ -400,7 +400,7 @@ public abstract class BombermanBaseModel {
 	 * @param userID
 	 * @return the field type
 	 */
-	protected synchronized FieldType convertToFieldType(int userID) {
+	protected static synchronized FieldType convertToFieldType(int userID) {
 		switch (userID) {
 		case 0:
 			return FieldType.USER1;
@@ -423,7 +423,7 @@ public abstract class BombermanBaseModel {
 	 * @param type the FieldType
 	 * @return the userID or -1 if invalid FieldType
 	 */
-	protected synchronized int convertToUserID(FieldType type) {
+	protected static synchronized int convertToUserID(FieldType type) {
 		switch (type) {
 		case USER1:
 			return 0;
@@ -465,6 +465,7 @@ public abstract class BombermanBaseModel {
 	 * @param bomb the bomb with explosion
 	 * @return {@code ArrayList<Point>} all fields that are affected by the explosion
 	 */
+	@SuppressWarnings("rawtypes")
 	protected synchronized ArrayList[] getExplosion(Bomb bomb) {
 		ArrayList[] affected = new ArrayList[4];
 		Point pos = bomb.getPosition();
@@ -494,6 +495,7 @@ public abstract class BombermanBaseModel {
 	 * @param length the fields to go in every direction
 	 * @return {@code ArrayList<Point>} the fields
 	 */
+	@SuppressWarnings("rawtypes")
 	protected synchronized ArrayList[] getFieldsFromPoint(Point pos, int length) {
 		ArrayList<Point> left = new ArrayList<Point>();
 		ArrayList<Point> right = new ArrayList<Point>();
@@ -572,6 +574,7 @@ public abstract class BombermanBaseModel {
 	 * @param position {@link Point} the position 
 	 * @param explosion {@code ArrayList<Point>} all fields, the explosion reached
 	 */
+	@SuppressWarnings("rawtypes")
 	protected synchronized void onBombEvent(int userID, BombType type, Point position, ArrayList[] explosion) {
 		for (BombermanListener listener: subscribers) {
 			listener.bombExplode(new BombEvent(this, userID, type, position, explosion));
