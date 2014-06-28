@@ -2,6 +2,7 @@ package hrw.swenpr.bomberman.client;
 
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.client.listener.GameListener;
+import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
@@ -13,6 +14,7 @@ import hrw.swenpr.bomberman.common.rfc.RoundFinished;
 import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
@@ -330,7 +332,22 @@ public class MainClient extends JFrame {
 			com.sendMessage(userPos);
 			// replace player
 			field.repositionUser(userPos.getUserID(), userPos.getPosition());
-
+			//check if user pick up a special item
+			if(model.getSpecialItem(userPos.getPosition()) != FieldType.PLAIN_FIELD){
+				switch(model.getSpecialItem(userPos.getPosition())){
+				case ITEM_MEGA_BOMB:
+					model.setHaveMegaBomb(true);
+					model.collectSpecialItem(userPos.getPosition());
+					break;
+				case ITEM_SUPER_BOMB:
+					model.setHaveSuperBomb(true);
+					model.collectSpecialItem(userPos.getPosition());
+					break;
+				default:
+					break;
+				}
+						
+			}
 			this.repaint();
 		}
 	}
@@ -348,12 +365,13 @@ public class MainClient extends JFrame {
 
 		this.repaint();
 	}
-	
+
 	/**
 	 * Updates a panel which is changed by a bomb
+	 * 
 	 * @param pos
 	 */
-	public void updatePanel(Point pos){
+	public void updatePanel(Point pos) {
 		field.redrawPanel(pos);
 		this.repaint();
 	}
@@ -381,10 +399,22 @@ public class MainClient extends JFrame {
 	 *            Bomb that is set in the model and displayed
 	 */
 	public void setBomb(Bomb bomb) {
+		//Check if the set bomb is not a normal bomb
+		if(bomb.getBombType() != BombType.NORMAL_BOMB){
+			//if it is a super or mega bomb check if the player can set one(this is possible
+			//when he collected one before)
+			if(bomb.getBombType() == BombType.SUPER_BOMB){
+				if(!model.isHaveSuperBomb())
+					return;
+				model.setHaveSuperBomb(false);
+			}else if(bomb.getBombType() == BombType.MEGA_BOMB){
+				if(!model.isHaveMegaBomb())
+					return;
+				model.setHaveMegaBomb(false);
+			}
+		}
 		this.model.setBomb(bomb);
-		
 		field.setBomb(bomb.getPosition(), bomb.getBombType());
-		
 		com.sendMessage(bomb);
 	}
 
@@ -396,7 +426,6 @@ public class MainClient extends JFrame {
 	 */
 	public void bombIsSet(Bomb bomb) {
 		this.model.setBomb(bomb);
-		System.out.println(bomb.getPosition());
 		field.setBomb(bomb.getPosition(), bomb.getBombType());
 	}
 

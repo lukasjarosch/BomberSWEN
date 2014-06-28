@@ -44,8 +44,10 @@ public class GameListener implements BombermanListener {
 							UserModel usr = model.getUser(event.getUserID()); 
 							usr.setScore(usr.getScore() - 5);
 						}
+						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER1)));
 						break;
 					case USER2:
@@ -54,8 +56,10 @@ public class GameListener implements BombermanListener {
 							UserModel usr = model.getUser(event.getUserID()); 
 							usr.setScore(usr.getScore() - 5);
 						}
+						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER2)));
 						break;
 					case USER3:
@@ -64,8 +68,10 @@ public class GameListener implements BombermanListener {
 							UserModel usr = model.getUser(event.getUserID()); 
 							usr.setScore(usr.getScore() - 5);
 						}
+						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER3)));
 						break;
 					case USER4:
@@ -74,8 +80,10 @@ public class GameListener implements BombermanListener {
 							UserModel usr = model.getUser(event.getUserID()); 
 							usr.setScore(usr.getScore() - 5);
 						}
+						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
+						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER4)));
 						break;
 

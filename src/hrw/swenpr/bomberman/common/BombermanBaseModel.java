@@ -428,6 +428,13 @@ public abstract class BombermanBaseModel {
 		}
 		return FieldType.PLAIN_FIELD;
 	}
+	
+	public void collectSpecialItem(Point pos){
+		for (Destructible des : destructible) {
+			if (des.getPosition().equals(pos))
+				destructible.remove(des);
+		}
+	}
 
 	/**
 	 * Sets the type of one field.

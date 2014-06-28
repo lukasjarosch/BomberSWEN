@@ -32,6 +32,16 @@ public class ClientModel extends BombermanBaseModel {
 	 * Flag that shows if player set a bomb on current panel
 	 */
 	private FieldType secondFieldType = FieldType.PLAIN_FIELD;
+	
+	/**
+	 * Stores if player has super bomb
+	 */
+	private boolean haveSuperBomb = false;
+	
+	/**
+	 * Stores if player has mega bomb
+	 */
+	private boolean haveMegaBomb = false;
 
 	/**
 	 * Sets a list of new level
@@ -165,5 +175,37 @@ public class ClientModel extends BombermanBaseModel {
 				onBombEvent(bomb.getUserID(), bomb.getBombType(), bomb.getPosition(), getExplosion(bomb));
 			}
 		}, bomb.getTime());
+	}
+	
+	/**
+	 * Returns if player have a super bomb
+	 * @return value of flag
+	 */
+	public boolean isHaveSuperBomb() {
+		return haveSuperBomb;
+	}
+	
+	/**
+	 * Set the flag if player can use a super bomb
+	 * @param haveSuperBomb If player collected a super bomb true, else false
+	 */
+	public void setHaveSuperBomb(boolean haveSuperBomb) {
+		this.haveSuperBomb = haveSuperBomb;
+	}
+
+	/**
+	 * Returns if player have a super bomb
+	 * @return value of flag
+	 */
+	public boolean isHaveMegaBomb() {
+		return haveMegaBomb;
+	}
+
+	/**
+	 * Set the flag if player can use a mega bomb
+	 * @param haveSuperBomb If player collected a mega bomb true, else false
+	 */
+	public void setHaveMegaBomb(boolean haveMegaBomb) {
+		this.haveMegaBomb = haveMegaBomb;
 	}
 }
