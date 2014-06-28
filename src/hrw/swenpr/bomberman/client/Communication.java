@@ -8,8 +8,11 @@ import hrw.swenpr.bomberman.common.rfc.LevelAvailable;
 import hrw.swenpr.bomberman.common.rfc.LevelFile;
 import hrw.swenpr.bomberman.common.rfc.LevelSelection;
 import hrw.swenpr.bomberman.common.rfc.LoginOk;
+import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
+import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +101,10 @@ public class Communication extends Thread {
 					client.setLevel(((LevelSelection) msg).getFilename());
 					break;
 					
+				case TIME_SELECTION:
+					client.setTime(((TimeSelection) msg).getTime());
+					break;
+					
 				case LEVEL_AVAILABLE:
 					client.setAvailableLevel(((LevelAvailable) msg).getLevel());
 					break;
@@ -126,18 +133,19 @@ public class Communication extends Thread {
 	
 				case USER_POSITION:
 					client.getModel().movePlayer((UserPosition) msg);
+					client.playerMoved((UserPosition) msg);
 					break;
 					
 				case USER_DEAD:
-					client.playerDead((User) msg);
+					client.playerDead((UserDead) msg);
 					break;
 					
 				case USER_REMOVE:
-					client.playerRemove((User) msg);
+					client.removePlayer((UserRemove) msg);
+					break;
 					
 				case BOMB:
-					Bomb bomb = (Bomb) msg;
-					client.setBomb(bomb);
+					client.bombIsSet((Bomb) msg);
 					break;
 				
 				case ERROR_MESSAGE:

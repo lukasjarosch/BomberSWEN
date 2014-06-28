@@ -1,6 +1,5 @@
 package hrw.swenpr.bomberman.client;
 
-
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.UserModel;
@@ -14,6 +13,7 @@ import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
+import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
@@ -29,9 +29,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
- * <p>Main class containing {@code main()} function for starting client.</p>
+ * <p>
+ * Main class containing {@code main()} function for starting client.
+ * </p>
  * 
- * <p>Extends {@link JFrame}.</p>
+ * <p>
+ * Extends {@link JFrame}.
+ * </p>
  * 
  * @author Marco Egger
  * @author Daniel Hofer
@@ -41,14 +45,14 @@ public class MainClient extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static final int DEFAULT_PORT = 6969;
-	
+
 	private static MainClient instance;
-	
+
 	private Communication com;
 	private Sidebar sidebar;
 	private Field field;
 	private ClientModel model;
-	
+
 	private boolean isAdmin = false;
 	private int userID;
 
@@ -59,25 +63,23 @@ public class MainClient extends JFrame {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) 
-	{
+	public static void main(String[] args) {
 		MainClient.getInstance();
 	}
-	
-	
+
 	public static MainClient getInstance() {
-		if(instance == null)
+		if (instance == null)
 			instance = new MainClient();
-		
+
 		return instance;
 	}
-	
+
 	/**
 	 * Default constructor for main window.
 	 */
 	public MainClient() {
 		model = new ClientModel();
-		
+
 		// setting up JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setTitle("Bomberman");
@@ -87,34 +89,34 @@ public class MainClient extends JFrame {
 
 		// position and show window
 		setLocationRelativeTo(null);
-		
-		setListener();
-		
+
 		sidebar = new Sidebar(this);
 		field = new Field();
-		
+
 		add(sidebar, BorderLayout.EAST);
 		add(field, BorderLayout.CENTER);
-		
+
+		setListener();
+
 		// show login dialog
 		this.showLogin();
-		
+
 		setVisible(true);
+		this.setFocusable(true);
+		// this.requestFocus();
 	}
-	
-	
+
 	/**
 	 * @return the model
 	 */
 	public ClientModel getModel() {
 		return model;
 	}
-	
-	
+
 	private void setListener() {
-		addKeyListener(new GameKeyListener(this));
+		this.addKeyListener(new GameKeyListener(this));
 		addWindowListener(new WindowAdapter() {
-			
+
 			@Override
 			public void windowClosing(WindowEvent event) {
 				// send remove message when window closed
@@ -122,61 +124,61 @@ public class MainClient extends JFrame {
 			}
 		});
 	}
-	
+
 	/**
 	 * shows LoginWindow and sends login-request with entered data to server
 	 */
-	private void showLogin()
-	{
+	private void showLogin() {
 		// create textfield and color array
 		JTextField ipAddress = new JTextField("localhost");
 		JTextField name = new JTextField(20);
-		UserColor[] colors = {UserColor.RED, UserColor.YELLOW, UserColor.GREEN, UserColor.BLUE};
-		
+		UserColor[] colors = { UserColor.RED, UserColor.YELLOW,
+				UserColor.GREEN, UserColor.BLUE };
+
 		// building message with text and the textfield
-		Object[] message = {"Server", ipAddress, "\nLogin:", name, "\nColor:"};
-		
+		Object[] message = { "Server", ipAddress, "\nLogin:", name, "\nColor:" };
+
 		// show dialog
-		UserColor ret = (UserColor) JOptionPane.showInputDialog(this, message, "Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
-		
-		if(ret == null)
+		UserColor ret = (UserColor) JOptionPane.showInputDialog(this, message,
+				"Login", JOptionPane.QUESTION_MESSAGE, null, colors, colors[0]);
+
+		if (ret == null)
 			System.exit(0);
-		
+
 		socket = ClientConnection.getSocket(ipAddress.getText(), DEFAULT_PORT);
-			
-		if(socket != null) {
+
+		if (socket != null) {
 			// create and start communication thread
 			com = new Communication(socket, this);
 			com.start();
-		
+
 			// send login message to server with entered username and color
 			com.sendMessage(new Login(name.getText(), ret));
-		}
-		else {
+		} else {
 			// socket creation failed -> exit software
-			JOptionPane.showMessageDialog(this, "Fehler beim Herstellen der Verbindung.");
+			JOptionPane.showMessageDialog(this,
+					"Fehler beim Herstellen der Verbindung.");
 			System.exit(0);
 		}
 	}
-	
+
 	/**
 	 * sets a flag which indicates if player is admin or not
 	 */
-	public void setAdmin(boolean admin)
-	{
+	public void setAdmin(boolean admin) {
 		isAdmin = admin;
 		sidebar.toogleAdmin(admin);
 	}
-	
+
 	/**
 	 * Getter for isAdmin
+	 * 
 	 * @return admin flag
 	 */
-	public boolean isAdmin()
-	{
+	public boolean isAdmin() {
 		return isAdmin;
 	}
-	
+
 	/**
 	 * @return the communication
 	 */
@@ -190,67 +192,69 @@ public class MainClient extends JFrame {
 	public Sidebar getSidebar() {
 		return sidebar;
 	}
-	
+
 	/**
-	 * <p>Shows player a dialog where he can choose a level
+	 * <p>
+	 * Shows player a dialog where he can choose a level
 	 * 
-	 * <p>Only shown if player is admin.
+	 * <p>
+	 * Only shown if player is admin.
 	 */
-	public void showLevelDialog()
-	{
+	public void showLevelDialog() {
 		// create array with level names
 		Object[] levels = new Object[model.getAvailableLevel().size()];
-		
-		for(int i = 0; i < levels.length; i++)
-		{
+
+		for (int i = 0; i < levels.length; i++) {
 			levels[i] = model.getAvailableLevel().get(i).getFilename();
 		}
-		
-		//create the message
+
+		// create the message
 		Object message = "Wählen Sie das Level aus:";
-		
+
 		// show dialog
-		String ret = (String) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, levels, levels[0]);
-		
+		String ret = (String) JOptionPane.showInputDialog(this, message,
+				"Spieldauer", JOptionPane.QUESTION_MESSAGE, null, levels,
+				levels[0]);
+
 		// when dialog not canceled
-		if(ret != null) {
-			//Send message to server
+		if (ret != null) {
+			// Send message to server
 			com.sendMessage(new LevelSelection(ret));
-			
+
 			this.setLevel(ret);
 		}
 	}
-	
+
 	/**
-	 * shows player a dialog where he can choose the duration of the game
-	 * only shown if player is admin
+	 * shows player a dialog where he can choose the duration of the game only
+	 * shown if player is admin
 	 */
-	public void showTimeDialog()
-	{
+	public void showTimeDialog() {
 		int ret = 0;
 		// create array with play times
-		Object[] time = {5, 10, 15};
-		
-		//create the message
+		Object[] time = { 5, 10, 15 };
+
+		// create the message
 		Object message = "Wählen Sie die Spieldauer in Minuten aus:";
-		
+
 		// show dialog
-		ret = (int) JOptionPane.showInputDialog(this, message , "Spieldauer", JOptionPane.QUESTION_MESSAGE, null, time, time[0]);
-		
-		//Send message to server
-		if(ret != 0)
+		ret = (int) JOptionPane.showInputDialog(this, message, "Spieldauer",
+				JOptionPane.QUESTION_MESSAGE, null, time, time[0]);
+
+		// Send message to server
+		if (ret != 0)
 			com.sendMessage(new TimeSelection(ret));
 	}
-	
+
 	/**
 	 * Returns the field
+	 * 
 	 * @return returns instance of the field
 	 */
-	public Field getField()
-	{
+	public Field getField() {
 		return this.field;
 	}
-	
+
 	/**
 	 * Called when {@link RoundStart} message received and the next round is
 	 * about to start or the complete game starts.
@@ -263,8 +267,11 @@ public class MainClient extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.pack();
+		repaint();
+		this.requestFocus();
 	}
-	
+
 	/**
 	 * Called when {@link RoundFinished} message received and the current round
 	 * ends or the complete game ends.
@@ -281,151 +288,183 @@ public class MainClient extends JFrame {
 		// when game start message received also trigger round start
 		roundStart();
 	}
-	
+
 	/**
 	 * called when game is finished
-	 * @param usr array with data of each user
+	 * 
+	 * @param usr
+	 *            array with data of each user
 	 */
-	public void endGame(User usr[])
-	{
+	public void endGame(User usr[]) {
 		// when game end message received also trigger round end
 		roundFinish();
 		new Result(null, null, null, 0, this);
 	}
-	
+
 	/**
 	 * Set the time of the complete game.
 	 * 
-	 * @param time in minutes
+	 * @param time
+	 *            in minutes
 	 */
 	public void setTime(int time) {
 		sidebar.setTime(time);
 	}
-	
-	public void showUser(User usr[])
-	{
-		
+
+	public void showUser(User usr[]) {
+
 	}
-	
+
 	/**
-	 * @param userPos the user position
+	 * @param userPos
+	 *            the user position
 	 */
 	public void movePlayer(UserPosition userPos) {
-		if(model.movePlayer(userPos)) {
+		
+		if (model.movePlayer(userPos)) {
 			// player successfully moved
-			model.movePlayer(userPos);
 			// send new position to server
 			com.sendMessage(userPos);
+			// replace player
+			field.repositionUser(userPos.getUserID(), userPos.getPosition());
+
+			this.repaint();
 		}
 	}
-	
+
+	/**
+	 * Moves other player
+	 * 
+	 * @param userPos
+	 *            the user position
+	 */
+	public void playerMoved(UserPosition userPos) {
+		model.movePlayer(userPos);
+		// replace player
+		field.repositionUser(userPos.getUserID(), userPos.getPosition());
+
+		this.repaint();
+	}
+
 	/**
 	 * Adds player in model, if he does not exist.
 	 * 
-	 * @param usr User that is added
+	 * @param usr
+	 *            User that is added
 	 */
 	public void addPlayer(User usr) {
-		for(UserModel user: model.getUsers()) {
-			if(user.getUsername().equals(usr.getUsername()))
+		for (UserModel user : model.getUsers()) {
+			if (user.getUsername().equals(usr.getUsername()))
 				return;
 		}
-		
+
 		model.addPlayer(usr);
 	}
-	
+
 	/**
-	 * Sets a new bomb in the game model and sends the placed bomb to the server.
+	 * Sets a new bomb in the game model and sends the placed bomb to the
+	 * server.
 	 * 
-	 * @param bomb Bomb that is set in the model
+	 * @param bomb
+	 *            Bomb that is set in the model and displayed
 	 */
 	public void setBomb(Bomb bomb) {
 		this.model.setBomb(bomb);
+		
+		field.setBomb(bomb.getPosition(), bomb.getBombType());
+		
 		com.sendMessage(bomb);
 	}
-	
+
+	/**
+	 * Displays a bomb that is not set by the user
+	 * 
+	 * @param bomb
+	 *            Bomb that is set in the model and displayed
+	 */
+	public void bombIsSet(Bomb bomb) {
+		this.model.setBomb(bomb);
+		System.out.println(bomb.getPosition());
+		field.setBomb(bomb.getPosition(), bomb.getBombType());
+	}
+
 	/**
 	 * Returns the userID
+	 * 
 	 * @return the userID
 	 */
-	public int getUserID()
-	{
+	public int getUserID() {
 		return userID;
 	}
-	
+
 	/**
 	 * Sets the user id
+	 * 
 	 * @param id
+	 *            Player ID
 	 */
 	public void setUserID(int id) {
 		this.userID = id;
 	}
-	
+
 	/**
 	 * Removes a dead player
-	 * @param usr Dead player
-	 */
-	public void playerDead(User usr) {
-		
-	}
-	
-	/**
-	 * Removes a player.
 	 * 
-	 * @param usr the player to remove
+	 * @param usr
+	 *            Dead player
 	 */
-	public void playerRemove(User usr) {
-		
+	public void playerDead(UserDead usr) {
+		field.deletePlayer(usr.getUserID());
 	}
-	
+
 	/**
-	 * Removes a player which left the game due to a bad connection
-	 * @param usr Dead player
+	 * Removes a player which left the game due to a bad connection.
+	 * 
+	 * @param usr
+	 *            the player to remove
 	 */
-	public void playerLeft(User usr)
-	{
-		model.removePlayer(usr);
+	public void removePlayer(UserRemove usr) {
+		model.deleteUserByID(usr.getUserID());
+		field.deletePlayer(usr.getUserID());
 	}
-	
+
 	/**
 	 * Adds a list of levels to the game
-	 * @param level {@link ArrayList} of new levels
+	 * 
+	 * @param level
+	 *            {@link ArrayList} of new levels
 	 */
-	public void setAvailableLevel(ArrayList<Level> level)
-	{
+	public void setAvailableLevel(ArrayList<Level> level) {
 		model.setLevels(level);
 	}
-	
+
 	/**
 	 * Transfers the level into the model
-	 * @param level Level on which the round is played on
+	 * 
+	 * @param level
+	 *            Level on which the round is played on
 	 */
-	public void getLevelFile(File level)
-	{
+	public void getLevelFile(File level) {
 		model.loadLevel(level);
-		try {
-			field.createNewField();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
-	
+
 	/**
 	 * Sets the name of the level which is chosen by the admin
-	 * @param filename Level name
+	 * 
+	 * @param filename
+	 *            Level name
 	 */
-	public void setLevel(String filename)
-	{
+	public void setLevel(String filename) {
 		model.setLevelName(filename);
 		sidebar.updateLevel(filename);
 	}
-	
+
 	/**
 	 * Returns the level name
+	 * 
 	 * @return Level name
 	 */
-	public String getLevelName()
-	{
+	public String getLevelName() {
 		return model.getLevelName();
 	}
 }

@@ -17,9 +17,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
- * <p>Provides information to the user e.g. users and their scores. Also for the admin selection for the level and time.
+ * <p>
+ * Provides information to the user e.g. users and their scores. Also for the
+ * admin selection for the level and time.
  * 
- * <p>Extends {@link JPanel}.
+ * <p>
+ * Extends {@link JPanel}.
  * 
  * @author Daniel Hofer
  * @author Marco Egger
@@ -29,7 +32,7 @@ public class Sidebar extends JPanel {
 	private static final long serialVersionUID = 3L;
 
 	private static final String COLUMN_HEADS[] = { "Position", "Name", "Points" };
-	
+
 	private static final String TIME_REMAINING_HEADER = "Verbleibende Zeit:\n";
 
 	/**
@@ -39,7 +42,7 @@ public class Sidebar extends JPanel {
 	public static final String READY = "ready";
 	public static final String CHOOSE_TIME = "chooseTime";
 	public static final String CHOOSE_LEVEL = "chooseLevel";
-	
+
 	private MainClient client;
 	private JButton chsLevel;
 	private JButton ready;
@@ -49,9 +52,9 @@ public class Sidebar extends JPanel {
 	private JLabel level;
 	private Font txtStyle;
 	private ButtonListener buttonListener;
-	
+
 	/*
-	 *  game timer components
+	 * game timer components
 	 */
 	private JButton chsTime;
 	private JTextField timeTextField;
@@ -62,14 +65,15 @@ public class Sidebar extends JPanel {
 	/**
 	 * Create a sidebar.
 	 * 
-	 * @param client the instance of {@link MainClient}
+	 * @param client
+	 *            the instance of {@link MainClient}
 	 */
 	public Sidebar(MainClient client) {
 		this.client = client;
-		
+
 		// create vertical layout
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		createView();
 	}
 
@@ -79,49 +83,52 @@ public class Sidebar extends JPanel {
 	private void createView() {
 		// create listener for buttons
 		buttonListener = new ButtonListener(client);
-		
+
 		users = new ArrayList<User>();
-		
-		//create font
+
+		// create font
 		txtStyle = new Font("Arial", Font.PLAIN, 15);
-		
+
 		// level
 		chsLevel = new JButton("Level auswählen");
 		chsLevel.setActionCommand(CHOOSE_LEVEL);
 		chsLevel.addActionListener(buttonListener);
-		
+
 		// time
 		chsTime = new JButton("Spielzeit auswählen");
 		chsTime.setActionCommand(CHOOSE_TIME);
 		chsTime.addActionListener(buttonListener);
-		
+
 		// time remaining
-		timeTextField = new JTextField(TIME_REMAINING_HEADER + "Spiel noch nicht gestartet");
-		
+		timeTextField = new JTextField(TIME_REMAINING_HEADER
+				+ "Spiel noch nicht gestartet");
+		timeTextField.setEditable(false);
+
 		// ready
 		ready = new JButton("bereit");
 		ready.setActionCommand(READY);
 		ready.addActionListener(buttonListener);
-		
+
 		// logout
 		logout = new JButton("verlassen");
 		logout.setActionCommand(LOGOUT);
 		logout.addActionListener(buttonListener);
-		
+
 		// user table
-		String[][] tmp = { {"", "", ""}, {"", "", ""}, {"", "", ""}, {"", "", ""} };
+		String[][] tmp = { { "", "", "" }, { "", "", "" }, { "", "", "" },
+				{ "", "", "" } };
 		userTable = new JTable(tmp, COLUMN_HEADS) {
 			private static final long serialVersionUID = 1L;
-			
+
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		};
-		
+
 		userTable.setFont(txtStyle);
 		userTable.setShowGrid(false);
-		
-		//Label displaying the chosen level
+
+		// Label displaying the chosen level
 		level = new JLabel("Kein Level ausgewählt...");
 		level.setFont(txtStyle);
 
@@ -130,16 +137,19 @@ public class Sidebar extends JPanel {
 		add(new JScrollPane(userTable));
 		add(level);
 		add(chsLevel);
-		add(chsTime);		
+		add(chsTime);
 		add(ready);
 		add(logout);
 		setVisible(true);
+
+		toogleAdmin(client.isAdmin());
 	}
 
 	/**
 	 * Updates user table with new data.
 	 * 
-	 * @param usr an user
+	 * @param usr
+	 *            an user
 	 */
 	public void updateTable(User usr) {
 		// when user is not already in table
@@ -159,96 +169,100 @@ public class Sidebar extends JPanel {
 			// enlist username in first column
 			userTable.setValueAt(users.get(i).getUsername(), i, 1);
 			// enlist userscore in second column
-			userTable.setValueAt(Integer.toString(users.get(i).getScore()), i, 2);
+			userTable.setValueAt(Integer.toString(users.get(i).getScore()), i,
+					2);
 		}
 
 		userTable.repaint();
 	}
-	
-	
+
 	/**
 	 * Checks if user already exists in table.
 	 * 
-	 * @param user the user
+	 * @param user
+	 *            the user
 	 * @return true when user already exists
 	 */
 	private boolean isUserInTable(User user) {
 		boolean result = false;
-		
+
 		// go through player list and check if a matching username exist
-		for(User usr : users) {
-			if(usr.getUsername().equals(user.getUsername()))
+		for (User usr : users) {
+			if (usr.getUsername().equals(user.getUsername()))
 				result = true;
 		}
-		
+
 		return result;
 	}
 
 	/**
 	 * Toggles view between admin and normal user.
 	 * 
-	 * @param admin indicates if player is admin or not
+	 * @param admin
+	 *            indicates if player is admin or not
 	 */
 	public void toogleAdmin(boolean admin) {
-		if(admin) {
+		if (admin) {
 			chsLevel.setVisible(true);
 			chsTime.setVisible(true);
-		}
-		else {
+		} else {
 			chsLevel.setVisible(false);
 			chsTime.setVisible(false);
 		}
 	}
-	
+
+
 	/**
 	 * Updates the name of the displayed level
-	 * @param name New level name
+	 * 
+	 * @param name
+	 *            New level name
 	 */
-	public void updateLevel(String name)
-	{
+	public void updateLevel(String name) {
 		level.setText("Levelname: " + name);
 	}
-	
+
 	/**
 	 * Set the timeRemaining text field.
 	 * 
-	 * @param minutes the minutes (5, 10, 15)
+	 * @param minutes
+	 *            the minutes (5, 10, 15)
 	 */
 	public void setTime(int minutes) {
 		timeTextField.setText(TIME_REMAINING_HEADER + minutes + " Minuten");
 		// convert minutes to seconds
 		timeRemaining = minutes * 60;
 	}
-	
-	
+
 	/**
 	 * Start the timer of the game.
 	 */
 	public void startTimer() {
 		// if old running instance exists -> cancel
-		if(timerTask != null)
+		if (timerTask != null)
 			timerTask.cancel();
-		
+
 		timerTask = new TimerTask() {
-			
+
 			@Override
 			public void run() {
 				timeRemaining--;
-				
+
 				int minutes = (int) timeRemaining / 60;
 				int seconds = (int) timeRemaining - minutes * 60;
-				
-				timeTextField.setText(TIME_REMAINING_HEADER + minutes + ":" + seconds);
+
+				timeTextField.setText(TIME_REMAINING_HEADER + minutes + ":"
+						+ seconds);
 			}
 		};
 		timer.scheduleAtFixedRate(timerTask, 1000L, 1000L);
 	}
-	
+
 	/**
 	 * Stops the timer of the game.
 	 */
 	public void stopTimer() {
-		if(timerTask != null)
+		if (timerTask != null)
 			timerTask.cancel();
 	}
 }
