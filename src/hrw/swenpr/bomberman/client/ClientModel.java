@@ -1,17 +1,15 @@
 package hrw.swenpr.bomberman.client;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import hrw.swenpr.bomberman.common.BombEvent;
 import hrw.swenpr.bomberman.common.BombermanBaseModel;
 import hrw.swenpr.bomberman.common.UserModel;
-import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.Level;
-import hrw.swenpr.bomberman.common.rfc.User;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
+
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Stores all the information about the game the client needs
