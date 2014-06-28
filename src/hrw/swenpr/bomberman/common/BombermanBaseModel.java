@@ -465,19 +465,19 @@ public abstract class BombermanBaseModel {
 	 * @param bomb the bomb with explosion
 	 * @return {@code ArrayList<Point>} all fields that are affected by the explosion
 	 */
-	protected synchronized ArrayList<Point> getExplosion(Bomb bomb) {
-		ArrayList<Point> affected = new ArrayList<Point>();
+	protected synchronized ArrayList[] getExplosion(Bomb bomb) {
+		ArrayList[] affected = new ArrayList[4];
 		Point pos = bomb.getPosition();
 		
 		switch (bomb.getBombType()) {
 		case NORMAL_BOMB: // size of 3 field explosion
-			affected.addAll(getFieldsFromPoint(pos, 3));
+			affected = getFieldsFromPoint(pos, 3);
 			break;
 		case SUPER_BOMB: // size of 5 field explosion
-			affected.addAll(getFieldsFromPoint(pos, 5));
+			affected = getFieldsFromPoint(pos, 5);
 			break;
 		case MEGA_BOMB: // size of 7 field explosion
-			affected.addAll(getFieldsFromPoint(pos, 7));
+			affected = getFieldsFromPoint(pos, 7);
 			break;
 		default:
 			break;
@@ -494,8 +494,13 @@ public abstract class BombermanBaseModel {
 	 * @param length the fields to go in every direction
 	 * @return {@code ArrayList<Point>} the fields
 	 */
-	protected synchronized ArrayList<Point> getFieldsFromPoint(Point pos, int length) {
-		ArrayList<Point> result = new ArrayList<Point>();
+	protected synchronized ArrayList[] getFieldsFromPoint(Point pos, int length) {
+		ArrayList<Point> left = new ArrayList<Point>();
+		ArrayList<Point> right = new ArrayList<Point>();
+		ArrayList<Point> up = new ArrayList<Point>();
+		ArrayList<Point> down = new ArrayList<Point>();
+		ArrayList[] result = new ArrayList[4];
+		
 		Point p;
 		
 		for(int i = 1; i <= length; i++) {
@@ -503,7 +508,7 @@ public abstract class BombermanBaseModel {
 			try {
 				p = new Point(pos.x - i, pos.y);
 				getFieldType(p);
-				result.add(p);
+				left.add(p);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not included in explosion
@@ -513,7 +518,7 @@ public abstract class BombermanBaseModel {
 			try {
 				p = new Point(pos.x, pos.y - i);
 				getFieldType(p);
-				result.add(p);
+				up.add(p);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not included in explosion
@@ -523,7 +528,7 @@ public abstract class BombermanBaseModel {
 			try {
 				p = new Point(pos.x + i, pos.y);
 				getFieldType(p);
-				result.add(p);
+				right.add(p);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not included in explosion
@@ -533,12 +538,17 @@ public abstract class BombermanBaseModel {
 			try {
 				p = new Point(pos.x, pos.y + i);
 				getFieldType(p);
-				result.add(p);
+				down.add(p);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not included in explosion
 			}
 		}
+		
+		result[0] = up;
+		result[1] = right;
+		result[2] = down;
+		result[3] = left;
 		
 		return result;
 	}
@@ -562,7 +572,7 @@ public abstract class BombermanBaseModel {
 	 * @param position {@link Point} the position 
 	 * @param explosion {@code ArrayList<Point>} all fields, the explosion reached
 	 */
-	protected synchronized void onBombEvent(int userID, BombType type, Point position, ArrayList<Point> explosion) {
+	protected synchronized void onBombEvent(int userID, BombType type, Point position, ArrayList[] explosion) {
 		for (BombermanListener listener: subscribers) {
 			listener.bombExplode(new BombEvent(this, userID, type, position, explosion));
 		}

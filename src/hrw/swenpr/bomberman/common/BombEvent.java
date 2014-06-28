@@ -19,7 +19,7 @@ public class BombEvent extends EventObject {
 	protected int userID;
 	protected BombType type;
 	protected Point position;
-	protected ArrayList<Point> explosion;
+	protected ArrayList[] explosion;
 	
 	/**
 	 * Creates an event for a bomb explosion.
@@ -29,7 +29,7 @@ public class BombEvent extends EventObject {
 	 * @param type the type of the bomb
 	 * @param position the position of the bomb
 	 */
-	public BombEvent(BombermanBaseModel source, int userID, BombType type, Point position, ArrayList<Point> explosion) {
+	public BombEvent(BombermanBaseModel source, int userID, BombType type, Point position, ArrayList[] explosion) {
 		super(source);
 		this.userID = userID;
 		this.type = type;
@@ -61,7 +61,7 @@ public class BombEvent extends EventObject {
 	/**
 	 * @return all fields that could be reached by the bomb (does NOT pay attention to objects in the way of the explosion)
 	 */
-	public ArrayList<Point> getExplosion() {
+	public ArrayList[] getExplosion() {
 		return explosion;
 	}
 }
