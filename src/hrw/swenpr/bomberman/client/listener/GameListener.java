@@ -21,11 +21,6 @@ public class GameListener implements BombermanListener {
 		ClientModel model = MainClient.getInstance().getModel();
 		MainClient main = MainClient.getInstance();
 		boolean abort = false;
-		System.out.println("Listener called");
-		System.out.println(explosion[0]);
-		System.out.println(explosion[1]);
-		System.out.println(explosion[2]);
-		System.out.println(explosion[3]);
 		for(int i = 0; i < explosion.length; i++){
 			for(Point p : (ArrayList<Point>)explosion[i]){
 				

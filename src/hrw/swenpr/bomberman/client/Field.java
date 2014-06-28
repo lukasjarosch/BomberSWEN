@@ -252,6 +252,7 @@ public class Field extends JPanel {
 	 */
 	public void redrawPanel(Point pos){
 		
+		bombPosition.remove(pos);
 		try {
 			switch(MainClient.getInstance().getModel().getFieldType(pos)){
 			case PLAIN_FIELD:

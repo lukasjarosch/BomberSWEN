@@ -349,10 +349,11 @@ public abstract class BombermanBaseModel {
 					|| newPos.equals(down) || newPos.equals(left))) {
 				return false;
 			}
-
+			
 			// only reached when position is besides current position
-			// then check if field is a plain field, all others are NOT walkable
-			if (field[newPos.x][newPos.y] != FieldType.PLAIN_FIELD) {
+			// then check if field is a plain field, a super or mega bomb all others are NOT walkable
+			if (!(field[newPos.x][newPos.y].equals(FieldType.PLAIN_FIELD) || field[newPos.x][newPos.y].equals(FieldType.ITEM_MEGA_BOMB)
+					|| field[newPos.x][newPos.y].equals(FieldType.ITEM_SUPER_BOMB))) {
 				return false;
 			}
 		} catch (Exception e) {
