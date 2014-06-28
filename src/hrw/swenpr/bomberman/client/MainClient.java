@@ -1,6 +1,7 @@
 package hrw.swenpr.bomberman.client;
 
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
+import hrw.swenpr.bomberman.client.listener.GameListener;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
@@ -18,6 +19,7 @@ import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -115,6 +117,7 @@ public class MainClient extends JFrame {
 
 	private void setListener() {
 		this.addKeyListener(new GameKeyListener(this));
+		model.setBombermanListener(new GameListener());
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -345,6 +348,15 @@ public class MainClient extends JFrame {
 
 		this.repaint();
 	}
+	
+	/**
+	 * Updates a panel which is changed by a bomb
+	 * @param pos
+	 */
+	public void updatePanel(Point pos){
+		field.redrawPanel(pos);
+		this.repaint();
+	}
 
 	/**
 	 * Adds player in model, if he does not exist.
@@ -408,7 +420,7 @@ public class MainClient extends JFrame {
 	}
 
 	/**
-	 * Removes a dead player
+	 * Removes a dead player from the field
 	 * 
 	 * @param usr
 	 *            Dead player

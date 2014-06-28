@@ -11,6 +11,7 @@ import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
 import hrw.swenpr.bomberman.common.BombermanEvent;
 import hrw.swenpr.bomberman.common.BombermanListener;
+import hrw.swenpr.bomberman.common.rfc.UserDead;
 
 public class GameListener implements BombermanListener {
 
@@ -18,8 +19,13 @@ public class GameListener implements BombermanListener {
 	public void bombExplode(BombEvent event) {
 		ArrayList[] explosion = event.getExplosion();
 		ClientModel model = MainClient.getInstance().getModel();
+		MainClient main = MainClient.getInstance();
 		boolean abort = false;
-		
+		System.out.println("Listener called");
+		System.out.println(explosion[0]);
+		System.out.println(explosion[1]);
+		System.out.println(explosion[2]);
+		System.out.println(explosion[3]);
 		for(int i = 0; i < explosion.length; i++){
 			for(Point p : (ArrayList<Point>)explosion[i]){
 				
@@ -31,7 +37,10 @@ public class GameListener implements BombermanListener {
 						break;
 					case DESTRUCTIBLE_FIELD:
 						//delete panel and continue with next direction
-						model.setField(p, model.getSpecialItem(p));						
+						model.setField(p, model.getSpecialItem(p));
+						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						main.updatePanel(p);
+						main.updatePanel(event.getPosition());
 						abort = true;
 						break;
 					case USER1:
@@ -40,16 +49,39 @@ public class GameListener implements BombermanListener {
 							UserModel usr = model.getUser(event.getUserID()); 
 							usr.setScore(usr.getScore() - 5);
 						}
-						
+						model.setField(p, FieldType.PLAIN_FIELD);
+						main.updatePanel(p);
+						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER1)));
 						break;
 					case USER2:
-						
+						//Check if hit user is user who set bomb
+						if(BombermanBaseModel.convertToUserID(FieldType.USER2) == event.getUserID()){
+							UserModel usr = model.getUser(event.getUserID()); 
+							usr.setScore(usr.getScore() - 5);
+						}
+						model.setField(p, FieldType.PLAIN_FIELD);
+						main.updatePanel(p);
+						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER2)));
 						break;
 					case USER3:
-						
+						//Check if hit user is user who set bomb
+						if(BombermanBaseModel.convertToUserID(FieldType.USER3) == event.getUserID()){
+							UserModel usr = model.getUser(event.getUserID()); 
+							usr.setScore(usr.getScore() - 5);
+						}
+						model.setField(p, FieldType.PLAIN_FIELD);
+						main.updatePanel(p);
+						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER3)));
 						break;
 					case USER4:
-						
+						//Check if hit user is user who set bomb
+						if(BombermanBaseModel.convertToUserID(FieldType.USER4) == event.getUserID()){
+							UserModel usr = model.getUser(event.getUserID()); 
+							usr.setScore(usr.getScore() - 5);
+						}
+						model.setField(p, FieldType.PLAIN_FIELD);
+						main.updatePanel(p);
+						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER4)));
 						break;
 
 					default:

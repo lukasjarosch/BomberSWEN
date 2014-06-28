@@ -563,7 +563,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				left.add(p);
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -574,7 +574,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				up.add(p);
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -585,7 +585,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				right.add(p);
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -596,7 +596,7 @@ public abstract class BombermanBaseModel {
 				getFieldType(p);
 				down.add(p);
 			} catch (Exception e) {
-				e.printStackTrace();
+//				e.printStackTrace();
 				// when exception occurs the field is out of the pitch -> not
 				// included in explosion
 			}
@@ -608,6 +608,14 @@ public abstract class BombermanBaseModel {
 		result[3] = left;
 
 		return result;
+	}
+	
+	/**
+	 * Adds an bomberman listener to the model
+	 * @param listener Listener which is added to the model
+	 */
+	public void setBombermanListener(BombermanListener listener){
+		subscribers.add(listener);
 	}
 
 	/**
