@@ -35,7 +35,6 @@ public class ButtonListener implements ActionListener {
 		if(event.getActionCommand() == Sidebar.READY) {
 			UserReady ready = new UserReady(client.getUserID());
 			client.getCommunication().sendMessage(ready);
-			((JButton)event.getSource()).setEnabled(false);
 		}
 		
 		// logout

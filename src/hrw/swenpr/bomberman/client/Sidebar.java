@@ -211,15 +211,6 @@ public class Sidebar extends JPanel {
 		}
 	}
 
-	/**
-	 * Toggles the ready button
-	 * 
-	 * @param on
-	 *            true if button should be enabled else false
-	 */
-	public void toggleReady(boolean on) {
-		ready.setEnabled(on);
-	}
 
 	/**
 	 * Updates the name of the displayed level
