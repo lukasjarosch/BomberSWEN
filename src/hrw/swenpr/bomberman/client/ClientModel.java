@@ -115,7 +115,6 @@ public class ClientModel extends BombermanBaseModel {
 	 * @param uPos containing the {@code userID} and the new {@code position}.
 	 * @return true when move is allowed, false if move failed (player stays at old position)
 	 */
-	@Override
 	public synchronized boolean movePlayer(UserPosition uPos) {
 		// if field not walkable return false
 		if(!isWalkableField(getUserPosition(uPos.getUserID()), uPos.getPosition())) {
@@ -142,7 +141,6 @@ public class ClientModel extends BombermanBaseModel {
 	 * 
 	 * @param bomb
 	 */
-	@Override
 	public synchronized void setBomb(final Bomb bomb) {
 		// set field to bomb
 		switch (bomb.getBombType()) {

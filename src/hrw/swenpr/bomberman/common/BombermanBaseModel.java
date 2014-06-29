@@ -3,7 +3,6 @@ package hrw.swenpr.bomberman.common;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
 import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 import hrw.swenpr.bomberman.common.rfc.User;
-import hrw.swenpr.bomberman.common.rfc.UserPosition;
 
 import java.awt.Point;
 import java.io.File;
@@ -11,8 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.Vector;
 
 import org.jdom2.Document;
@@ -260,74 +257,6 @@ public abstract class BombermanBaseModel {
 		}
 	}
 
-	/**
-	 * Tries to move a player to given position.
-	 * 
-	 * @param uPos
-	 *            containing the {@code userID} and the new {@code position}.
-	 * @return true when move is allowed, false if move failed (player stays at
-	 *         old position)
-	 */
-	public synchronized boolean movePlayer(UserPosition uPos) {
-		// if field not walkable return false
-		if (!isWalkableField(getUserPosition(uPos.getUserID()),
-				uPos.getPosition())) {
-			return false;
-		}
-
-		for (UserModel user : users) {
-			// if relevant user found
-			if (user.getUserID() == uPos.getUserID()) {
-				// clear old field
-				setField(user.getPosition(), FieldType.PLAIN_FIELD);
-				// set new field
-				setField(uPos.getPosition(),
-						convertToFieldType(uPos.getUserID()));
-				// set new position in user array
-				user.setPosition(uPos.getPosition());
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Adds a bomb to the model, that will trigger a {@link BombEvent} when
-	 * exploding.
-	 * 
-	 * @param bomb
-	 */
-	public synchronized void setBomb(final Bomb bomb) {
-		// set field to bomb
-		switch (bomb.getBombType()) {
-		case NORMAL_BOMB:
-			setField(bomb.getPosition(), FieldType.NORMAL_BOMB);
-			break;
-
-		case SUPER_BOMB:
-			setField(bomb.getPosition(), FieldType.SUPER_BOMB);
-			break;
-
-		case MEGA_BOMB:
-			setField(bomb.getPosition(), FieldType.MEGA_BOMB);
-			break;
-
-		default:
-			break;
-		}
-
-		// create timer task
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-
-			@Override
-			public void run() {
-				// trigger event when bomb explodes
-				onBombEvent(bomb.getUserID(), bomb.getBombType(),
-						bomb.getPosition(), getExplosion(bomb));
-			}
-		}, bomb.getTime());
-	}
 
 	/**
 	 * Checks whether on the given position a player can be positioned.

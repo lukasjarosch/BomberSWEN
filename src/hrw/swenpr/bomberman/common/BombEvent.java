@@ -13,6 +13,7 @@ import java.util.EventObject;
  * 
  * @author Marco Egger
  */
+@SuppressWarnings("rawtypes")
 public class BombEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	
