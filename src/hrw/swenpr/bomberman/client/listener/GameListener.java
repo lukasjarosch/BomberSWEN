@@ -27,17 +27,14 @@ public class GameListener implements BombermanListener {
 		for(int i = 0; i < explosion.length; i++){
 			for(Point p : (ArrayList<Point>)explosion[i]){
 				try {
+					System.out.println(model.getFieldType(p));
 					switch (model.getFieldType(p)) {
 					case ITEM_MEGA_BOMB:
 						//stop this direction and continue with next direction
-						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
-						main.updatePanel(event.getPosition());
 						abort = true;
 						break;
 					case ITEM_SUPER_BOMB:
 						//stop this direction and continue with next direction
-						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
-						main.updatePanel(event.getPosition());
 						abort = true;
 						break;
 					case INDESTRUCTUBLE_FIELD:
@@ -46,10 +43,12 @@ public class GameListener implements BombermanListener {
 						break;
 					case DESTRUCTIBLE_FIELD:
 						//delete panel and continue with next direction
+						System.out.println(p);
+						System.out.println(event.getPosition());
 						model.setField(p, model.getSpecialItem(p));
-						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+						
 						main.updatePanel(p);
-						main.updatePanel(event.getPosition());
+						
 						abort = true;
 						break;
 					case USER1:
@@ -70,8 +69,6 @@ public class GameListener implements BombermanListener {
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
-						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
-						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER1)));
 						//check if killed user is player
@@ -95,8 +92,6 @@ public class GameListener implements BombermanListener {
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
-						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
-						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER2)));
 						//check if killed user is player
@@ -120,8 +115,6 @@ public class GameListener implements BombermanListener {
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
-						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
-						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER3)));
 						//check if killed user is player
@@ -145,8 +138,6 @@ public class GameListener implements BombermanListener {
 						//Redraw the panel
 						model.setField(p, FieldType.PLAIN_FIELD);
 						main.updatePanel(p);
-						model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
-						main.updatePanel(event.getPosition());
 						//Send a user dead message to the server
 						main.getCommunication().sendMessage(new UserDead(BombermanBaseModel.convertToUserID(FieldType.USER4)));
 						//check if killed user is player
@@ -161,9 +152,15 @@ public class GameListener implements BombermanListener {
 					
 				}
 				if(abort){
-					abort = true;
+					abort = false;
+					//Delete exploded bomb from the pit and redraw position
+					model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+					main.updatePanel(event.getPosition());
 					break;
 				}
+				//Delete exploded bomb from the pit and redraw position
+				model.setField(event.getPosition(), FieldType.PLAIN_FIELD);
+				main.updatePanel(event.getPosition());
 			}
 		}
 	}
