@@ -409,8 +409,9 @@ public class ClientThread extends Thread {
 			sendLevelFile(model.getLevelFilename());
 			
 			// Start game
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
+			model.setGameRunning(true);
 			Server.getCommunication().sendToAllClients(new GameStart());
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
 		}
 	}
 
