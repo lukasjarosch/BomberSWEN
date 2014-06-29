@@ -86,6 +86,7 @@ public class MainWindow extends JFrame {
 	 */
 	public static void log(LogMessage message) {
 		mainPanel.getLogArea().append(message.getLogString());
+		mainPanel.getLogArea().setCaretPosition(mainPanel.getLogArea().getDocument().getLength() - 1);
 	}
 	
 	/**
