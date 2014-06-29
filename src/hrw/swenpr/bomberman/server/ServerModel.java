@@ -50,7 +50,7 @@ public class ServerModel extends BombermanBaseModel {
 	 * The timer which will schedule the end of the game
 	 * based on the decision of the game admin
 	 */
-	private Timer gameTimer;
+	private Timer gameTimer = new Timer();
 	
 	/**
 	 * The time a whole game lasts in seconds
@@ -204,24 +204,6 @@ public class ServerModel extends BombermanBaseModel {
 	 */
 	public void setServerRunning(boolean running) {
 		this.serverRunning = running;
-	}
-
-	/**
-	 * Return the {@link Timer}
-	 *  
-	 * @return The game timer
-	 */
-	public Timer getGameTimer() {
-		return gameTimer;
-	}
-
-	/**
-	 * Set the {@link Timer} of the game
-	 * 
-	 * @param gameTimer
-	 */
-	public void setGameTimer(Timer gameTimer) {
-		this.gameTimer = gameTimer;
 	}
 	
 	/**
