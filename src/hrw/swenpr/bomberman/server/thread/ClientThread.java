@@ -14,6 +14,7 @@ import hrw.swenpr.bomberman.common.rfc.RoundFinished;
 import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserReady;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 import hrw.swenpr.bomberman.server.LogMessage;
@@ -105,6 +106,10 @@ public class ClientThread extends Thread {
 		// Send all currently logged-in users to new client
 		sendUserList();
 		
+		// send level and time if they are selected already
+		sendLevel();
+		sendTime();
+		
 
 		// Enter working loop
 		while (!Thread.interrupted()) {
@@ -113,7 +118,7 @@ public class ClientThread extends Thread {
 			Object msg = readObject();
 			
 			// Exit thread if nothing was read
-			if(msg.equals(null))
+			if(msg == null)
 				return;			
 			
 			// Handle messages from client
@@ -150,7 +155,7 @@ public class ClientThread extends Thread {
 					break;		
 					
 				case USER_DEAD:
-					handleUserDead();
+					handleUserDead((UserDead) msg);
 					MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Player " + getLogUser() + "is dead."));
 					break;					
 				
@@ -160,6 +165,31 @@ public class ClientThread extends Thread {
 		}		
 	}
 	
+	/**
+	 * Sends the currently selected game time to the client,
+	 * if it's already selected by the game admin.
+	 * 
+	 * @author Marco Egger
+	 */
+	private void sendTime() {
+		// if time set -> send to client
+		if(Server.getModel().getGameTimeInSeconds() != 0)
+			Server.getCommunication().sendToClient(outputStream, new TimeSelection(Server.getModel().getGameTimeInMinutes()));
+	}
+
+	/**
+	 * Sends the currently selected level filename to the client,
+	 * if it's already selected by the game admin.
+	 * 
+	 * @author Marco Egger
+	 */
+	private void sendLevel() {
+		// if level filename set -> send to client
+		if(Server.getModel().getLevelFilename() != null)
+			Server.getCommunication().sendToClient(outputStream, new LevelSelection(Server.getModel().getLevelFilename()));
+	}
+	
+
 	/**
 	 * Sends a list of all currently logged in users to the
 	 * client.
@@ -259,14 +289,20 @@ public class ClientThread extends Thread {
 	 * Handles a dying user. If one or less players are left
 	 * the game will end
 	 * 
+	 * @param dead the {@link UserDead} message
+	 * 
 	 * @author Marco Egger
 	 */
-	public void handleUserDead() {
+	public void handleUserDead(UserDead dead) {
 		ServerModel model = Server.getModel();
-		setAlive(false);
 		
 		int numDead = 0;
 		for (ClientThread client : model.getClientThreads()) {
+			// mark "new" dead user as dead
+			if(client.getUserId() == dead.getUserID())
+				client.setAlive(false);
+			
+			// count all dead users
 			if(client.clientIsAlive()) 
 				numDead++;
 		}
@@ -373,8 +409,9 @@ public class ClientThread extends Thread {
 			sendLevelFile(model.getLevelFilename());
 			
 			// Start game
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
+			model.setGameRunning(true);
 			Server.getCommunication().sendToAllClients(new GameStart());
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "Game started."));
 		}
 	}
 
@@ -392,7 +429,7 @@ public class ClientThread extends Thread {
 	 * 
 	 * @param alive
 	 */
-	private void setAlive(boolean alive) {
+	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
 

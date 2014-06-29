@@ -50,7 +50,7 @@ public class ServerModel extends BombermanBaseModel {
 	 * The timer which will schedule the end of the game
 	 * based on the decision of the game admin
 	 */
-	private Timer gameTimer;
+	private Timer gameTimer = new Timer();
 	
 	/**
 	 * The time a whole game lasts in seconds
@@ -205,31 +205,27 @@ public class ServerModel extends BombermanBaseModel {
 	public void setServerRunning(boolean running) {
 		this.serverRunning = running;
 	}
-
+	
 	/**
-	 * Return the {@link Timer}
-	 *  
-	 * @return The game timer
-	 */
-	public Timer getGameTimer() {
-		return gameTimer;
-	}
-
-	/**
-	 * Set the {@link Timer} of the game
+	 * <p>Returns the game time in minutes. If the game already started
+	 * only every full 60 seconds will be counted.
 	 * 
-	 * @param gameTimer
+	 * <p>Example:<br>
+	 * 4 minutes 36 seconds -> return value: 4<br>
+	 * 5 minutes 0 seconds -> return value 5<br>
+	 * 
+	 * @return the game time in minutes
+	 * 
+	 * @author Marco Egger
 	 */
-	public void setGameTimer(Timer gameTimer) {
-		this.gameTimer = gameTimer;
+	public int getGameTimeInMinutes() {
+		return (int) (gameTime / 60);
 	}
-	
-	
 
 	/**
 	 * @return the gameTime in seconds
 	 */
-	public long getGameTime() {
+	public long getGameTimeInSeconds() {
 		return gameTime;
 	}
 
@@ -315,12 +311,19 @@ public class ServerModel extends BombermanBaseModel {
 	/**
 	 * Increments the client count
 	 * 
-	 * @param clientCount
-	 * 
 	 * @author Lukas Jarosch
 	 */
 	public void incrementClientCount() {
-		clientCount = getClientCount() + 1;
+		clientCount++;
+	}
+	
+	/**
+	 * Decrements the client count.
+	 * 
+	 * @author Marco Egger
+	 */
+	public void decrementClientCount() {
+		clientCount--;
 	}
 	
 	
@@ -339,6 +342,7 @@ public class ServerModel extends BombermanBaseModel {
 			// if users match remove the current user
 			if(user.getUserID() == userID) {
 				it.remove();
+				decrementClientCount();
 			}
 		}
 	}

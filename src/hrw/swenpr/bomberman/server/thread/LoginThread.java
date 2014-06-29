@@ -48,7 +48,7 @@ public class LoginThread extends Thread {
 			
 			// Prepare uid and an empty object
 			int uid = Server.getModel().getClientCount();
-                        Object message = null;
+            Object message = null;
 
             // Create output stream
             try {
@@ -59,7 +59,7 @@ public class LoginThread extends Thread {
 			}
 			
 			// A new client has connected
-			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "A client (IP: " + clientSocket.getInetAddress().toString() + ") is requesting login"));
+			MainWindow.log(new LogMessage(LEVEL.INFORMATION, "A client (IP: " + clientSocket.getInetAddress().toString().substring(1) + ") is requesting login"));
 						
 			// Try to read from the ObjectInputStream
 			try {
