@@ -105,6 +105,10 @@ public class ClientThread extends Thread {
 		// Send all currently logged-in users to new client
 		sendUserList();
 		
+		// send level and time if they are selected already
+		sendLevel();
+		sendTime();
+		
 
 		// Enter working loop
 		while (!Thread.interrupted()) {
@@ -160,6 +164,31 @@ public class ClientThread extends Thread {
 		}		
 	}
 	
+	/**
+	 * Sends the currently selected game time to the client,
+	 * if it's already selected by the game admin.
+	 * 
+	 * @author Marco Egger
+	 */
+	private void sendTime() {
+		// if time set -> send to client
+		if(Server.getModel().getGameTimeInSeconds() != 0)
+			Server.getCommunication().sendToClient(outputStream, new TimeSelection(Server.getModel().getGameTimeInMinutes()));
+	}
+
+	/**
+	 * Sends the currently selected level filename to the client,
+	 * if it's already selected by the game admin.
+	 * 
+	 * @author Marco Egger
+	 */
+	private void sendLevel() {
+		// if level filename set -> send to client
+		if(Server.getModel().getLevelFilename() != null)
+			Server.getCommunication().sendToClient(outputStream, new LevelSelection(Server.getModel().getLevelFilename()));
+	}
+	
+
 	/**
 	 * Sends a list of all currently logged in users to the
 	 * client.

@@ -224,12 +224,26 @@ public class ServerModel extends BombermanBaseModel {
 		this.gameTimer = gameTimer;
 	}
 	
-	
+	/**
+	 * <p>Returns the game time in minutes. If the game already started
+	 * only every full 60 seconds will be counted.
+	 * 
+	 * <p>Example:<br>
+	 * 4 minutes 36 seconds -> return value: 4<br>
+	 * 5 minutes 0 seconds -> return value 5<br>
+	 * 
+	 * @return the game time in minutes
+	 * 
+	 * @author Marco Egger
+	 */
+	public int getGameTimeInMinutes() {
+		return (int) (gameTime / 60);
+	}
 
 	/**
 	 * @return the gameTime in seconds
 	 */
-	public long getGameTime() {
+	public long getGameTimeInSeconds() {
 		return gameTime;
 	}
 
