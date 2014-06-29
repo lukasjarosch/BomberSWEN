@@ -21,6 +21,7 @@ import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -91,6 +92,9 @@ public class MainClient extends JFrame {
 
 		// make window full-screen
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		//Set minimum window size
+		this.setMinimumSize(new Dimension(1000, 500));
 
 		// position and show window
 		setLocationRelativeTo(null);
