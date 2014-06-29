@@ -3,7 +3,7 @@
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="hrw.swenpr.bomberman.client.Communication" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Communication.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="135" width="133" x="122" y="89"/>    
+    <position height="-1" width="-1" x="192" y="155"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="hrw.swenpr.bomberman.client.Field" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Field.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="496" y="176"/>    
+    <position height="-1" width="-1" x="500" y="140"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -49,7 +49,7 @@
   </class>  
   <class id="6" language="java" name="hrw.swenpr.bomberman.client.MainClient" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/MainClient.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="529" y="633"/>    
+    <position height="-1" width="-1" x="504" y="688"/>    
     <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
     </display>  
   </class>  
   <association id="8">    
-    <end type="SOURCE" refId="7" navigable="false">      
+    <end type="SOURCE" refId="5" navigable="false">      
       <attribute id="9" name="mainClient"/>      
       <multiplicity id="10" minimum="0" maximum="1"/>    
     </end>    
@@ -74,20 +74,20 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="11">    
-    <bendpoint x="921" y="541"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="12" name="sidebar"/>      
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="12" name="mainClient"/>      
       <multiplicity id="13" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="14">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="15" name="mainClient"/>      
+    <bendpoint x="921" y="541"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="15" name="sidebar"/>      
       <multiplicity id="16" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="17">    
@@ -99,25 +99,25 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="20">    
-    <bendpoint x="1056" y="205"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="21" name="buttonListener"/>      
-      <multiplicity id="22" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="23">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="24" name="com"/>      
-      <multiplicity id="25" minimum="0" maximum="1"/>    
+      <attribute id="21" name="com"/>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="23">    
+    <bendpoint x="1056" y="205"/>    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="24" name="buttonListener"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" 
     accessors="true" visibility="true">    
-    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <attributes public="true" package="false" protected="true" private="true" static="true"/>    
     <operations public="true" package="true" protected="true" private="true" static="true"/>  
   </classifier-display>  
   <association-display labels="true" multiplicity="true"/>

@@ -131,6 +131,7 @@ public class Sidebar extends JPanel {
 		// Label displaying the chosen level
 		level = new JLabel("Kein Level ausgewählt...");
 		level.setFont(txtStyle);
+		
 
 		// add views
 		add(timeTextField);
@@ -250,9 +251,11 @@ public class Sidebar extends JPanel {
 
 				int minutes = (int) timeRemaining / 60;
 				int seconds = (int) timeRemaining - minutes * 60;
-
-				timeTextField.setText(TIME_REMAINING_HEADER + minutes + ":"
-						+ seconds);
+				
+				if(seconds < 10)
+					timeTextField.setText(TIME_REMAINING_HEADER + minutes + ":0" + seconds);
+				else
+					timeTextField.setText(TIME_REMAINING_HEADER + minutes + ":" + seconds);
 			}
 		};
 		timer.scheduleAtFixedRate(timerTask, 1000L, 1000L);

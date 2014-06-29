@@ -15,11 +15,4 @@ public interface BombermanListener extends EventListener {
 	 * @param event the event
 	 */
 	public void bombExplode(BombEvent event);
-	
-	/**
-	 * Triggered when a user has moved or objects where destroyed by a bomb.
-	 * 
-	 * @param event the event
-	 */
-	public void modelChanged(BombermanEvent event);
 }

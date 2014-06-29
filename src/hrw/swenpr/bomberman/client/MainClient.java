@@ -1,6 +1,8 @@
 package hrw.swenpr.bomberman.client;
 
 import hrw.swenpr.bomberman.client.listener.GameKeyListener;
+import hrw.swenpr.bomberman.client.listener.GameListener;
+import hrw.swenpr.bomberman.common.BombermanBaseModel.FieldType;
 import hrw.swenpr.bomberman.common.ClientConnection;
 import hrw.swenpr.bomberman.common.UserModel;
 import hrw.swenpr.bomberman.common.rfc.Bomb;
@@ -12,12 +14,15 @@ import hrw.swenpr.bomberman.common.rfc.RoundFinished;
 import hrw.swenpr.bomberman.common.rfc.RoundStart;
 import hrw.swenpr.bomberman.common.rfc.TimeSelection;
 import hrw.swenpr.bomberman.common.rfc.User;
+import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 import hrw.swenpr.bomberman.common.rfc.User.UserColor;
 import hrw.swenpr.bomberman.common.rfc.UserDead;
 import hrw.swenpr.bomberman.common.rfc.UserPosition;
 import hrw.swenpr.bomberman.common.rfc.UserRemove;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -55,6 +60,7 @@ public class MainClient extends JFrame {
 
 	private boolean isAdmin = false;
 	private int userID;
+	private boolean isDead = false;
 
 	private Socket socket;
 
@@ -86,6 +92,9 @@ public class MainClient extends JFrame {
 
 		// make window full-screen
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		
+		//Set minimum window size
+		this.setMinimumSize(new Dimension(1000, 500));
 
 		// position and show window
 		setLocationRelativeTo(null);
@@ -115,6 +124,7 @@ public class MainClient extends JFrame {
 
 	private void setListener() {
 		this.addKeyListener(new GameKeyListener(this));
+		model.setBombermanListener(new GameListener());
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -278,6 +288,8 @@ public class MainClient extends JFrame {
 	 */
 	public void roundFinish() {
 		sidebar.stopTimer();
+		model.setHaveMegaBomb(false);
+		model.setHaveSuperBomb(false);
 	}
 
 	/**
@@ -311,23 +323,37 @@ public class MainClient extends JFrame {
 		sidebar.setTime(time);
 	}
 
-	public void showUser(User usr[]) {
-
-	}
-
 	/**
 	 * @param userPos
 	 *            the user position
 	 */
 	public void movePlayer(UserPosition userPos) {
-		
+		//Check if player is dead 
+		if(isDead)
+			return;
+		//Check if player can move to wanted position
 		if (model.movePlayer(userPos)) {
 			// player successfully moved
 			// send new position to server
 			com.sendMessage(userPos);
 			// replace player
 			field.repositionUser(userPos.getUserID(), userPos.getPosition());
-
+			//check if user pick up a special item
+			if(model.getSpecialItem(userPos.getPosition()) != FieldType.PLAIN_FIELD){
+				switch(model.getSpecialItem(userPos.getPosition())){
+				case ITEM_MEGA_BOMB:
+					model.setHaveMegaBomb(true);
+					model.collectSpecialItem(userPos.getPosition());
+					break;
+				case ITEM_SUPER_BOMB:
+					model.setHaveSuperBomb(true);
+					model.collectSpecialItem(userPos.getPosition());
+					break;
+				default:
+					break;
+				}
+						
+			}
 			this.repaint();
 		}
 	}
@@ -342,7 +368,30 @@ public class MainClient extends JFrame {
 		model.movePlayer(userPos);
 		// replace player
 		field.repositionUser(userPos.getUserID(), userPos.getPosition());
+		//check if user pick up a special item
+		if(model.getSpecialItem(userPos.getPosition()) != FieldType.PLAIN_FIELD){
+			switch(model.getSpecialItem(userPos.getPosition())){
+			case ITEM_MEGA_BOMB:
+				model.collectSpecialItem(userPos.getPosition());
+				break;
+			case ITEM_SUPER_BOMB:
+				model.collectSpecialItem(userPos.getPosition());
+				break;
+			default:
+				break;
+			}
+					
+		}
+		this.repaint();
+	}
 
+	/**
+	 * Updates a panel which is changed by a bomb
+	 * 
+	 * @param pos
+	 */
+	public void updatePanel(Point pos) {
+		field.redrawPanel(pos);
 		this.repaint();
 	}
 
@@ -369,10 +418,22 @@ public class MainClient extends JFrame {
 	 *            Bomb that is set in the model and displayed
 	 */
 	public void setBomb(Bomb bomb) {
+		//Check if the set bomb is not a normal bomb
+		if(bomb.getBombType() != BombType.NORMAL_BOMB){
+			//if it is a super or mega bomb check if the player can set one(this is possible
+			//when he collected one before)
+			if(bomb.getBombType() == BombType.SUPER_BOMB){
+				if(!model.isHaveSuperBomb())
+					return;
+				model.setHaveSuperBomb(false);
+			}else if(bomb.getBombType() == BombType.MEGA_BOMB){
+				if(!model.isHaveMegaBomb())
+					return;
+				model.setHaveMegaBomb(false);
+			}
+		}
 		this.model.setBomb(bomb);
-		
 		field.setBomb(bomb.getPosition(), bomb.getBombType());
-		
 		com.sendMessage(bomb);
 	}
 
@@ -384,7 +445,6 @@ public class MainClient extends JFrame {
 	 */
 	public void bombIsSet(Bomb bomb) {
 		this.model.setBomb(bomb);
-		System.out.println(bomb.getPosition());
 		field.setBomb(bomb.getPosition(), bomb.getBombType());
 	}
 
@@ -408,7 +468,7 @@ public class MainClient extends JFrame {
 	}
 
 	/**
-	 * Removes a dead player
+	 * Removes a dead player from the field
 	 * 
 	 * @param usr
 	 *            Dead player
@@ -427,27 +487,7 @@ public class MainClient extends JFrame {
 		model.deleteUserByID(usr.getUserID());
 		field.deletePlayer(usr.getUserID());
 	}
-
-	/**
-	 * Adds a list of levels to the game
-	 * 
-	 * @param level
-	 *            {@link ArrayList} of new levels
-	 */
-	public void setAvailableLevel(ArrayList<Level> level) {
-		model.setLevels(level);
-	}
-
-	/**
-	 * Transfers the level into the model
-	 * 
-	 * @param level
-	 *            Level on which the round is played on
-	 */
-	public void getLevelFile(File level) {
-		model.loadLevel(level);
-	}
-
+	
 	/**
 	 * Sets the name of the level which is chosen by the admin
 	 * 
@@ -466,5 +506,21 @@ public class MainClient extends JFrame {
 	 */
 	public String getLevelName() {
 		return model.getLevelName();
+	}
+	
+	/**
+	 * Returns id player is dead 
+	 * @return true -> player is dead, false -> player is alive
+	 */
+	public boolean isDead() {
+		return isDead;
+	}
+	
+	/**
+	 * Sets flag which shows if player is dead
+	 * @param isDead true -> player is dead, false -> player is alive
+	 */
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 }

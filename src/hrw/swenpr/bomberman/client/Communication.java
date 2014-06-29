@@ -106,13 +106,13 @@ public class Communication extends Thread {
 					break;
 					
 				case LEVEL_AVAILABLE:
-					client.setAvailableLevel(((LevelAvailable) msg).getLevel());
+					client.getModel().setLevels(((LevelAvailable) msg).getLevel());
 					break;
 							
 				case LEVEL_FILE:
 					File tmp = new File(System.getProperty("user.dir") + File.separator + client.getLevelName());
 					((LevelFile) msg).writeLevelFile(tmp);
-					client.getLevelFile(tmp);
+					client.getModel().loadLevel(tmp);
 					break;
 					
 				case GAME_START:

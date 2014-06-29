@@ -85,7 +85,6 @@ public class Field extends JPanel {
 		int sizex = this.getSize().width / y;
 		grid = new JLabel[x][y];
 		this.setLayout(new GridLayout(x, y));
-		System.out.println(model.getUsers().size());
 		// Going through the field
 		for (int i = 0; i < y; i++) {
 			for (int j = 0; j < x; j++) {
@@ -215,12 +214,7 @@ public class Field extends JPanel {
 	 *            New position of player
 	 */
 	public void repositionUser(int id, Point newPos) {
-		//Saving sign of the new panel
-		String field = "";
-		field = grid[newPos.y][newPos.x].getText();
-		if(!field.equals("")){
-			field += ", ";
-		}
+		
 		//Delete player from old position
 		Point oldPos = (Point) playerPosition.get(id);
 		grid[oldPos.y][oldPos.x].setText("");
@@ -242,9 +236,40 @@ public class Field extends JPanel {
 		}
 		
 		//Add player to new position
-		grid[newPos.y][newPos.x].setText(field + "U" + id);
+		grid[newPos.y][newPos.x].setText("U" + id);
 		playerPosition.remove(id);
 		playerPosition.put(id, newPos);
+	}
+	
+	/**
+	 * Redraws a panel after a bomb exploded
+	 * @param pos Position of the panel which is redrawn
+	 */
+	public void redrawPanel(Point pos){
+		
+		bombPosition.remove(pos);
+		try {
+			switch(MainClient.getInstance().getModel().getFieldType(pos)){
+			case PLAIN_FIELD:
+				grid[pos.y][pos.x].setBackground(Color.WHITE);
+				grid[pos.y][pos.x].setText("");
+				break;
+			case ITEM_MEGA_BOMB:
+				grid[pos.y][pos.x].setBackground(Color.WHITE);
+				grid[pos.y][pos.x].setText("IMB");
+				break;
+			case ITEM_SUPER_BOMB:
+				grid[pos.y][pos.x].setBackground(Color.WHITE);
+				grid[pos.y][pos.x].setText("ISB");
+				break;
+			default:
+				break;
+				
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
