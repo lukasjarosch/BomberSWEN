@@ -301,10 +301,6 @@ public class Field extends JPanel {
 	 *            Position of the bomb
 	 */
 	public void setBomb(Point pos, BombType type) {
-		//Saving sign before placing the bomb
-		String field = "";
-		field = grid[pos.y][pos.x].getText();
-		
 		//Determine which bomb is set and display a according sign
 		switch (type) {
 		case NORMAL_BOMB:

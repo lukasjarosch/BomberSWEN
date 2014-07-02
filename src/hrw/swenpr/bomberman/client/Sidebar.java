@@ -42,6 +42,8 @@ public class Sidebar extends JPanel {
 	public static final String READY = "ready";
 	public static final String CHOOSE_TIME = "chooseTime";
 	public static final String CHOOSE_LEVEL = "chooseLevel";
+	
+	private MainClient client = null;
 
 	private JButton chsLevel;
 	private JButton ready;
@@ -67,7 +69,8 @@ public class Sidebar extends JPanel {
 	 * @param client
 	 *            the instance of {@link MainClient}
 	 */
-	public Sidebar() {
+	public Sidebar(MainClient client) {
+		this.client = client;
 
 		// create vertical layout
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -80,7 +83,7 @@ public class Sidebar extends JPanel {
 	 */
 	private void createView() {
 		// create listener for buttons
-		buttonListener = new ButtonListener(MainClient.getInstance());
+		buttonListener = new ButtonListener(client);
 
 		users = new ArrayList<User>();
 
@@ -141,7 +144,7 @@ public class Sidebar extends JPanel {
 		add(logout);
 		setVisible(true);
 
-		toogleAdmin(MainClient.getInstance().isAdmin());
+		toogleAdmin(client.isAdmin());
 	}
 
 	/**
