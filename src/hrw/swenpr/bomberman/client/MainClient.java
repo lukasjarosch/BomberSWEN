@@ -96,7 +96,7 @@ public class MainClient extends JFrame {
 		// position and show window
 		setLocationRelativeTo(null);
 
-		sidebar = new Sidebar(this);
+		sidebar = new Sidebar();
 		field = new Field();
 
 		add(sidebar, BorderLayout.EAST);
