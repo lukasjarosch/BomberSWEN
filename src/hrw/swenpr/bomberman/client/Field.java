@@ -70,7 +70,7 @@ public class Field extends JPanel {
 		bombPosition = new Hashtable();
 		icons = new ImageIcon[9];
 		loadIcons();
-		font = new Font("Arial", Font.BOLD, 15);
+		font = new Font("Arial", Font.BOLD, 20);
 		this.setFocusable(true);
 	}
 

@@ -34,14 +34,16 @@ public class ClientModel extends BombermanBaseModel {
 	private FieldType secondFieldType = FieldType.PLAIN_FIELD;
 	
 	/**
-	 * Stores if player has super bomb
+	 * Stores the number of super bombs the player collected
+	 * and did not use yet
 	 */
-	private boolean haveSuperBomb = false;
+	private int superBomb = 0;
 	
 	/**
-	 * Stores if player has mega bomb
+	 * Stores the number of mega bombs the player collected
+	 * and did not use yet
 	 */
-	private boolean haveMegaBomb = false;
+	private int megaBomb = 0;
 
 	/**
 	 * Sets a list of new level
@@ -179,16 +181,25 @@ public class ClientModel extends BombermanBaseModel {
 	 * Returns if player have a super bomb
 	 * @return value of flag
 	 */
-	public boolean isHaveSuperBomb() {
-		return haveSuperBomb;
+	public boolean haveSuperBomb() {
+		if(superBomb > 0)
+			return true;
+		
+		return false;
 	}
 	
 	/**
-	 * Set the flag if player can use a super bomb
-	 * @param haveSuperBomb If player collected a super bomb true, else false
+	 * Increments the number of super bomb
 	 */
-	public void setHaveSuperBomb(boolean haveSuperBomb) {
-		this.haveSuperBomb = haveSuperBomb;
+	public void collectedSuperBomb(){
+		superBomb++;
+	}
+	
+	/**
+	 * Decrements the number of mega bombs the player can use
+	 */
+	public void usedSuperBomb(){
+		superBomb--;
 	}
 
 	/**
@@ -196,14 +207,31 @@ public class ClientModel extends BombermanBaseModel {
 	 * @return value of flag
 	 */
 	public boolean isHaveMegaBomb() {
-		return haveMegaBomb;
+		if(megaBomb > 0)
+			return true;
+		
+		return false;
 	}
 
 	/**
-	 * Set the flag if player can use a mega bomb
-	 * @param haveSuperBomb If player collected a mega bomb true, else false
+	 * Increments the number of mega bomb
 	 */
-	public void setHaveMegaBomb(boolean haveMegaBomb) {
-		this.haveMegaBomb = haveMegaBomb;
+	public void collectedMegaBomb(){
+		megaBomb++;
+	}
+	
+	/**
+	 * Decrements the number of mega bombs the player can use
+	 */
+	public void usedMegaBomb(){
+		megaBomb--;
+	}
+	
+	/**
+	 * Resets the number of super and mega bomb to zero
+	 */
+	public void resetBombs(){
+		megaBomb = 0;
+		superBomb = 0;
 	}
 }
