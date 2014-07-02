@@ -299,10 +299,7 @@ public class Field extends JPanel {
 		//Saving sign before placing the bomb
 		String field = "";
 		field = grid[pos.y][pos.x].getText();
-		if(!field.equals("")){
-			field += ", ";
-		}
-		grid[pos.y][pos.x].setText("");
+		
 		//Determine which bomb is set and display a according sign
 		switch (type) {
 		case NORMAL_BOMB:

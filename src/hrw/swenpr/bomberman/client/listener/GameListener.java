@@ -30,10 +30,22 @@ public class GameListener implements BombermanListener {
 					System.out.println(model.getFieldType(p));
 					switch (model.getFieldType(p)) {
 					case ITEM_MEGA_BOMB:
+						//set panel type to normal walkable field
+						model.setField(p, FieldType.PLAIN_FIELD);
+						//delete special item
+						model.collectSpecialItem(p);
+						//redraw panel
+						main.updatePanel(p);
 						//stop this direction and continue with next direction
 						abort = true;
 						break;
 					case ITEM_SUPER_BOMB:
+						//set panel type to normal walkable field
+						model.setField(p, FieldType.PLAIN_FIELD);
+						//delete special item
+						model.collectSpecialItem(p);
+						//redraw panel
+						main.updatePanel(p);
 						//stop this direction and continue with next direction
 						abort = true;
 						break;
@@ -43,10 +55,7 @@ public class GameListener implements BombermanListener {
 						break;
 					case DESTRUCTIBLE_FIELD:
 						//delete panel and continue with next direction
-						System.out.println(p);
-						System.out.println(event.getPosition());
 						model.setField(p, model.getSpecialItem(p));
-						
 						main.updatePanel(p);
 						
 						abort = true;
