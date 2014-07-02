@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
 
@@ -196,7 +197,11 @@ public class Field extends JPanel {
 	 * @return
 	 */
 	private JLabel makeLabel(String text, Dimension size, ImageIcon icon){
+		//Rescale icon to label size
+		icon.setImage(icon.getImage().getScaledInstance(size.width, size.height, Image.SCALE_FAST));
+		
 		JLabel lbl = new JLabel();
+		
 		//Set label size
 		lbl.setPreferredSize(size);
 		//Set background color to white
