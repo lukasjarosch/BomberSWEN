@@ -94,11 +94,6 @@ public class Field extends JPanel {
 
 	/**
 	 * changes position of players and bombs
-	 * 
-	 * @param members
-	 *            players with their position and color
-	 * @param bombs
-	 *            position and kind of bomb
 	 */
 	public void drawField() {
 
@@ -194,7 +189,7 @@ public class Field extends JPanel {
 	 * @param text Text which is displayed in the label
 	 * @param size Size of the new label
 	 * @param icon Icon which is displayed
-	 * @return
+	 * @return {@link JLabel}
 	 */
 	private JLabel makeLabel(String text, Dimension size, ImageIcon icon){
 		//Rescale icon to label size

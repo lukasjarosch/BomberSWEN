@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * <p> C <=> S</p>
  * {@code Bomb} is sent from the client to the server, when the user places a bomb.
- * The server stores the bomb in his model, and a timer triggers when it explodes and {@link ObjectDestroyed} and/or {@link UserDead}. 
+ * The server stores the bomb in his model, and a timer triggers when it explodes. 
  * The explosion range is calculated on every client itself.
  * The server forwards this message to the other clients, so they can display the bomb.
  * 
@@ -34,9 +34,8 @@ public class Bomb extends Header implements Serializable {
 	 * Creates a bomb instance with given parameters. The random time is calculated automatically.
 	 * 
 	 * @param userID of the user who placed the bomb
-	 * @param bombID unique to identify the bomb
+	 * @param bombType the bomb type
 	 * @param position of the bomb
-	 * @param time until bomb explode, random between 2-3 seconds
 	 */
 	public Bomb(int userID, BombType bombType, Point position) {
 		setType(MessageType.BOMB);
