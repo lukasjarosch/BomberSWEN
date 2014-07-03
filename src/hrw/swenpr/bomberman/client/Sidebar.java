@@ -42,8 +42,9 @@ public class Sidebar extends JPanel {
 	public static final String READY = "ready";
 	public static final String CHOOSE_TIME = "chooseTime";
 	public static final String CHOOSE_LEVEL = "chooseLevel";
+	
+	private MainClient client = null;
 
-	private MainClient client;
 	private JButton chsLevel;
 	private JButton ready;
 	private JButton logout;

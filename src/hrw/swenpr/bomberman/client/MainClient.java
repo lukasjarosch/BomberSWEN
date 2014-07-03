@@ -285,8 +285,7 @@ public class MainClient extends JFrame {
 	 */
 	public void roundFinish() {
 		sidebar.stopTimer();
-		model.setHaveMegaBomb(false);
-		model.setHaveSuperBomb(false);
+		model.resetBombs();
 	}
 
 	/**
@@ -339,11 +338,11 @@ public class MainClient extends JFrame {
 			if(model.getSpecialItem(userPos.getPosition()) != FieldType.PLAIN_FIELD){
 				switch(model.getSpecialItem(userPos.getPosition())){
 				case ITEM_MEGA_BOMB:
-					model.setHaveMegaBomb(true);
+					model.collectedMegaBomb();
 					model.collectSpecialItem(userPos.getPosition());
 					break;
 				case ITEM_SUPER_BOMB:
-					model.setHaveSuperBomb(true);
+					model.collectedSuperBomb();
 					model.collectSpecialItem(userPos.getPosition());
 					break;
 				default:
@@ -420,13 +419,13 @@ public class MainClient extends JFrame {
 			//if it is a super or mega bomb check if the player can set one(this is possible
 			//when he collected one before)
 			if(bomb.getBombType() == BombType.SUPER_BOMB){
-				if(!model.isHaveSuperBomb())
+				if(!model.haveSuperBomb())
 					return;
-				model.setHaveSuperBomb(false);
+				model.usedSuperBomb();
 			}else if(bomb.getBombType() == BombType.MEGA_BOMB){
 				if(!model.isHaveMegaBomb())
 					return;
-				model.setHaveMegaBomb(false);
+				model.usedMegaBomb();
 			}
 		}
 		this.model.setBomb(bomb);

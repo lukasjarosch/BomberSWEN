@@ -5,10 +5,13 @@ import hrw.swenpr.bomberman.common.rfc.Bomb.BombType;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -23,11 +26,24 @@ import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 public class Field extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private Image player[];
-	private Image field;
-	private Image Stone;
-	private Image bomb[];
-	private Image indestructible;
+	private static final int NORMALBOMB = 0;
+	private static final int SUPERBOMB = 1;
+	private static final int MEGABOMB = 2;
+	private static final int ITEMSUPERBOMB = 3;
+	private static final int ITEMMEGABOMB = 4;
+	private static final int PLAINFIELD = 5;
+	private static final int INDESTRUCTIBLE = 6;
+	private static final int DESTRUCTIBLE = 7;
+	
+	/**
+	 * Stores all images for the pit
+	 */
+	private ImageIcon icons[];
+	
+	/**
+	 * Stores a font which is used to display where the user is positioned
+	 */
+	private Font font;
 
 	/**
 	 * Stores the single panels which represent the pit altogether
@@ -53,7 +69,27 @@ public class Field extends JPanel {
 		super();
 		playerPosition = new Hashtable();
 		bombPosition = new Hashtable();
+		icons = new ImageIcon[9];
+		loadIcons();
+		font = new Font("Arial", Font.BOLD, 20);
 		this.setFocusable(true);
+	}
+
+	/**
+	 * Loads icons into array
+	 */
+	private void loadIcons() {
+		String path = "icons" + File.separator;
+		
+		icons[NORMALBOMB] = new ImageIcon(path + "normal_bomb.png");
+		icons[SUPERBOMB] = new ImageIcon(path + "super_bomb.png");
+		icons[MEGABOMB] = new ImageIcon(path + "mega_bomb.png");
+		icons[ITEMSUPERBOMB] = new ImageIcon(path + "item_super_bomb.png");
+		icons[ITEMMEGABOMB] = new ImageIcon(path + "item_mega_bomb.png");
+		icons[PLAINFIELD] = new ImageIcon(path + "plain_field.png");
+		icons[INDESTRUCTIBLE] = new ImageIcon(path + "indestructible_block.png");
+		icons[DESTRUCTIBLE] = new ImageIcon(path + "destructible_block.png");
+		
 	}
 
 	/**
@@ -93,102 +129,50 @@ public class Field extends JPanel {
 				switch (model.getFieldType(j, i)) {
 				// configure JLabels
 				case PLAIN_FIELD:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[PLAINFIELD]);
 					break;
 				case DESTRUCTIBLE_FIELD:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.GRAY);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[DESTRUCTIBLE]);
 					break;
 
 				case INDESTRUCTUBLE_FIELD:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.BLACK);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[INDESTRUCTIBLE]);
 					break;
 
 				case NORMAL_BOMB:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[NORMALBOMB]);
 					break;
 
 				case SUPER_BOMB:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[SUPERBOMB]);
 					break;
 
 				case MEGA_BOMB:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[MEGABOMB]);
 					break;
 
 				case ITEM_SUPER_BOMB:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[ITEMSUPERBOMB]);
 					break;
 
 				case ITEM_MEGA_BOMB:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("", new Dimension(sizex, sizey), icons[ITEMMEGABOMB]);
 					break;
 
 				case USER1:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U0");
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("U0", new Dimension(sizex, sizey), icons[PLAINFIELD]);
 					break;
 
 				case USER2:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U1");
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("U1", new Dimension(sizex, sizey), icons[PLAINFIELD]);
 					break;
 
 				case USER3:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U2");
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("U2", new Dimension(sizex, sizey), icons[PLAINFIELD]);
 					break;
 
 				case USER4:
-					grid[i][j] = new JLabel();
-					grid[i][j].setPreferredSize(new Dimension(sizex, sizey));
-					grid[i][j].setBackground(Color.WHITE);
-					grid[i][j].setHorizontalAlignment(JLabel.CENTER);
-					grid[i][j].setText("U3");
-					grid[i][j].setOpaque(true);
+					grid[i][j] = this.makeLabel("U3", new Dimension(sizex, sizey), icons[PLAINFIELD]);
 					break;
 
 				default:
@@ -204,6 +188,43 @@ public class Field extends JPanel {
 			playerPosition.put(tmpUsr.getUserID(), tmpUsr.getPosition());
 		}
 	}
+	
+	/**
+	 * Creates a new label with given parameters
+	 * @param text Text which is displayed in the label
+	 * @param size Size of the new label
+	 * @param icon Icon which is displayed
+	 * @return
+	 */
+	private JLabel makeLabel(String text, Dimension size, ImageIcon icon){
+		//Rescale icon to label size
+		icon.setImage(icon.getImage().getScaledInstance(size.width, size.height, Image.SCALE_FAST));
+		
+		JLabel lbl = new JLabel();
+		
+		//Set label size
+		lbl.setPreferredSize(size);
+		//Set background color to white
+		lbl.setBackground(Color.WHITE);
+		//Set text color
+		lbl.setForeground(Color.YELLOW);
+		//Set horizontal alignment to center
+		lbl.setHorizontalAlignment(JLabel.CENTER);
+		//set horizontal text alignment to center
+		lbl.setHorizontalTextPosition(JLabel.CENTER);
+		//Set font style
+		lbl.setFont(font);
+		
+		lbl.setOpaque(true);
+		//if there is an icon set it
+		if(icon != null)
+			lbl.setIcon(icon);
+		//if there is text display it
+		if(!text.equals(""))
+			lbl.setText(text);
+		
+		return lbl;
+	}
 
 	/**
 	 * Moves a player figure on the field
@@ -217,19 +238,20 @@ public class Field extends JPanel {
 		
 		//Delete player from old position
 		Point oldPos = (Point) playerPosition.get(id);
+		grid[oldPos.y][oldPos.x].setIcon(icons[PLAINFIELD]);
 		grid[oldPos.y][oldPos.x].setText("");
 		//See if there is an item on the new psoition
 		if(bombPosition.containsKey(oldPos)){
 			switch ((BombType)bombPosition.get(oldPos)) {
 			case NORMAL_BOMB:
-				grid[oldPos.y][oldPos.x].setText("NB");
+				grid[oldPos.y][oldPos.x].setIcon(icons[NORMALBOMB]);
 				break;
 			case SUPER_BOMB:
-				grid[oldPos.y][oldPos.x].setText("SB");
+				grid[oldPos.y][oldPos.x].setIcon(icons[SUPERBOMB]);
 				break;
 
 			case MEGA_BOMB:
-				grid[oldPos.y][oldPos.x].setText("MB");
+				grid[oldPos.y][oldPos.x].setIcon(icons[MEGABOMB]);
 				break;
 
 			}
@@ -252,15 +274,15 @@ public class Field extends JPanel {
 			switch(MainClient.getInstance().getModel().getFieldType(pos)){
 			case PLAIN_FIELD:
 				grid[pos.y][pos.x].setBackground(Color.WHITE);
-				grid[pos.y][pos.x].setText("");
+				grid[pos.y][pos.x].setIcon(icons[PLAINFIELD]);
 				break;
 			case ITEM_MEGA_BOMB:
 				grid[pos.y][pos.x].setBackground(Color.WHITE);
-				grid[pos.y][pos.x].setText("IMB");
+				grid[pos.y][pos.x].setIcon(icons[ITEMMEGABOMB]);
 				break;
 			case ITEM_SUPER_BOMB:
 				grid[pos.y][pos.x].setBackground(Color.WHITE);
-				grid[pos.y][pos.x].setText("ISB");
+				grid[pos.y][pos.x].setIcon(icons[ITEMSUPERBOMB]);
 				break;
 			default:
 				break;
@@ -279,24 +301,17 @@ public class Field extends JPanel {
 	 *            Position of the bomb
 	 */
 	public void setBomb(Point pos, BombType type) {
-		//Saving sign before placing the bomb
-		String field = "";
-		field = grid[pos.y][pos.x].getText();
-		if(!field.equals("")){
-			field += ", ";
-		}
-		grid[pos.y][pos.x].setText("");
-		//Determine which bomb is played and display a according sign
+		//Determine which bomb is set and display a according sign
 		switch (type) {
 		case NORMAL_BOMB:
-			grid[pos.y][pos.x].setText(field + "NB");
+			grid[pos.y][pos.x].setIcon(icons[NORMALBOMB]);
 			break;
 		case SUPER_BOMB:
-			grid[pos.y][pos.x].setText(field + "SB");
+			grid[pos.y][pos.x].setIcon(icons[SUPERBOMB]);
 			break;
 
 		case MEGA_BOMB:
-			grid[pos.y][pos.x].setText(field + "MB");
+			grid[pos.y][pos.x].setIcon(icons[MEGABOMB]);
 			break;
 
 		}
@@ -311,7 +326,7 @@ public class Field extends JPanel {
 	public void deletePlayer(int id) {
 		//Getting the players position and remove it from the list
 		Point oldPos = (Point) playerPosition.get(id);
-		grid[oldPos.y][oldPos.x].setText("");
+		grid[oldPos.y][oldPos.x].setIcon(icons[PLAINFIELD]);
 		playerPosition.remove(id);
 	}
 }

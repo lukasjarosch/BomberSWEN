@@ -1,118 +1,176 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.5" icons="false" automaticImage="PNG" always-add-relationships="false" 
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="hrw.swenpr.bomberman.client.Communication" project="BomberSWEN" 
-    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Communication.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="192" y="155"/>    
-    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+  <class id="1" language="java" name="hrw.swenpr.bomberman.client.Result" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Result.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="160" width="218" x="507" y="68"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="hrw.swenpr.bomberman.client.Field" project="BomberSWEN" 
+  <class id="2" language="java" name="hrw.swenpr.bomberman.client.MainClient" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/MainClient.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="666" y="660"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="hrw.swenpr.bomberman.client.Field" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Field.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="500" y="140"/>    
-    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+    <position height="416" width="238" x="985" y="68"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="hrw.swenpr.bomberman.client.Sidebar" project="BomberSWEN" 
+  <class id="4" language="java" name="hrw.swenpr.bomberman.client.Communication" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Communication.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="128" width="180" x="765" y="68"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="hrw.swenpr.bomberman.client.ClientModel" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/ClientModel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="176" y="792"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="hrw.swenpr.bomberman.client.Sidebar" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Sidebar.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="920" y="205"/>    
-    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+    <position height="-1" width="-1" x="164" y="317"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="hrw.swenpr.bomberman.client.listener.ButtonListener" project="BomberSWEN" 
-    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/listener/ButtonListener.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1064" y="675"/>    
-    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
-      visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="5" language="java" name="hrw.swenpr.bomberman.client.listener.GameKeyListener" project="BomberSWEN" 
+  <class id="7" language="java" name="hrw.swenpr.bomberman.client.listener.GameKeyListener" project="BomberSWEN" 
     file="/BomberSWEN/src/hrw/swenpr/bomberman/client/listener/GameKeyListener.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="87" y="475"/>    
-    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+    <position height="-1" width="-1" x="1110" y="703"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="hrw.swenpr.bomberman.client.MainClient" project="BomberSWEN" 
-    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/MainClient.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="504" y="688"/>    
-    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+  <class id="8" language="java" name="hrw.swenpr.bomberman.client.listener.GameListener" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/listener/GameListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1108" y="563"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="hrw.swenpr.bomberman.client.Result" project="BomberSWEN" 
-    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/Result.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="142" y="720"/>    
-    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" accessors="true" 
+  <class id="9" language="java" name="hrw.swenpr.bomberman.client.listener.ButtonListener" project="BomberSWEN" 
+    file="/BomberSWEN/src/hrw/swenpr/bomberman/client/listener/ButtonListener.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="374" y="147"/>    
+    <display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" accessors="true" 
       visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="8">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="9" name="mainClient"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
+  <association id="10">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="11" name="com"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="11">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="12" name="mainClient"/>      
-      <multiplicity id="13" minimum="0" maximum="1"/>    
+  <association id="13">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="14" name="model"/>      
+      <multiplicity id="15" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="14">    
-    <bendpoint x="921" y="541"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="15" name="sidebar"/>      
-      <multiplicity id="16" minimum="0" maximum="1"/>    
+  <association id="16">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="17" name="field"/>      
+      <multiplicity id="18" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="17">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="18" name="field"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
+  <association id="19">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="20" name="mainClient"/>      
+      <multiplicity id="21" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="20">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="21" name="com"/>      
-      <multiplicity id="22" minimum="0" maximum="1"/>    
+  <association id="22">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="23" name="sidebar"/>      
+      <multiplicity id="24" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="23">    
-    <bendpoint x="1056" y="205"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="24" name="buttonListener"/>      
-      <multiplicity id="25" minimum="0" maximum="1"/>    
+  <association id="25">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="26" name="client"/>      
+      <multiplicity id="27" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="28">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="29" name="mainClient"/>      
+      <multiplicity id="30" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="31">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="32" name="buttonListener"/>      
+      <multiplicity id="33" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="34">    
+    <bendpoint x="854" y="707"/>    
+    <bendpoint x="860" y="780"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="35" name="instance"/>      
+      <multiplicity id="36" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="37">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="38" name="mainClient"/>      
+      <multiplicity id="39" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="40">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="41" name="client"/>      
+      <multiplicity id="42" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="false" initial-value="false" signature="true" 
